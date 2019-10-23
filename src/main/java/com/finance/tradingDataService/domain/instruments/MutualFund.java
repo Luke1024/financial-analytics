@@ -2,7 +2,6 @@ package com.finance.tradingDataService.domain.instruments;
 
 import java.util.List;
 
-@Entity
 public class MutualFund {
     private String symbol;
     private String name;

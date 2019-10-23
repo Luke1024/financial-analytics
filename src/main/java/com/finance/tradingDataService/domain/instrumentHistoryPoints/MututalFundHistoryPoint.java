@@ -1,6 +1,5 @@
 package com.finance.tradingDataService.domain.instrumentHistoryPoints;
 
-@Entity
 public class MututalFundHistoryPoint {
     private String price;
     private String return_ytd;

@@ -1,6 +1,7 @@
 package com.finance.tradingDataService.clients;
 
 import com.finance.tradingDataService.config.WorldTradingApiConfig;
+import com.sun.jndi.toolkit.url.Uri;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -16,9 +17,11 @@ public class WorldTradingClient {
 
     private RestTemplate restTemplate = new RestTemplate();
 
-    public String getCurrencyPairHistory(){
-        URI url = UriComponentsBuilder.fromHttpUrl(worldTradingApiConfig.getBaseEndpoint() +
-                worldTradingApiConfig.getEurUsd() + worldTradingApiConfig.getKey()).build().encode().toUri();
+    public String getCurrentTradingDataForMultipleStocks(String stocksSymbolListed) throws Exception {
+        URI url = UriComponentsBuilder.fromHttpUrl(
+                worldTradingApiConfig.getBaseEndpoint() +
+                "stock?symbol=" + stocksSymbolListed + "&api_token=" + worldTradingApiConfig.getKey())
+                .build().encode().toUri();
 
         System.out.println(url);
 
