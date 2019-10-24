@@ -16,12 +16,15 @@ public class WorldTradingClient {
 
     private RestTemplate restTemplate = new RestTemplate();
 
-    public String getCurrencyPairHistory(){
-        URI url = UriComponentsBuilder.fromHttpUrl(worldTradingApiConfig.getBaseEndpoint() +
-                worldTradingApiConfig.getEurUsd() + worldTradingApiConfig.getKey()).build().encode().toUri();
+    public String getCurrentUsdBasedCurrencyValues() throws Exception {
+        URI url = UriComponentsBuilder.fromHttpUrl(
+                worldTradingApiConfig.getBaseEndpoint() + worldTradingApiConfig.getUsdPoint() +
+                worldTradingApiConfig.getKey())
+                .build().encode().toUri();
 
         System.out.println(url);
 
         return restTemplate.getForObject(url, String.class);
     }
+
 }
