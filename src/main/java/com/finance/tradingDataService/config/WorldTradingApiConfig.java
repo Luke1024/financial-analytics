@@ -12,8 +12,8 @@ public class WorldTradingApiConfig {
     @Value("https://api.worldtradingdata.com/api/v1/")
     private String baseEndpoint;
 
-    @Value("forex_history?base=EUR&convert_to=USD&sort=newest&api_token=")
-    private String eurUsd;
+    @Value("forex?base=USD&api_token=")
+    private String usdPoint;
 
     public String getKey() {
         return key;
@@ -23,7 +23,7 @@ public class WorldTradingApiConfig {
         return baseEndpoint;
     }
 
-    public String getEurUsd() {
-        return eurUsd;
+    public String getUsdPoint() {
+        return usdPoint;
     }
 }

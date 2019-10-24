@@ -1,29 +1,27 @@
 package com.finance.tradingDataService.clients;
 
-import com.finance.tradingDataService.service.CSVReader;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.json.*;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Arrays;
 
 @SpringBootTest
 public class WorldTradingClientTest {
     @Autowired
     private WorldTradingClient worldTradingClient;
 
-    @Autowired
-    private CSVReader csvReader;
-
     @Test
-    void getCurrentTradingDataForMultipleStocks() throws Exception {
-        List<String> stocks = csvReader.readCsv("/home/luke/financialAnalytics/src/main/resources/symbols/stocklist.csv");
-        List<String> stocks500 = stocks.subList(1,500); //start from 1 because 0 is "symbol"
+    void getUsdBasedCurrencyValues() throws Exception {
 
-        String stocks500InString = stocks500.stream().collect(Collectors.joining(","));
-        String result = worldTradingClient.getCurrentTradingDataForMultipleStocks(stocks500InString);
+        String result = worldTradingClient.getCurrentUsdBasedCurrencyValues();
+        JSONObject obj = new JSONObject(result);
+        JSONObject objData = obj.getJSONObject("data");
 
-        System.out.println(result);
+        String[] currencies = JSONObject.getNames(objData);
+        objData.keySet().stream().forEach(c -> System.out.println(c));
+
+        //Arrays.stream(currencies).forEach(c -> System.out.println(c));
     }
 }
