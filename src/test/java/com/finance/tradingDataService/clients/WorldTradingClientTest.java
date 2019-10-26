@@ -5,8 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.json.*;
 
-import java.util.Arrays;
-
 @SpringBootTest
 public class WorldTradingClientTest {
     @Autowired
@@ -19,8 +17,8 @@ public class WorldTradingClientTest {
         JSONObject obj = new JSONObject(result);
         JSONObject objData = obj.getJSONObject("data");
 
-        String[] currencies = JSONObject.getNames(objData);
         objData.keySet().stream().forEach(c -> System.out.println(c));
+        //objData.keySet().stream().forEach(k -> System.out.println(k + " " + objData.get(k)));
 
         //Arrays.stream(currencies).forEach(c -> System.out.println(c));
     }
