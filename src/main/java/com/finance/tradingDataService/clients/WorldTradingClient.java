@@ -22,8 +22,6 @@ public class WorldTradingClient {
                 worldTradingApiConfig.getKey())
                 .build().encode().toUri();
 
-        System.out.println(url);
-
         return restTemplate.getForObject(url, String.class);
     }
 
