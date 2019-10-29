@@ -3,6 +3,11 @@ package com.finance.tradingDataService.domain;
 import javax.persistence.*;
 import java.util.List;
 
+@NamedQuery(
+        name="Currency.retrieveByName",
+        query="FROM currency WHERE currency_name = :CURRENCY_NAME
+)
+
 @Entity
 public class Currency {
     @Id

@@ -1,13 +1,12 @@
 package com.finance.tradingDataService.service;
 
 import com.finance.tradingDataService.clients.WorldTradingClient;
-import com.finance.tradingDataService.domain.Currency;
-import com.finance.tradingDataService.repository.CurrencyHistoryPointRepository;
-import com.finance.tradingDataService.repository.CurrencyRepository;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 @Component
@@ -17,22 +16,42 @@ public class TradingDataDownloaderService {
     private WorldTradingClient worldTradingClient;
 
     @Autowired
-    private CurrencyRepository currencyRepository;
-
-    @Autowired
-    private CurrencyHistoryPointRepository currencyHistoryPointRepository;
+    private CurrencyService currencyService;
 
     public void downloadCurrentTradingDataForStocks() throws Exception {
         String result = worldTradingClient.getCurrentUsdBasedCurrencyValues();
         JSONObject jObj = new JSONObject(result);
-        JSONObject currencyValues = jObj.getJSONObject("data");
+        JSONObject currencies = jObj.getJSONObject("data");
+        Map<String, String> currenciesMap = processToCurrencies(currencies);
 
-        checkCurrencyEntries(currencyValues.keySet());
-    }
-
-    private void checkCurrencyEntries(Set<String> values){
-        for(String value : values){
-            currencyRepository.findAll().
+        for(Map.Entry<String, String> entry : currenciesMap.entrySet()){
+            if(checkIfCurrencyExist(entry.getKey())){
+                addHistoryPoint(entry.getKey(), entry.getValue());
+            } else {
+                addCurrency(entry.getKey());
+            }
         }
     }
+
+    private HashMap<String, String> processToCurrencies(JSONObject currencies){
+        Set<String> currencyKeys = currencies.keySet();
+        HashMap<String, String> currenciesProcessed = new HashMap<>();
+        for(String key: currencyKeys){
+            currenciesProcessed.put(key, currencies.getString(key));
+        }
+        return currenciesProcessed;
+    }
+
+    private boolean checkIfCurrencyExist(String value){
+        return currencyService.retrieveCurrencyByKey(value).size()>0;
+    }
+
+    private void addHistoryPoint(String value){
+        currencyService.addHistoryPoint(key, name);
+    }
+
+    private void addCurrency(String key){
+        currencyService.addCurrency(key);
+    }
+
 }
