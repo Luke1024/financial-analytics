@@ -18,6 +18,8 @@ public class TradingDataDownloaderService {
     @Autowired
     private CurrencyService currencyService;
 
+    private final String baseCurrency = "USD";
+
     public void downloadCurrentTradingDataForStocks() throws Exception {
         String result = worldTradingClient.getCurrentUsdBasedCurrencyValues();
         JSONObject jObj = new JSONObject(result);
@@ -46,12 +48,11 @@ public class TradingDataDownloaderService {
         return currencyService.retrieveCurrencyByKey(value).size()>0;
     }
 
-    private void addHistoryPoint(String value){
-        currencyService.addHistoryPoint(key, name);
+    private void addHistoryPoint(String key ,String value){
+        currencyService.addHistoryPoint(key, value);
     }
 
     private void addCurrency(String key){
-        currencyService.addCurrency(key);
+        currencyService.addCurrency(key, baseCurrency);
     }
-
 }

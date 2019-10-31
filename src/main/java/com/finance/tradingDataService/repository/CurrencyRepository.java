@@ -14,5 +14,5 @@ import java.util.Optional;
 @Repository
 public interface CurrencyRepository extends CrudRepository<Currency, Long> {
     @Query
-    List<Currency> retrieveByName(@Param("CURRENCY_NAME")String currency_name);
+    List<Currency> findByCurrencyName(@Param("CURRENCY_NAME")String currency_name);
 }

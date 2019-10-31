@@ -14,6 +14,9 @@ public class CurrencyHistoryPoint {
     @JoinColumn(name = "CURRENCY_ID")
     private Currency currency;
 
+    public CurrencyHistoryPoint() {
+    }
+
     public CurrencyHistoryPoint(LocalDateTime timeStamp, Double value, Currency currency) {
         this.timeStamp = timeStamp;
         this.value = value;
