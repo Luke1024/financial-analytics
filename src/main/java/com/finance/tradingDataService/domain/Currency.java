@@ -3,9 +3,10 @@ package com.finance.tradingDataService.domain;
 import javax.persistence.*;
 import java.util.List;
 
-@NamedQuery(
+@NamedNativeQuery(
         name="Currency.retrieveByName",
-        query="FROM currency WHERE currency_name = :CURRENCY_NAME
+        query="SELECT * FROM currency WHERE currency_name = :CURRENCY_NAME",
+        resultClass = Currency.class
 )
 
 @Entity
@@ -18,14 +19,21 @@ public class Currency {
     @OneToMany(targetEntity = CurrencyHistoryPoint.class,
             mappedBy = "currency",
             cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY
+            fetch = FetchType.EAGER
     )
     private List<CurrencyHistoryPoint> currencyHistoryPoints;
+
+    public Currency() {
+    }
 
     public Currency(String base, String currencyName, List<CurrencyHistoryPoint> currencyHistoryPoints) {
         this.base = base;
         this.currencyName = currencyName;
         this.currencyHistoryPoints = currencyHistoryPoints;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getBase() {

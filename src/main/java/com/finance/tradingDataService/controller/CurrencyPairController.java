@@ -18,8 +18,8 @@ public class CurrencyPairController {
     @Autowired
     private CurrencyPairMapper currencyPairMapper;
 
-    @GetMapping(value = "/currency/pair/status")
-    public List<CurrencyPairStatusDTO> currencyPairStatusList(){
-        return currencyPairMapper.mapToDTOList(currencyPairMapper.getAvailablePairsStatus());
-    }
+    //@GetMapping(value = "/currency/pair/status")
+    //public List<CurrencyPairStatusDTO> currencyPairStatusList(){
+      //  return currencyPairMapper.mapToDTOList(currencyPairMapper.getAvailablePairsStatus());
+    //}
 }

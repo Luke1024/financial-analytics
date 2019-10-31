@@ -1,5 +1,7 @@
 package com.finance.tradingDataService.domain.dto;
 
+import com.finance.tradingDataService.domain.CurrencyHistoryPoint;
+
 import java.util.List;
 
 public class CurrencyHistoryDTO {

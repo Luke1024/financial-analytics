@@ -15,4 +15,6 @@ import java.util.Optional;
 public interface CurrencyRepository extends CrudRepository<Currency, Long> {
     @Query
     List<Currency> findByCurrencyName(@Param("CURRENCY_NAME")String currency_name);
+
+    void deleteById(Long id);
 }
