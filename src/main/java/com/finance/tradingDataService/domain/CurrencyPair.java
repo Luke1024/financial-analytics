@@ -1,14 +1,14 @@
-package com.finance.tradingDataService.domain.dto;
+package com.finance.tradingDataService.domain;
 
-public class CurrencyPairStatusDTO {
+public class CurrencyPair {
     private String currencyPairName;
     private double value;
 
-    public CurrencyPairStatusDTO() {
+    public CurrencyPair() {
     }
 
-    public CurrencyPairStatusDTO(String currencyPairName, double value) {
-        this.currencyPairName = currencyPairName;
+    public CurrencyPair(String currencyPair, double value) {
+        this.currencyPairName = currencyPair;
         this.value = value;
     }
 

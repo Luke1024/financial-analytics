@@ -31,6 +31,7 @@ public class TradingDataDownloaderService {
                 addHistoryPoint(entry.getKey(), entry.getValue());
             } else {
                 addCurrency(entry.getKey());
+                addHistoryPoint(entry.getKey(), entry.getValue());
             }
         }
     }

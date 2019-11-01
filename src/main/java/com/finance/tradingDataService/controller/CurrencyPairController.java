@@ -1,12 +1,9 @@
 package com.finance.tradingDataService.controller;
 
-import com.finance.tradingDataService.domain.dto.CurrencyPairStatusDTO;
 import com.finance.tradingDataService.mapper.CurrencyPairMapper;
 import com.finance.tradingDataService.service.CurrencyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @CrossOrigin("*")
 @RestController
@@ -18,8 +15,8 @@ public class CurrencyPairController {
     @Autowired
     private CurrencyPairMapper currencyPairMapper;
 
-    //@GetMapping(value = "/currency/pair/status")
-    //public List<CurrencyPairStatusDTO> currencyPairStatusList(){
-      //  return currencyPairMapper.mapToDTOList(currencyPairMapper.getAvailablePairsStatus());
-    //}
+    @GetMapping(value = "/currency/pair/history")
+    public List<CurrencyPairHistoryDto> currencyPairHistory(PairHistoryRequest pairHistoryRequest){
+        return currencyPairMapper.mapToDTOList(currencyPairMapper.getAvailablePairsStatus());
+    }
 }

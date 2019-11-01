@@ -52,6 +52,8 @@ public class CurrencyService {
         }
     }
 
+
+
     private CurrencyHistoryPoint getCurrencyHistoryPoint(String value, Currency currency){
         return new CurrencyHistoryPoint(LocalDateTime.now(), Double.parseDouble(value), currency);
     }

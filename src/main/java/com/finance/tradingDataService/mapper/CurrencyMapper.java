@@ -3,6 +3,6 @@ package com.finance.tradingDataService.mapper;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CurrencyPairMapper {
+public class CurrencyMapper {
 
 }
