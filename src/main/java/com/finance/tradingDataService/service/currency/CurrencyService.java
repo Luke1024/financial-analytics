@@ -1,8 +1,7 @@
-package com.finance.tradingDataService.service;
+package com.finance.tradingDataService.service.currency;
 
 import com.finance.tradingDataService.domain.Currency;
 import com.finance.tradingDataService.domain.CurrencyHistoryPoint;
-import com.finance.tradingDataService.repository.CurrencyHistoryPointRepository;
 import com.finance.tradingDataService.repository.CurrencyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,11 +15,12 @@ public class CurrencyService {
     @Autowired
     private CurrencyRepository currencyRepository;
 
-    @Autowired
-    private CurrencyHistoryPointRepository currencyHistoryPointRepository;
-
     public List<Currency> retrieveCurrencyByKey(String value){
         return currencyRepository.findByCurrencyName(value);
+    }
+
+    public List<Currency> getCurrencies(){
+        return currencyRepository.findAll();
     }
 
     public void addHistoryPoint(String key, String value){

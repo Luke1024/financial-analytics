@@ -6,10 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.NamedQuery;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface CurrencyRepository extends CrudRepository<Currency, Long> {
@@ -17,4 +14,7 @@ public interface CurrencyRepository extends CrudRepository<Currency, Long> {
     List<Currency> findByCurrencyName(@Param("CURRENCY_NAME")String currency_name);
 
     void deleteById(Long id);
+
+    @Override
+    List<Currency> findAll();
 }

@@ -1,4 +1,4 @@
-package com.finance.tradingDataService.service.downloader;
+package com.finance.tradingDataService.service.datadownloader;
 
 import com.finance.tradingDataService.clients.WorldTradingClient;
 import com.finance.tradingDataService.service.currency.CurrencyService;
