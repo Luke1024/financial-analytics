@@ -1,6 +1,7 @@
-package com.finance.tradingDataService.service;
+package com.finance.tradingDataService.service.downloader;
 
 import com.finance.tradingDataService.clients.WorldTradingClient;
+import com.finance.tradingDataService.service.currency.CurrencyService;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
