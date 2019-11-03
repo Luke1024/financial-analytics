@@ -79,43 +79,20 @@ public class CurrencyPairService {
         List<CurrencyHistoryPoint> baseCurrencyHistory = retrieveRequestedTimeRange(pairHistoryRequestDto.getStart(),
                 pairHistoryRequestDto.getStop(), baseCurrency);
 
+        LocalDateTime start = currencyHistory.get(0).getTimeStamp();
+        LocalDateTime baseStart =  baseCurrencyHistory.get(0).getTimeStamp();
 
-    }
+        List<CurrencyHistoryPoint> historyComputed = new ArrayList<>();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    private List<CurrencyHistoryPoint> analyzeRequiredHistory(Currency currency, PairHistoryRequestDto requestDto){
-
-        List<CurrencyHistoryPoint> currencyHistoryPoints = new ArrayList<>();
-
-        if(currency.getBase() == requestDto.getBaseCurrencyName()) {
-            currencyHistoryPoints = currency.getCurrencyHistoryPoints();
-        } else {
-            List<Currency> baseCurrencyList = currencyService.retrieveCurrencyByKey(requestDto.getBaseCurrencyName());
-            if(baseCurrencyList.size()==1){
-                currencyHistoryPoints = computeValueBasedOnBaseCurrency(baseCurrencyList.get(0), currency);
-            } else {
-                System.out.println("Currency not found");
+        if(currencyHistory.size() == baseCurrencyHistory.size() && start.equals(baseStart)){
+            for(int i=0; i<baseCurrencyHistory.size(); i++){
+                double computedValue = 1D/(baseCurrencyHistory.get(i).getValue()/currencyHistory.get(i).getValue());
+                historyComputed.add(new CurrencyHistoryPoint(baseCurrencyHistory.get(i).getTimeStamp(), computedValue));
             }
+        } else {
+            //implement histories synchronization
+            System.out.println("Currency and base currency are different lenght or not starting in the same time.");
         }
-        return currencyHistoryPoints;
-    }
-
-    private List<CurrencyHistoryPoint> computeValueBasedOnBaseCurrency(Currency baseCurrency, Currency currency) {
-        List<CurrencyHistoryPoint> currencyHistoryPoints = new ArrayList<>();
-
+        return historyComputed;
     }
 }

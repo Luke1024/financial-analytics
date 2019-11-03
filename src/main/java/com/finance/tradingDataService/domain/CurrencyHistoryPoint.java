@@ -25,6 +25,11 @@ public class CurrencyHistoryPoint {
     public CurrencyHistoryPoint() {
     }
 
+    public CurrencyHistoryPoint(LocalDateTime timeStamp, Double value) {
+        this.timeStamp = timeStamp;
+        this.value = value;
+    }
+
     public CurrencyHistoryPoint(LocalDateTime timeStamp, Double value, Currency currency) {
         this.timeStamp = timeStamp;
         this.value = value;
