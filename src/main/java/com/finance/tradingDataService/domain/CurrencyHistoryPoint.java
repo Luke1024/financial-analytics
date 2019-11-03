@@ -3,6 +3,14 @@ package com.finance.tradingDataService.domain;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@NamedNativeQuery(
+        name="CurrencyHistoryPoint.retrieveByTimeRangeAndCurrencyId",
+        query="SELECT * FROM trading_data_microservice.currency_history_point" +
+                " WHERE time_stamp > :TIME_STAMP_START AND " +
+                "time_stamp < :TIME_STAMP_STOP AND currency_id = :CURRENCY_ID;",
+        resultClass = Currency.class
+)
+
 @Entity
 public class CurrencyHistoryPoint {
     @Id

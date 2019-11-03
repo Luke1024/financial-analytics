@@ -3,6 +3,7 @@ package com.finance.tradingDataService.service.currency;
 import com.finance.tradingDataService.domain.Currency;
 import com.finance.tradingDataService.domain.CurrencyHistoryPoint;
 import com.finance.tradingDataService.domain.dto.PairHistoryRequestDto;
+import com.finance.tradingDataService.repository.CurrencyHistoryPointRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +16,9 @@ public class CurrencyPairService {
     @Autowired
     private CurrencyService currencyService;
 
+    @Autowired
+    private CurrencyHistoryPointRepository currencyHistoryPointRepository;
+
     public List<CurrencyHistoryPoint> getCurrencyPairHistory(PairHistoryRequestDto pairHistoryRequestDto){
         String baseCurrencyName = pairHistoryRequestDto.getBaseCurrencyName();
         String currencyName = pairHistoryRequestDto.getCurrencyName();
@@ -22,7 +26,17 @@ public class CurrencyPairService {
 
         Currency retrievedCurrency = retrieveCurrency(currencyName);
 
-        List<CurrencyHistoryPoint> retrievedHistory = retrieveRequestedTimeRange(retrievedCurrency, pairHistoryRequestDto);
+        List<CurrencyHistoryPoint> retrievedCurrencyHistory =
+                retrieveRequestedTimeRange(retrievedCurrency, pairHistoryRequestDto);
+
+        String retrievedBaseCurrency = retrievedCurrencyHistory.get(0).getCurrency().getBase();
+
+        if(retrievedBaseCurrency == baseCurrencyName){
+            currencyHistoryPoints = retrievedCurrencyHistory;
+        } else {
+            currencyHistoryPoints = computeValueBasedOnBaseCurrency(retrievedCurrencyHistory, pairHistoryRequestDto);
+        }
+
 
         return currencyHistoryPoints;
     }
@@ -45,25 +59,29 @@ public class CurrencyPairService {
             LocalDateTime start = pairHistoryRequestDto.getStart();
             LocalDateTime stop = pairHistoryRequestDto.getStop();
             if(stop.isAfter(start)){
-                //return retrieveRequestedTimeRange(start, stop, currency);
+                return retrieveRequestedTimeRange(start, stop, currency);
             } else {
                 System.out.println("Requested time range is not correct.");
                 return new ArrayList<>();
             }
         }
     }
-/*
-    private List<CurrencyHistoryPoint> retrieveRequestedTimeRange(LocalDateTime start, LocalDateTime stop, Currency currency) {
-        List<CurrencyHistoryPoint> historyPoints = currency.getCurrencyHistoryPoints();
-        Long startIndex;
-        Long stopIndex;
 
-        for(CurrencyHistoryPoint point : currency.getCurrencyHistoryPoints()) {
-            point.getTimeStamp().equals(start)
-        }
+    private List<CurrencyHistoryPoint> retrieveRequestedTimeRange(LocalDateTime start, LocalDateTime stop, Currency currency) {
+        return currencyHistoryPointRepository.retrieveByTimeRangeAndCurrencyId(start, stop, currency.getId());
+    }
+
+    private List<CurrencyHistoryPoint> computeValueBasedOnBaseCurrency
+            (List<CurrencyHistoryPoint> currencyHistory, PairHistoryRequestDto pairHistoryRequestDto){
+
+        Currency baseCurrency = currencyHistory.get(0).getCurrency();
+
+        List<CurrencyHistoryPoint> baseCurrencyHistory = retrieveRequestedTimeRange(pairHistoryRequestDto.getStart(),
+                pairHistoryRequestDto.getStop(), baseCurrency);
+
 
     }
-*/
+
 
 
 
