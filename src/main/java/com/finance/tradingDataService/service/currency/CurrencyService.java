@@ -23,12 +23,12 @@ public class CurrencyService {
         return currencyRepository.findAll();
     }
 
-    public void addHistoryPoint(String key, String value){
+    public void addHistoryPoint(String key, String value, LocalDateTime currentDateTime){
         List<Currency> currencyList = currencyRepository.findByCurrencyName(key);
 
         if(currencyList.size()==1){
             Currency retrievedCurency = currencyList.get(0);
-            CurrencyHistoryPoint currencyHistoryPoint = getCurrencyHistoryPoint(value, retrievedCurency);
+            CurrencyHistoryPoint currencyHistoryPoint = getCurrencyHistoryPoint(currentDateTime, value, retrievedCurency);
             retrievedCurency.getCurrencyHistoryPoints().add(currencyHistoryPoint);
             currencyRepository.save(retrievedCurency);
         } else {
@@ -52,9 +52,7 @@ public class CurrencyService {
         }
     }
 
-
-
-    private CurrencyHistoryPoint getCurrencyHistoryPoint(String value, Currency currency){
-        return new CurrencyHistoryPoint(LocalDateTime.now(), Double.parseDouble(value), currency);
+    private CurrencyHistoryPoint getCurrencyHistoryPoint(LocalDateTime currentTime, String value, Currency currency){
+        return new CurrencyHistoryPoint(currentTime, Double.parseDouble(value), currency);
     }
 }

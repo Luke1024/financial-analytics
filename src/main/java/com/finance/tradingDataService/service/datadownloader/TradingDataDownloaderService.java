@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -21,7 +22,7 @@ public class TradingDataDownloaderService {
 
     private final String baseCurrency = "USD";
 
-    public void downloadCurrentTradingDataForStocks() throws Exception {
+    public void downloadCurrentTradingDataForStocks(LocalDateTime currentDateTime) throws Exception {
         String result = worldTradingClient.getCurrentUsdBasedCurrencyValues();
         JSONObject jObj = new JSONObject(result);
         JSONObject currencies = jObj.getJSONObject("data");
@@ -29,10 +30,10 @@ public class TradingDataDownloaderService {
 
         for(Map.Entry<String, String> entry : currenciesMap.entrySet()){
             if(checkIfCurrencyExist(entry.getKey())){
-                addHistoryPoint(entry.getKey(), entry.getValue());
+                addHistoryPoint(entry, currentDateTime);
             } else {
                 addCurrency(entry.getKey());
-                addHistoryPoint(entry.getKey(), entry.getValue());
+                addHistoryPoint(entry, currentDateTime);
             }
         }
     }
@@ -50,8 +51,8 @@ public class TradingDataDownloaderService {
         return currencyService.retrieveCurrencyByKey(value).size()>0;
     }
 
-    private void addHistoryPoint(String key ,String value){
-        currencyService.addHistoryPoint(key, value);
+    private void addHistoryPoint(Map.Entry<String, String> entry, LocalDateTime currentDateTime){
+        currencyService.addHistoryPoint(entry.getKey(), entry.getValue(), currentDateTime);
     }
 
     private void addCurrency(String key){

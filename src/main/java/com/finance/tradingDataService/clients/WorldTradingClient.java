@@ -24,5 +24,4 @@ public class WorldTradingClient {
 
         return restTemplate.getForObject(url, String.class);
     }
-
 }
