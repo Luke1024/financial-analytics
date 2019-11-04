@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -44,7 +45,7 @@ class CurrencyServiceTest {
         Currency currency = new Currency("USD", "EUR", currencyHistoryPointList);
         currencyRepository.save(currency);
 
-        currencyService.addHistoryPoint("EUR", "0.4123");
+        currencyService.addHistoryPoint("EUR", "0.4123", LocalDateTime.now());
 
         Optional<Currency> currencyOptional = currencyRepository.findById(currency.getId());
         System.out.println();

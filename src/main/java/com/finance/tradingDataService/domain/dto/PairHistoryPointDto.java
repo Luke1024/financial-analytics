@@ -3,16 +3,16 @@ package com.finance.tradingDataService.domain.dto;
 import java.time.LocalDateTime;
 
 public class PairHistoryPointDto {
-    private LocalDateTime time;
+    private LocalDateTime timeStamp;
     private Double value;
 
-    public PairHistoryPointDto(LocalDateTime time, Double value) {
-        this.time = time;
+    public PairHistoryPointDto(LocalDateTime timeStamp, Double value) {
+        this.timeStamp = timeStamp;
         this.value = value;
     }
 
-    public LocalDateTime getTime() {
-        return time;
+    public LocalDateTime getTimeStamp() {
+        return timeStamp;
     }
 
     public Double getValue() {
