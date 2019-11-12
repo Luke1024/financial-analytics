@@ -1,6 +1,6 @@
 package com.finance.data.mapper;
 
-import com.finance.data.domain.Currency;
+import com.finance.data.domain.currency.Currency;
 import com.finance.data.service.currency.CurrencyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

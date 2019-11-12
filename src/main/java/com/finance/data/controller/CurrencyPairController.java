@@ -1,7 +1,7 @@
 package com.finance.data.controller;
 
-import com.finance.data.domain.dto.PairHistoryPointDto;
-import com.finance.data.domain.dto.PairHistoryRequestDto;
+import com.finance.data.domain.currency.dto.PairHistoryPointDto;
+import com.finance.data.domain.currency.dto.PairHistoryRequestDto;
 import com.finance.data.mapper.CurrencyPairMapper;
 import com.finance.data.service.currency.CurrencyPairService;
 import org.springframework.beans.factory.annotation.Autowired;

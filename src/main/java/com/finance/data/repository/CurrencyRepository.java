@@ -1,6 +1,6 @@
 package com.finance.data.repository;
 
-import com.finance.data.domain.Currency;
+import com.finance.data.domain.currency.Currency;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;

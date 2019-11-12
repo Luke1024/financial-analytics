@@ -1,6 +1,6 @@
 package com.finance.data.service.currency;
 
-import com.finance.data.domain.CurrencyHistoryPoint;
+import com.finance.data.domain.currency.CurrencyHistoryPoint;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

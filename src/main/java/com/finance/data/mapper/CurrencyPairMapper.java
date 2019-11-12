@@ -1,7 +1,7 @@
 package com.finance.data.mapper;
 
-import com.finance.data.domain.CurrencyHistoryPoint;
-import com.finance.data.domain.dto.PairHistoryPointDto;
+import com.finance.data.domain.currency.CurrencyHistoryPoint;
+import com.finance.data.domain.currency.dto.PairHistoryPointDto;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

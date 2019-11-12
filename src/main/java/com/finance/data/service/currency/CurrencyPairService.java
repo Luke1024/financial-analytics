@@ -1,8 +1,8 @@
 package com.finance.data.service.currency;
 
-import com.finance.data.domain.Currency;
-import com.finance.data.domain.CurrencyHistoryPoint;
-import com.finance.data.domain.dto.PairHistoryRequestDto;
+import com.finance.data.domain.currency.Currency;
+import com.finance.data.domain.currency.CurrencyHistoryPoint;
+import com.finance.data.domain.currency.dto.PairHistoryRequestDto;
 import com.finance.data.repository.CurrencyHistoryPointRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

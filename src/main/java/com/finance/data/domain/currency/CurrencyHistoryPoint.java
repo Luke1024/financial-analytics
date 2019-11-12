@@ -1,4 +1,4 @@
-package com.finance.data.domain;
+package com.finance.data.domain.currency;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

@@ -1,4 +1,4 @@
-package com.finance.data.domain.dto;
+package com.finance.data.domain.currency.dto;
 
 import java.time.LocalDateTime;
 
