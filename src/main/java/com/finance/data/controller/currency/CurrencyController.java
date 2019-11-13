@@ -1,4 +1,4 @@
-package com.finance.data.controller;
+package com.finance.data.controller.currency;
 
 import com.finance.data.mapper.CurrencyMapper;
 import com.finance.data.service.currency.CurrencyService;
@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/finance")
 public class CurrencyController {

@@ -1,4 +1,4 @@
-package com.finance.data.controller;
+package com.finance.data.controller.currency;
 
 import com.finance.data.domain.currency.dto.PairHistoryPointDto;
 import com.finance.data.domain.currency.dto.PairHistoryRequestDto;
