@@ -5,7 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-public class UserAdress {
+public class PersonalData {
     @Id
     @GeneratedValue
     private Long id;
@@ -14,16 +14,24 @@ public class UserAdress {
     private String voivodeship;
     private String city;
     private String postalCode;
-    private String adress;
+    private String street;
+    private String homeNumber;
+    private String phoneNumber;
     private User user;
 
-    public UserAdress(String firstName, String lastName, String voivodeship, String city, String postalCode, String adress, User user) {
+    public PersonalData() {
+    }
+
+    public PersonalData(String firstName, String lastName, String voivodeship, String city, String postalCode,
+                        String street, String homeNumber, String phoneNumber, User user) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.voivodeship = voivodeship;
         this.city = city;
         this.postalCode = postalCode;
-        this.adress = adress;
+        this.street = street;
+        this.homeNumber = homeNumber;
+        this.phoneNumber = phoneNumber;
         this.user = user;
     }
 
@@ -51,8 +59,16 @@ public class UserAdress {
         return postalCode;
     }
 
-    public String getAdress() {
-        return adress;
+    public String getStreet() {
+        return street;
+    }
+
+    public String getHomeNumber() {
+        return homeNumber;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
     public User getUser() {

@@ -10,6 +10,7 @@ public class UserTradingAccountHistoryPoint {
     @Id
     @GeneratedValue
     private Long pointId;
+    private OperationType operationType;
     private double accountChange;
     private double moneyAmountBeforeChange;
     private double moneyAmountAfterChange;
@@ -19,8 +20,8 @@ public class UserTradingAccountHistoryPoint {
     public UserTradingAccountHistoryPoint() {
     }
 
-    public UserTradingAccountHistoryPoint(Long pointId, double accountChange, double moneyAmountBeforeChange, double moneyAmountAfterChange, LocalDateTime localDateTime, UserTradingAccount userTradingAccount) {
-        this.pointId = pointId;
+    public UserTradingAccountHistoryPoint(OperationType operationType, double accountChange, double moneyAmountBeforeChange, double moneyAmountAfterChange, LocalDateTime localDateTime, UserTradingAccount userTradingAccount) {
+        this.operationType = operationType;
         this.accountChange = accountChange;
         this.moneyAmountBeforeChange = moneyAmountBeforeChange;
         this.moneyAmountAfterChange = moneyAmountAfterChange;
@@ -30,6 +31,10 @@ public class UserTradingAccountHistoryPoint {
 
     public Long getPointId() {
         return pointId;
+    }
+
+    public OperationType getOperationType() {
+        return operationType;
     }
 
     public double getAccountChange() {

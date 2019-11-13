@@ -10,29 +10,27 @@ public class User {
     @Id
     @GeneratedValue
     private Long id;
-    private UserAdress userAdress;
+    private PersonalData personalData;
     private String password;
     private String email;
     private List<UserTradingAccount> userTradingAccounts;
-    private List<BankAccount> bankAccounts;
 
     public User() {
     }
 
-    public User(UserAdress userAdress, String password, String email, List<UserTradingAccount> userTradingAccounts, List<BankAccount> bankAccounts) {
-        this.userAdress = userAdress;
+    public User(PersonalData personalData, String password, String email, List<UserTradingAccount> userTradingAccounts) {
+        this.personalData = personalData;
         this.password = password;
         this.email = email;
         this.userTradingAccounts = userTradingAccounts;
-        this.bankAccounts = bankAccounts;
     }
 
     public Long getId() {
         return id;
     }
 
-    public UserAdress getUserAdress() {
-        return userAdress;
+    public PersonalData getPersonalData() {
+        return personalData;
     }
 
     public String getPassword() {
@@ -45,9 +43,5 @@ public class User {
 
     public List<UserTradingAccount> getUserTradingAccounts() {
         return userTradingAccounts;
-    }
-
-    public List<BankAccount> getBankAccounts() {
-        return bankAccounts;
     }
 }

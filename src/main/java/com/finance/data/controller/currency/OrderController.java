@@ -7,5 +7,5 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/finance")
-public class TransactionController {
+public class OrderController {
 }
