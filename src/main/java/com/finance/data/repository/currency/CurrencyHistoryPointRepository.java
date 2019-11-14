@@ -1,4 +1,4 @@
-package com.finance.data.repository;
+package com.finance.data.repository.currency;
 
 import com.finance.data.domain.currency.CurrencyHistoryPoint;
 import org.springframework.data.jpa.repository.Query;

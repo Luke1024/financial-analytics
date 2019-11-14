@@ -35,6 +35,22 @@ public class PersonalData {
         this.user = user;
     }
 
+    public PersonalData(Long id, String firstName, String lastName, String voivodeship, String city, String postalCode,
+                        String street, String homeNumber, String phoneNumber, User user) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.voivodeship = voivodeship;
+        this.city = city;
+        this.postalCode = postalCode;
+        this.street = street;
+        this.homeNumber = homeNumber;
+        this.phoneNumber = phoneNumber;
+        this.user = user;
+    }
+
+
+
     public Long getId() {
         return id;
     }
