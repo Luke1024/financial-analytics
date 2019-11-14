@@ -1,7 +1,11 @@
 package com.finance.data.controller.accounts;
 
+import com.finance.data.domain.accounts.dto.TradingAccountCreationDto;
+import com.finance.data.domain.accounts.dto.TradingAccountDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -25,8 +29,8 @@ public class UserTradingAccountController {
         tradingAccountService.createTradingAccount(tradingAccountCreationDto);
     }
 
-    @PutMapping(value = "/tradingAccount", consumes = APPLICATION_JSON_VALUE)
-    public void updateTradingAccount(@RequestBody TradingAccountUpdaterDto tradingAccountUpdaterDto) {
-        tradingAccountService.updateTradingAccount(tradingAccountUpdaterDto);
-    }
+    //@PutMapping(value = "/tradingAccount", consumes = APPLICATION_JSON_VALUE)
+    //public void updateTradingAccount(@RequestBody TradingAccountUpdaterDto tradingAccountUpdaterDto) {
+      //  tradingAccountService.updateTradingAccount(tradingAccountUpdaterDto);
+    //}
 }

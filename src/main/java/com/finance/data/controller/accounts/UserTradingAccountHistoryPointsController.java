@@ -8,15 +8,15 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/finance")
 public class UserTradingAccountHistoryPointsController {
 
-    @Autowired
-    private AccountHistoryPointService accountHistoryPointService;
+    //@Autowired
+    //private AccountHistoryPointService accountHistoryPointService;
 
-    @Autowired
-    private AccountHistoryPointMapper accountHistoryPointMapper;
+    //@Autowired
+    //private AccountHistoryPointMapper accountHistoryPointMapper;
 
-    @GetMapping(value = "/accountHistoryPoints/{userId}")
-    public List<AccountHistoryPointDto> getAccountHistoryPoints(@PathVariable Long userId){
-        return accountHistoryPointMapper.mapToAccountHistoryPointList(
-                accountHistoryPointService.getUserAccountHistoryPoints(userId));
-    }
+    //@GetMapping(value = "/accountHistoryPoints/{userId}")
+    //public List<AccountHistoryPointDto> getAccountHistoryPoints(@PathVariable Long userId){
+      //  return accountHistoryPointMapper.mapToAccountHistoryPointList(
+        //        accountHistoryPointService.getUserAccountHistoryPoints(userId));
+    //}
 }

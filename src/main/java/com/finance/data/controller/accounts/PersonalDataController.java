@@ -1,5 +1,6 @@
 package com.finance.data.controller.accounts;
 
+import com.finance.data.domain.accounts.dto.PersonalDataDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,12 +22,12 @@ public class PersonalDataController {
     }
 
     @PostMapping(value = "/personalData", consumes = APPLICATION_JSON_VALUE)
-    public void createPersonalData(PersonalDataCreationDto personalDataCreationDto) {
-        personalDataService.createPersonalData(personalDataCreationDto);
+    public void createPersonalData(PersonalDataDto personalDataDto) {
+        personalDataService.createPersonalData(personalDataDto);
     }
 
     @PutMapping(value = "/personalData", consumes = APPLICATION_JSON_VALUE)
-    public void updateUserAdress(PersonalDataCreationDto personalDataCreationDto){
-        personalDataService.updateUserAdress(personalDataCreationDto);
+    public void updatePersonalData(PersonalDataDto personalDataDto){
+        personalDataService.updateUserAdress(personalDataDto);
     }
 }
