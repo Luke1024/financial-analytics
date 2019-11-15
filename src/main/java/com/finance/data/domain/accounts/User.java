@@ -14,15 +14,16 @@ public class User {
     private String password;
     private String email;
     private List<UserTradingAccount> userTradingAccounts;
+    private UserStatus userStatus;
 
-    public User() {
-    }
+    public User() {}
 
-    public User(PersonalData personalData, String password, String email, List<UserTradingAccount> userTradingAccounts) {
+    public User(PersonalData personalData, String password, String email, List<UserTradingAccount> userTradingAccounts, UserStatus userStatus) {
         this.personalData = personalData;
         this.password = password;
         this.email = email;
         this.userTradingAccounts = userTradingAccounts;
+        this.userStatus = userStatus;
     }
 
     public Long getId() {
@@ -43,5 +44,13 @@ public class User {
 
     public List<UserTradingAccount> getUserTradingAccounts() {
         return userTradingAccounts;
+    }
+
+    public UserStatus getUserStatus() {
+        return userStatus;
+    }
+
+    public void setUserStatus(UserStatus userStatus) {
+        this.userStatus = userStatus;
     }
 }

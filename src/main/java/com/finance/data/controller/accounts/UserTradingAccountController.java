@@ -2,6 +2,8 @@ package com.finance.data.controller.accounts;
 
 import com.finance.data.domain.accounts.dto.TradingAccountCreationDto;
 import com.finance.data.domain.accounts.dto.TradingAccountDto;
+import com.finance.data.mapper.accounts.TradingAccountMapper;
+import com.finance.data.service.account.TradingAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +23,7 @@ public class UserTradingAccountController {
 
     @GetMapping(value = "/tradingAccount/{userId}")
     public List<TradingAccountDto> getUserTradingAccounts(@PathVariable Long userId){
-        return tradingAccountMapper.mapToTradingDtoList(tradingAccountMapper.getUserTradingAccounts(userId));
+        return tradingAccountMapper.mapToTradingDtoList(tradingAccountService.getUserTradingAccounts(userId));
     }
 
     @PostMapping(value = "/tradingAccount", consumes = APPLICATION_JSON_VALUE)

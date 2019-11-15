@@ -8,7 +8,6 @@ import com.finance.data.repository.accounts.PersonalDataRepository;
 import com.finance.data.repository.accounts.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.Optional;
 
@@ -23,8 +22,13 @@ public class PersonalDataService {
     @Autowired
     private PersonalDataMapper personalDataMapper;
 
-    public Optional<PersonalData> getPersonalData(Long userId){
-        return personalDataRepository.findByUserId(userId);
+    public PersonalData getPersonalData(Long userId){
+        Optional<User> retrievedUser = userRepository.findById(userId);
+        if(retrievedUser.isPresent()) {
+            return retrievedUser.get().getPersonalData();
+        } else {
+            return new PersonalData();
+        }
     }
 
     public void createPersonalData(PersonalDataDto personalDataDto) {

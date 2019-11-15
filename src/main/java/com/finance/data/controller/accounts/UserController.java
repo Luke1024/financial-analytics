@@ -2,6 +2,8 @@ package com.finance.data.controller.accounts;
 
 import com.finance.data.domain.accounts.dto.LoginDto;
 import com.finance.data.domain.accounts.dto.UserRegistrationDto;
+import com.finance.data.service.account.UserMapper;
+import com.finance.data.service.account.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,9 +34,9 @@ public class UserController {
         return userService.logOutUser(userId);
     }
 
-    @PutMapping(value = "/users/password", consumes = APPLICATION_JSON_VALUE)
-    public void changeUserPassword(@RequestBody LoginDto loginDto) {
+    //@PutMapping(value = "/users/password", consumes = APPLICATION_JSON_VALUE)
+    //public void changeUserPassword(@RequestBody LoginDto loginDto) {
 
-    }
+    //}
 
 }

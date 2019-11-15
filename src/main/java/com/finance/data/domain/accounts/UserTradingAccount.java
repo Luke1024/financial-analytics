@@ -17,6 +17,12 @@ public class UserTradingAccount {
     public UserTradingAccount() {
     }
 
+    public UserTradingAccount(User user, double amount, List<UserTradingAccountHistoryPoint> points) {
+        this.user = user;
+        this.amount = amount;
+        this.points = points;
+    }
+
     public UserTradingAccount(Long id, User user, double amount, List<UserTradingAccountHistoryPoint> points) {
         this.id = id;
         this.user = user;
