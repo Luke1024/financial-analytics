@@ -1,4 +1,4 @@
-package com.finance.data.mapper;
+package com.finance.data.mapper.currency;
 
 import com.finance.data.domain.currency.Currency;
 import com.finance.data.service.currency.CurrencyService;

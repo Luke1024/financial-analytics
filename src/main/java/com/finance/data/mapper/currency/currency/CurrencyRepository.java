@@ -1,4 +1,4 @@
-package com.finance.data.repository.currency;
+package com.finance.data.mapper.currency.currency;
 
 import com.finance.data.domain.currency.Currency;
 import org.springframework.data.jpa.repository.Query;

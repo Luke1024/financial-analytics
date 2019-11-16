@@ -1,33 +1,31 @@
-package com.finance.data.domain.currency;
+package com.finance.data.domain.currency.dto;
 
-import com.finance.data.domain.accounts.UserTradingAccount;
+import com.finance.data.domain.currency.CurrencyHistoryPointDto;
+import com.finance.data.domain.currency.LongShort;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import java.time.LocalDateTime;
 
-@Entity
-public class Order {
-    @Id
-    @GeneratedValue
+public class OrderDto {
     private Long orderId;
     private LongShort longShort;
     private double lot;
     private String currencyPair;
     private double stopLoss;
     private double takeProfit;
-    private CurrencyHistoryPoint currencyHistoryPointOpen;
+    private CurrencyHistoryPointDto currencyHistoryPointOpen;
     private LocalDateTime orderOpened;
-    private CurrencyHistoryPoint currencyHistoryPointClose;
+    private CurrencyHistoryPointDto currencyHistoryPointClose;
     private LocalDateTime orderClosed;
     private double orderBalance;
-    private UserTradingAccount userTradingAccount;
+    private Long userTradingAccountId;
 
-    public Order() {
-    }
+    public OrderDto() {}
 
-    public Order(LongShort longShort, double lot, String currencyPair, double stopLoss, double takeProfit, CurrencyHistoryPoint currencyHistoryPointOpen, LocalDateTime orderOpened, CurrencyHistoryPoint currencyHistoryPointClose, LocalDateTime orderClosed, double orderBalance, UserTradingAccount userTradingAccount) {
+    public OrderDto(Long orderId, LongShort longShort, double lot, String currencyPair, double stopLoss,
+                    double takeProfit, CurrencyHistoryPointDto currencyHistoryPointOpen, LocalDateTime orderOpened,
+                    CurrencyHistoryPointDto currencyHistoryPointClose, LocalDateTime orderClosed, double orderBalance,
+                    Long userTradingAccountId) {
+        this.orderId = orderId;
         this.longShort = longShort;
         this.lot = lot;
         this.currencyPair = currencyPair;
@@ -38,7 +36,7 @@ public class Order {
         this.currencyHistoryPointClose = currencyHistoryPointClose;
         this.orderClosed = orderClosed;
         this.orderBalance = orderBalance;
-        this.userTradingAccount = userTradingAccount;
+        this.userTradingAccountId = userTradingAccountId;
     }
 
     public Long getOrderId() {
@@ -65,7 +63,7 @@ public class Order {
         return takeProfit;
     }
 
-    public CurrencyHistoryPoint getCurrencyHistoryPointOpen() {
+    public CurrencyHistoryPointDto getCurrencyHistoryPointOpen() {
         return currencyHistoryPointOpen;
     }
 
@@ -73,7 +71,7 @@ public class Order {
         return orderOpened;
     }
 
-    public CurrencyHistoryPoint getCurrencyHistoryPointClose() {
+    public CurrencyHistoryPointDto getCurrencyHistoryPointClose() {
         return currencyHistoryPointClose;
     }
 
@@ -85,7 +83,7 @@ public class Order {
         return orderBalance;
     }
 
-    public UserTradingAccount getUserTradingAccount() {
-        return userTradingAccount;
+    public Long getUserTradingAccountId() {
+        return userTradingAccountId;
     }
 }

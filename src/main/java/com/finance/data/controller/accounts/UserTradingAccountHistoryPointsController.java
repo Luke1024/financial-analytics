@@ -1,6 +1,5 @@
 package com.finance.data.controller.accounts;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin("*")

@@ -22,6 +22,6 @@ public class TradingAccountService {
     }
 
     public void createTradingAccount(TradingAccountCreationDto tradingAccountCreationDto) {
-        tradingAccountRepository.save(tradingAccountMapper.mapToTradingAccount(tradingAccountCreationDto));
+        tradingAccountRepository.save(tradingAccountMapper.mapToNewTradingAccount(tradingAccountCreationDto));
     }
 }
