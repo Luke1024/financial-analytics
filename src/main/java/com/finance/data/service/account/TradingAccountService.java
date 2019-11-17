@@ -17,11 +17,11 @@ public class TradingAccountService {
     @Autowired
     private TradingAccountMapper tradingAccountMapper;
 
-    public List<UserTradingAccount> getUserTradingAccounts(Long userId) {
-        return tradingAccountRepository.findTradingAccountByUser(userId);
-    }
+    //public List<UserTradingAccount> getUserTradingAccounts(Long userId) {
+      //  return tradingAccountRepository.findTradingAccountByUser(userId);
+    //}
 
-    public void createTradingAccount(TradingAccountCreationDto tradingAccountCreationDto) {
-        tradingAccountRepository.save(tradingAccountMapper.mapToNewTradingAccount(tradingAccountCreationDto));
-    }
+    //public void createTradingAccount(TradingAccountCreationDto tradingAccountCreationDto) {
+      //  tradingAccountRepository.save(tradingAccountMapper.mapToNewTradingAccount(tradingAccountCreationDto));
+    //}
 }

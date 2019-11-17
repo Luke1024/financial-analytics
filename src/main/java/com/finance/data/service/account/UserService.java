@@ -13,6 +13,7 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    /*
     public boolean saveUser(User user){
         Optional<User> retrievedUser = userRepository.findUserByEmail(user.getEmail());
         if(retrievedUser.isPresent()){
@@ -38,4 +39,5 @@ public class UserService {
             return true;
         } else return false;
     }
+    */
 }

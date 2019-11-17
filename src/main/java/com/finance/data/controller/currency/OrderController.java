@@ -21,19 +21,19 @@ public class OrderController {
     @Autowired
     private OrderMapper orderMapper;
 
-    public List<OrderDto> getUserOrdersFromLastMonth(Long userId){
-        return orderMapper.mapToOrderDtoList(orderService.getUserOrdersFromLastMonth(userId));
-    }
+    //public List<OrderDto> getUserOrdersFromLastMonth(Long userId){
+      //  return orderMapper.mapToOrderDtoList(orderService.getUserOrdersFromLastMonth(userId));
+    //}
 
-    public boolean placeOrder(OrderOpeningDto orderOpeningDto){
-        return orderService.placeOrder(orderOpeningDto);
-    }
+    //public boolean placeOrder(OrderOpeningDto orderOpeningDto){
+      //  return orderService.placeOrder(orderOpeningDto);
+    //}
 
-    public boolean modifyOrder(OrderModificationDto orderModificationDto){
-        return orderService.modifyOrder(orderModificationDto);
-    }
+    //public boolean modifyOrder(OrderModificationDto orderModificationDto){
+      //  return orderService.modifyOrder(orderModificationDto);
+    //}
 
-    public boolean closeOrder(Long orderId){
-        return orderService.closeOrder(orderId);
-    }
+    //public boolean closeOrder(Long orderId){
+      //  return orderService.closeOrder(orderId);
+    //}
 }

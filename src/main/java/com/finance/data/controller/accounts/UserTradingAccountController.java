@@ -21,6 +21,7 @@ public class UserTradingAccountController {
     @Autowired
     private TradingAccountMapper tradingAccountMapper;
 
+    /*
     @GetMapping(value = "/tradingAccount/{userId}")
     public List<TradingAccountDto> getUserTradingAccounts(@PathVariable Long userId){
         return tradingAccountMapper.mapToTradingDtoList(tradingAccountService.getUserTradingAccounts(userId));
@@ -30,7 +31,7 @@ public class UserTradingAccountController {
     public void createUserTradingAccount(@RequestBody TradingAccountCreationDto tradingAccountCreationDto) {
         tradingAccountService.createTradingAccount(tradingAccountCreationDto);
     }
-
+*/
     //@PutMapping(value = "/tradingAccount", consumes = APPLICATION_JSON_VALUE)
     //public void updateTradingAccount(@RequestBody TradingAccountUpdaterDto tradingAccountUpdaterDto) {
       //  tradingAccountService.updateTradingAccount(tradingAccountUpdaterDto);

@@ -22,20 +22,20 @@ public class TradingAccountMapper {
     @Autowired
     private UserRepository userRepository;
 
-    public List<TradingAccountDto> mapToTradingDtoList(List<UserTradingAccount> userTradingAccounts){
-        return userTradingAccounts.stream()
-                .map(userTradingAccount -> new TradingAccountDto(userTradingAccount.getAmount(),
-                userTradingAccountHistoryPointMapper.mapToTradingHistoryPointList(userTradingAccount.getAmount(), userTradingAccount.getPoints())))
-                .collect(Collectors.toList());
-    }
+    //public List<TradingAccountDto> mapToTradingDtoList(List<UserTradingAccount> userTradingAccounts){
+      //  return userTradingAccounts.stream()
+        //        .map(userTradingAccount -> new TradingAccountDto(userTradingAccount.getAmount(),
+          //      userTradingAccountHistoryPointMapper.mapToTradingHistoryPointList(userTradingAccount.getAmount(), userTradingAccount.getPoints())))
+            //    .collect(Collectors.toList());
+    //}
 
-    public UserTradingAccount mapToNewTradingAccount(TradingAccountCreationDto tradingAccountCreationDto){
-        Optional<User> retrievedUser = userRepository.findById(tradingAccountCreationDto.getUserId());
-        if(retrievedUser.isPresent()){
-            return new UserTradingAccount(retrievedUser.get(), 0.0, new ArrayList<>());
-        } else {
-            //catch exception
-            return new UserTradingAccount();
-        }
-    }
+    //public UserTradingAccount mapToNewTradingAccount(TradingAccountCreationDto tradingAccountCreationDto){
+      //  Optional<User> retrievedUser = userRepository.findById(tradingAccountCreationDto.getUserId());
+        //if(retrievedUser.isPresent()){
+          //  return new UserTradingAccount(retrievedUser.get(), 0.0, new ArrayList<>());
+        //} else {
+          //  //catch exception
+            //return new UserTradingAccount();
+        //}
+    //}
 }

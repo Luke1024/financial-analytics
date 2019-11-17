@@ -27,6 +27,7 @@ public class OrderService {
     @Autowired
     private OrderOpeningEvaluator orderOpeningEvaluator;
 
+    /*
     public List<Order> getUserOrdersFromLastMonth(Long userId) {
         return orderRepository.findOrdersNewerThan(LocalDateTime.now().minusMonths(1));
     }
@@ -42,4 +43,5 @@ public class OrderService {
 
 
     }
+    */
 }

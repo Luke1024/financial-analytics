@@ -12,18 +12,18 @@ public class OrderOpeningEvaluator {
     @Autowired
     private CurrencyHistoryPointService currencyHistoryPointService;
 
-    public OrderEvaluatorResponseDto evaluate(OrderOpeningDto orderOpeningDto, UserTradingAccount userTradingAccount) {
-        boolean accountBalance = evaluateAccountBalance(orderOpeningDto, userTradingAccount);
-        boolean takeProfitValueCorrect = evaluateTakeProfit(orderOpeningDto);
-        boolean stopLossValueCorrect = evaluateStopLoss(orderOpeningDto);
-    }
+    //public OrderEvaluatorResponseDto evaluate(OrderOpeningDto orderOpeningDto, UserTradingAccount userTradingAccount) {
+        //boolean accountBalance = evaluateAccountBalance(orderOpeningDto, userTradingAccount);
+        //boolean takeProfitValueCorrect = evaluateTakeProfit(orderOpeningDto);
+        //boolean stopLossValueCorrect = evaluateStopLoss(orderOpeningDto);
+    //}
 
-    private boolean evaluateAccountBalance(OrderOpeningDto orderOpeningDto, UserTradingAccount userTradingAccount) {
-        CurrencyHistoryPoint baseCurrency = currencyHistoryPointService
-                .getLastCurrencyHistoryPoint(orderOpeningDto.getBaseCurrency());
-        CurrencyHistoryPoint currency = currencyHistoryPointService
-                .getLastCurrencyHistoryPoint(orderOpeningDto.getCurrency());
+    //private boolean evaluateAccountBalance(OrderOpeningDto orderOpeningDto, UserTradingAccount userTradingAccount) {
+      //  CurrencyHistoryPoint baseCurrency = currencyHistoryPointService
+        //        .getLastCurrencyHistoryPoint(orderOpeningDto.getBaseCurrency());
+        //CurrencyHistoryPoint currency = currencyHistoryPointService
+      //          .getLastCurrencyHistoryPoint(orderOpeningDto.getCurrency());
 
-        double baseCurrencyValue = baseCurrency.
-    }
+        //double baseCurrencyValue = b
+    //}
 }

@@ -7,5 +7,5 @@ import java.util.List;
 
 @Component
 public class UserTradingAccountHistoryPointMapper {
-    public List<UserTradingAccountHistoryPoint> mapToTradingHistoryPointList(Double amount, )
+    //public List<UserTradingAccountHistoryPoint> mapToTradingHistoryPointList(Double amount, )
 }
