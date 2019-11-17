@@ -3,6 +3,7 @@ package com.finance.data.domain.accounts;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -12,21 +13,18 @@ public class UserTradingAccount {
     private Long id;
     private User user;
     private double amount;
+    private int leverage;
+    private LocalDateTime openingTime;
     private List<UserTradingAccountHistoryPoint> points;
 
     public UserTradingAccount() {
     }
 
-    public UserTradingAccount(User user, double amount, List<UserTradingAccountHistoryPoint> points) {
+    public UserTradingAccount(User user, double amount, int leverage, LocalDateTime openingTime, List<UserTradingAccountHistoryPoint> points) {
         this.user = user;
         this.amount = amount;
-        this.points = points;
-    }
-
-    public UserTradingAccount(Long id, User user, double amount, List<UserTradingAccountHistoryPoint> points) {
-        this.id = id;
-        this.user = user;
-        this.amount = amount;
+        this.leverage = leverage;
+        this.openingTime = openingTime;
         this.points = points;
     }
 
@@ -40,6 +38,14 @@ public class UserTradingAccount {
 
     public double getAmount() {
         return amount;
+    }
+
+    public int getLeverage() {
+        return leverage;
+    }
+
+    public LocalDateTime getOpeningTime() {
+        return openingTime;
     }
 
     public List<UserTradingAccountHistoryPoint> getPoints() {

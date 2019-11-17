@@ -1,6 +1,5 @@
 package com.finance.data.domain.currency.dto;
 
-import com.finance.data.domain.currency.CurrencyHistoryPointDto;
 import com.finance.data.domain.currency.LongShort;
 
 import java.time.LocalDateTime;
@@ -9,32 +8,40 @@ public class OrderDto {
     private Long orderId;
     private LongShort longShort;
     private double lot;
+    private String baseCurrency;
+    private String currency;
     private String currencyPair;
     private double stopLoss;
     private double takeProfit;
-    private CurrencyHistoryPointDto currencyHistoryPointOpen;
+    private Long currencyHistoryPointOpenId;
     private LocalDateTime orderOpened;
-    private CurrencyHistoryPointDto currencyHistoryPointClose;
+    private double orderOpeningPrice;
+    private Long currencyHistoryPointCloseId;
     private LocalDateTime orderClosed;
+    private double orderClosingPrice;
     private double orderBalance;
     private Long userTradingAccountId;
 
     public OrderDto() {}
 
-    public OrderDto(Long orderId, LongShort longShort, double lot, String currencyPair, double stopLoss,
-                    double takeProfit, CurrencyHistoryPointDto currencyHistoryPointOpen, LocalDateTime orderOpened,
-                    CurrencyHistoryPointDto currencyHistoryPointClose, LocalDateTime orderClosed, double orderBalance,
-                    Long userTradingAccountId) {
+    public OrderDto(Long orderId, LongShort longShort, double lot, String baseCurrency, String currency,
+                    String currencyPair, double stopLoss, double takeProfit, Long currencyHistoryPointOpenId,
+                    LocalDateTime orderOpened, double orderOpeningPrice, Long currencyHistoryPointCloseId,
+                    LocalDateTime orderClosed, double orderClosingPrice, double orderBalance, Long userTradingAccountId) {
         this.orderId = orderId;
         this.longShort = longShort;
         this.lot = lot;
+        this.baseCurrency = baseCurrency;
+        this.currency = currency;
         this.currencyPair = currencyPair;
         this.stopLoss = stopLoss;
         this.takeProfit = takeProfit;
-        this.currencyHistoryPointOpen = currencyHistoryPointOpen;
+        this.currencyHistoryPointOpenId = currencyHistoryPointOpenId;
         this.orderOpened = orderOpened;
-        this.currencyHistoryPointClose = currencyHistoryPointClose;
+        this.orderOpeningPrice = orderOpeningPrice;
+        this.currencyHistoryPointCloseId = currencyHistoryPointCloseId;
         this.orderClosed = orderClosed;
+        this.orderClosingPrice = orderClosingPrice;
         this.orderBalance = orderBalance;
         this.userTradingAccountId = userTradingAccountId;
     }
@@ -51,6 +58,14 @@ public class OrderDto {
         return lot;
     }
 
+    public String getBaseCurrency() {
+        return baseCurrency;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
     public String getCurrencyPair() {
         return currencyPair;
     }
@@ -63,20 +78,28 @@ public class OrderDto {
         return takeProfit;
     }
 
-    public CurrencyHistoryPointDto getCurrencyHistoryPointOpen() {
-        return currencyHistoryPointOpen;
+    public Long getCurrencyHistoryPointOpenId() {
+        return currencyHistoryPointOpenId;
     }
 
     public LocalDateTime getOrderOpened() {
         return orderOpened;
     }
 
-    public CurrencyHistoryPointDto getCurrencyHistoryPointClose() {
-        return currencyHistoryPointClose;
+    public double getOrderOpeningPrice() {
+        return orderOpeningPrice;
+    }
+
+    public Long getCurrencyHistoryPointCloseId() {
+        return currencyHistoryPointCloseId;
     }
 
     public LocalDateTime getOrderClosed() {
         return orderClosed;
+    }
+
+    public double getOrderClosingPrice() {
+        return orderClosingPrice;
     }
 
     public double getOrderBalance() {

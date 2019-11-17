@@ -15,6 +15,15 @@ public class CurrencyService {
     @Autowired
     private CurrencyRepository currencyRepository;
 
+    public CurrencyHistoryPoint getLastCurrencyHistoryPoint(String currencyKey){
+        List<Currency> currencies = currencyRepository.findByCurrencyName(currencyKey);
+        if(currencies.size()==1) {
+            return currencies.get(0).getCurrencyHistoryPoints().get(currencies.get(0).getCurrencyHistoryPoints().size()-1);
+        } else {
+            return new CurrencyHistoryPoint();
+        } //currency not found
+    }
+
     public List<Currency> retrieveCurrencyByKey(String value){
         return currencyRepository.findByCurrencyName(value);
     }

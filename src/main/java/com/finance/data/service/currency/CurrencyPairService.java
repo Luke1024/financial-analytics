@@ -38,7 +38,6 @@ public class CurrencyPairService {
             currencyHistoryPoints = computeValueBasedOnBaseCurrency(retrievedCurrencyHistory, pairHistoryRequestDto);
         }
 
-
         return currencyHistoryPoints;
     }
 

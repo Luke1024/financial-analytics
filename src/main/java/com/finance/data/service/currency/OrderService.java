@@ -2,9 +2,10 @@ package com.finance.data.service.currency;
 
 import com.finance.data.domain.accounts.UserTradingAccount;
 import com.finance.data.domain.currency.Order;
-import com.finance.data.domain.currency.dto.OrderOpeningClosingDto;
+import com.finance.data.domain.currency.dto.OrderOpeningDto;
 import com.finance.data.mapper.currency.currency.OrderRepository;
 import com.finance.data.repository.accounts.TradingAccountRepository;
+import com.finance.data.service.currency.orderserviceutilities.OrderOpeningEvaluator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,28 +24,22 @@ public class OrderService {
     @Autowired
     private CurrencyPairService currencyPairService;
 
-    public List<Order> getUserOrdersFromLastMonth(Long userId){
+    @Autowired
+    private OrderOpeningEvaluator orderOpeningEvaluator;
+
+    public List<Order> getUserOrdersFromLastMonth(Long userId) {
         return orderRepository.findOrdersNewerThan(LocalDateTime.now().minusMonths(1));
     }
 
-    public boolean placeOrder(OrderOpeningClosingDto orderOpeningClosingDto){
+    public boolean placeOrder(OrderOpeningDto orderOpeningDto){
         Optional<UserTradingAccount> retrievedTradingAccount =
-                tradingAccountRepository.findById(orderOpeningClosingDto.getUserTradingAccountId());
+                tradingAccountRepository.findById(orderOpeningDto.getUserTradingAccountId());
         if(retrievedTradingAccount.isPresent()) {
-            orderRepository.save(new Order(orderOpeningClosingDto.getLongShort(),
-                    orderOpeningClosingDto.getLot(),
-                    orderOpeningClosingDto.getCurrencyPair(),
-                    orderOpeningClosingDto.getStopLoss(),
-                    orderOpeningClosingDto.getTakeProfit(),
-                    currencyPairService.getLastHistoryPoint(orderOpeningClosingDto.getCurrencyPair()),
-                    LocalDateTime.now(),
-                    null,
-                    null,
-                    null,
-                    retrievedTradingAccount.get()));
-            return true;
-        } else { //account not found
-            return false;
+             orderOpeningEvaluator.evaluate(orderOpeningDto, retrievedTradingAccount.get());
+        } else {
+            //account is not available
         }
+
+
     }
 }

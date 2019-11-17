@@ -2,24 +2,26 @@ package com.finance.data.domain.currency.dto;
 
 import com.finance.data.domain.currency.LongShort;
 
-public class OrderOpeningClosingDto {
+public class OrderOpeningDto {
     private Long userTradingAccountId;
     private LongShort longShort;
     private double lot;
     private double takeProfit;
     private double stopLoss;
-    private String currencyPair;
+    private String baseCurrency;
+    private String currency;
 
-    public OrderOpeningClosingDto() {
+    public OrderOpeningDto() {
     }
 
-    public OrderOpeningClosingDto(Long userTradingAccountId, LongShort longShort, double lot, double takeProfit, double stopLoss, String currencyPair) {
+    public OrderOpeningDto(Long userTradingAccountId, LongShort longShort, double lot, double takeProfit, double stopLoss, String baseCurrency, String currency) {
         this.userTradingAccountId = userTradingAccountId;
         this.longShort = longShort;
         this.lot = lot;
         this.takeProfit = takeProfit;
         this.stopLoss = stopLoss;
-        this.currencyPair = currencyPair;
+        this.baseCurrency = baseCurrency;
+        this.currency = currency;
     }
 
     public Long getUserTradingAccountId() {
@@ -42,7 +44,11 @@ public class OrderOpeningClosingDto {
         return stopLoss;
     }
 
-    public String getCurrencyPair() {
-        return currencyPair;
+    public String getBaseCurrency() {
+        return baseCurrency;
+    }
+
+    public String getCurrency() {
+        return currency;
     }
 }
