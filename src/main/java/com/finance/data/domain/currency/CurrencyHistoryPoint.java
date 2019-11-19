@@ -21,19 +21,17 @@ public class CurrencyHistoryPoint {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "CURRENCY_ID")
     private Currency currency;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Order order;
 
     public CurrencyHistoryPoint() {
     }
 
-    public CurrencyHistoryPoint(LocalDateTime timeStamp, Double value) {
-        this.timeStamp = timeStamp;
-        this.value = value;
-    }
-
-    public CurrencyHistoryPoint(LocalDateTime timeStamp, Double value, Currency currency) {
+    public CurrencyHistoryPoint(LocalDateTime timeStamp, Double value, Currency currency, Order order) {
         this.timeStamp = timeStamp;
         this.value = value;
         this.currency = currency;
+        this.order = order;
     }
 
     public Long getPointId() {
@@ -50,5 +48,9 @@ public class CurrencyHistoryPoint {
 
     public Currency getCurrency() {
         return currency;
+    }
+
+    public Order getOrder() {
+        return order;
     }
 }

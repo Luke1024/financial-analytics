@@ -1,13 +1,12 @@
 package com.finance.data.domain.currency;
 
-import com.finance.data.domain.accounts.UserTradingAccount;
+import com.finance.data.domain.accounts.UserTradingAccountHistoryPoint;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "ORDERS")
 public class Order {
     @Id
     @GeneratedValue
@@ -18,22 +17,24 @@ public class Order {
     private String currency;
     private double stopLoss;
     private double takeProfit;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private CurrencyHistoryPoint currencyHistoryPointOpen;
     private LocalDateTime orderOpened;
     private double orderOpeningPrice;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private CurrencyHistoryPoint currencyHistoryPointClose;
     private LocalDateTime orderClosed;
     private double orderClosingPrice;
     private double orderBalance;
-    private UserTradingAccount userTradingAccount;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private UserTradingAccountHistoryPoint userTradingAccountHistoryPoint;
 
-    public Order() {
-    }
+    public Order() {}
 
-    public Order(LongShort longShort, double lot, String baseCurrency, String currency, double stopLoss, double takeProfit,
-                 CurrencyHistoryPoint currencyHistoryPointOpen, LocalDateTime orderOpened, double orderOpeningPrice,
-                 CurrencyHistoryPoint currencyHistoryPointClose, LocalDateTime orderClosed, double orderClosingPrice,
-                 double orderBalance, UserTradingAccount userTradingAccount) {
+    public Order(LongShort longShort, double lot, String baseCurrency, String currency, double stopLoss,
+                 double takeProfit, CurrencyHistoryPoint currencyHistoryPointOpen, LocalDateTime orderOpened,
+                 double orderOpeningPrice, CurrencyHistoryPoint currencyHistoryPointClose, LocalDateTime orderClosed,
+                 double orderClosingPrice, double orderBalance, UserTradingAccountHistoryPoint userTradingAccountHistoryPoint) {
         this.longShort = longShort;
         this.lot = lot;
         this.baseCurrency = baseCurrency;
@@ -47,7 +48,7 @@ public class Order {
         this.orderClosed = orderClosed;
         this.orderClosingPrice = orderClosingPrice;
         this.orderBalance = orderBalance;
-        this.userTradingAccount = userTradingAccount;
+        this.userTradingAccountHistoryPoint = userTradingAccountHistoryPoint;
     }
 
     public Long getOrderId() {
@@ -106,7 +107,7 @@ public class Order {
         return orderBalance;
     }
 
-    public UserTradingAccount getUserTradingAccount() {
-        return userTradingAccount;
+    public UserTradingAccountHistoryPoint getUserTradingAccountHistoryPoint() {
+        return userTradingAccountHistoryPoint;
     }
 }

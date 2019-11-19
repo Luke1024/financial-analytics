@@ -1,8 +1,6 @@
 package com.finance.data.domain.accounts;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class PersonalData {
@@ -17,6 +15,7 @@ public class PersonalData {
     private String street;
     private String homeNumber;
     private String phoneNumber;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private User user;
 
     public PersonalData() {

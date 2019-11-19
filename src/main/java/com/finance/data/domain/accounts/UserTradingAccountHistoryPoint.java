@@ -1,8 +1,8 @@
 package com.finance.data.domain.accounts;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import com.finance.data.domain.currency.Order;
+
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -15,45 +15,25 @@ public class UserTradingAccountHistoryPoint {
     private double moneyAmountBeforeChange;
     private double moneyAmountAfterChange;
     private LocalDateTime localDateTime;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "USER_TRADING_ACCOUNT_ID"
+    )
     private UserTradingAccount userTradingAccount;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Order order;
 
     public UserTradingAccountHistoryPoint() {
     }
 
-    public UserTradingAccountHistoryPoint(OperationType operationType, double accountChange, double moneyAmountBeforeChange, double moneyAmountAfterChange, LocalDateTime localDateTime, UserTradingAccount userTradingAccount) {
+    public UserTradingAccountHistoryPoint(OperationType operationType, double accountChange,
+                                          double moneyAmountBeforeChange, double moneyAmountAfterChange,
+                                          LocalDateTime localDateTime, UserTradingAccount userTradingAccount, Order order) {
         this.operationType = operationType;
         this.accountChange = accountChange;
         this.moneyAmountBeforeChange = moneyAmountBeforeChange;
         this.moneyAmountAfterChange = moneyAmountAfterChange;
         this.localDateTime = localDateTime;
         this.userTradingAccount = userTradingAccount;
-    }
-
-    public Long getPointId() {
-        return pointId;
-    }
-
-    public OperationType getOperationType() {
-        return operationType;
-    }
-
-    public double getAccountChange() {
-        return accountChange;
-    }
-
-    public double getMoneyAmountBeforeChange() {
-        return moneyAmountBeforeChange;
-    }
-
-    public double getMoneyAmountAfterChange() {
-        return moneyAmountAfterChange;
-    }
-
-    public LocalDateTime getLocalDateTime() {
-        return localDateTime;
-    }
-
-    public UserTradingAccount getUserTradingAccount() {
-        return userTradingAccount;
+        this.order = order;
     }
 }

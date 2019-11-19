@@ -11,11 +11,11 @@ import java.util.ArrayList;
 @Component
 public class UserMapper {
 
-    public User mapToUser(UserRegistrationDto userRegistrationDto) {
-        return new User(new PersonalData(),
-                userRegistrationDto.getPassword(),
-                userRegistrationDto.getEmail(),
-                new ArrayList<>(),
-                UserStatus.LOGGED_OUT);
-    }
+    //public User mapToUser(UserRegistrationDto userRegistrationDto) {
+        //return new User(new PersonalData(),
+          //      userRegistrationDto.getPassword(),
+            //    userRegistrationDto.getEmail(),
+              //  new ArrayList<>(),
+                //UserStatus.LOGGED_OUT);
+    //}
 }

@@ -86,8 +86,8 @@ public class CurrencyPairService {
 
         if(currencyHistory.size() == baseCurrencyHistory.size() && start.equals(baseStart)){
             for(int i=0; i<baseCurrencyHistory.size(); i++){
-                double computedValue = 1D/(baseCurrencyHistory.get(i).getValue()/currencyHistory.get(i).getValue());
-                historyComputed.add(new CurrencyHistoryPoint(baseCurrencyHistory.get(i).getTimeStamp(), computedValue));
+                //double computedValue = 1D/(baseCurrencyHistory.get(i).getValue()/currencyHistory.get(i).getValue());
+                //historyComputed.add(new CurrencyHistoryPoint(baseCurrencyHistory.get(i).getTimeStamp(), computedValue, new Order()));
             }
         } else {
             //implement histories synchronization

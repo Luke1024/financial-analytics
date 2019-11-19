@@ -1,13 +1,9 @@
 package com.finance.data.controller.accounts;
 
-import com.finance.data.domain.accounts.dto.LoginDto;
-import com.finance.data.domain.accounts.dto.UserRegistrationDto;
 import com.finance.data.service.account.UserMapper;
 import com.finance.data.service.account.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @CrossOrigin("*")
 @RestController

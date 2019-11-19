@@ -2,6 +2,7 @@ package com.finance.data.service.currency;
 
 import com.finance.data.domain.currency.Currency;
 import com.finance.data.domain.currency.CurrencyHistoryPoint;
+import com.finance.data.domain.currency.Order;
 import com.finance.data.mapper.currency.currency.CurrencyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -62,6 +63,6 @@ public class CurrencyService {
     }
 
     private CurrencyHistoryPoint getCurrencyHistoryPoint(LocalDateTime currentTime, String value, Currency currency){
-        return new CurrencyHistoryPoint(currentTime, Double.parseDouble(value), currency);
+        return new CurrencyHistoryPoint(currentTime, Double.parseDouble(value), currency, new Order());
     }
 }
