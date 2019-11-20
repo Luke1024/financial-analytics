@@ -32,7 +32,7 @@ public class PersonalDataService {
         }
     }
 
-    public void createPersonalData(PersonalDataDto personalDataDto) {
+    public void createUpdatePersonalData(PersonalDataDto personalDataDto) {
         Optional<User> retrievedUser = userRepository.findById(personalDataDto.getUserId());
         if(retrievedUser.isPresent()){
             User user = retrievedUser.get();

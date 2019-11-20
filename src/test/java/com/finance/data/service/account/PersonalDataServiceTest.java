@@ -61,7 +61,7 @@ public class PersonalDataServiceTest {
                 "voivodeship", "city", "postalCode", "street",
                 "homeNumber", "phoneNumber", user);
 
-        personalDataService.createPersonalData(personalDataDto);
+        personalDataService.createUpdatePersonalData(personalDataDto);
 
         PersonalData retrievedPersonalData = personalDataService.getPersonalDataByUserId(user.getId());
 

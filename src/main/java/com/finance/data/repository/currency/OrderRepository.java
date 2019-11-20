@@ -1,4 +1,4 @@
-package com.finance.data.mapper.currency.currency;
+package com.finance.data.repository.currency;
 
 import com.finance.data.domain.currency.Order;
 import org.springframework.data.repository.CrudRepository;

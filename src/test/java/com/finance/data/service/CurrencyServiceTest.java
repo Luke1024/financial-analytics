@@ -2,7 +2,7 @@ package com.finance.data.service;
 
 import com.finance.data.domain.currency.Currency;
 import com.finance.data.domain.currency.CurrencyHistoryPoint;
-import com.finance.data.mapper.currency.currency.CurrencyRepository;
+import com.finance.data.repository.currency.CurrencyRepository;
 import com.finance.data.service.currency.CurrencyService;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;

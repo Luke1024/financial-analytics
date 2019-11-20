@@ -4,6 +4,12 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@NamedNativeQuery(
+        name = "User.findUserByEmail",
+        query = "SELECT * FROM user WHERE email = :EMAIL",
+        resultClass = User.class
+)
+
 @Entity
 public class User {
     @Id
@@ -19,18 +25,18 @@ public class User {
             fetch = FetchType.LAZY
     )
     private List<UserTradingAccount> userTradingAccounts;
-    private UserStatus userStatus;
+    private boolean userLoggedIn;
     private LocalDateTime registrationDate;
 
     public User() {}
 
     public User(String password, String email, List<UserTradingAccount> userTradingAccounts,
-                UserStatus userStatus, LocalDateTime registrationDate) {
+                boolean userLoggedIn, LocalDateTime registrationDate) {
         this.personalData = personalData;
         this.password = password;
         this.email = email;
         this.userTradingAccounts = userTradingAccounts;
-        this.userStatus = userStatus;
+        this.userLoggedIn = userLoggedIn;
         this.registrationDate = registrationDate;
     }
 
@@ -62,11 +68,15 @@ public class User {
         return userTradingAccounts;
     }
 
-    public UserStatus getUserStatus() {
-        return userStatus;
+    public boolean getUserLoggedIn() {
+        return userLoggedIn;
     }
 
     public LocalDateTime getRegistrationDate() {
         return registrationDate;
+    }
+
+    public void setUserLoggedIn(boolean userLoggedIn) {
+        this.userLoggedIn = userLoggedIn;
     }
 }

@@ -1,6 +1,7 @@
 package com.finance.data.service.account;
 
 import com.finance.data.domain.accounts.User;
+import com.finance.data.domain.accounts.UserStatus;
 import com.finance.data.domain.accounts.dto.LoginDto;
 import com.finance.data.repository.accounts.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,6 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    /*
     public boolean saveUser(User user){
         Optional<User> retrievedUser = userRepository.findUserByEmail(user.getEmail());
         if(retrievedUser.isPresent()){
@@ -27,17 +27,28 @@ public class UserService {
     public boolean loginUser(LoginDto loginDto) {
         Optional<User> retrievedUser = userRepository.findUserByEmail(loginDto.getEmail());
         if(retrievedUser.isPresent()){
-            if(retrievedUser.get().getPassword()==loginDto.getPassword()){
+            if(retrievedUser.get().getPassword().equals(loginDto.getPassword())){
+
+                retrievedUser.get().setUserLoggedIn(true);
+                userRepository.save(retrievedUser.get());
                 return true;
-            } else return false;
-        } else return false;
+            } else {
+                System.out.println("password incorrect");
+                System.out.println(retrievedUser.get().getPassword());
+                return false;
+            }
+        } else {
+            System.out.println("user not found");
+            return false;
+        }
     }
 
     public boolean logOutUser(Long userId) {
         Optional<User> retrievedUser = userRepository.findById(userId);
         if(retrievedUser.isPresent()){
+            retrievedUser.get().setUserLoggedIn(false);
+            userRepository.save(retrievedUser.get());
             return true;
         } else return false;
     }
-    */
 }

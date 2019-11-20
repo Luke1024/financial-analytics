@@ -24,13 +24,7 @@ public class PersonalDataController {
     }
 
     @PostMapping(value = "/personalData", consumes = APPLICATION_JSON_VALUE)
-    public void createPersonalData(PersonalDataDto personalDataDto) {
-        personalDataService.createPersonalData(personalDataDto);
+    public void createUpdatePersonalData(PersonalDataDto personalDataDto) {
+        personalDataService.createUpdatePersonalData(personalDataDto);
     }
-/*
-    @PutMapping(value = "/personalData", consumes = APPLICATION_JSON_VALUE)
-    public void updatePersonalData(PersonalDataDto personalDataDto){
-        personalDataService.updatePersonalData(personalDataDto);
-    }
-    */
 }

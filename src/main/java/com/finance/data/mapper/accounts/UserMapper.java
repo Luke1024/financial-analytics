@@ -1,4 +1,4 @@
-package com.finance.data.service.account;
+package com.finance.data.mapper.accounts;
 
 import com.finance.data.domain.accounts.PersonalData;
 import com.finance.data.domain.accounts.User;
