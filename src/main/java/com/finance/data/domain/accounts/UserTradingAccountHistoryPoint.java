@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 @Entity
 public class UserTradingAccountHistoryPoint {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long pointId;
     private OperationType operationType;
     private double accountChange;

@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Table(name = "ORDERS")
 public class Order {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long orderId;
     private LongShort longShort;
     private double lot;

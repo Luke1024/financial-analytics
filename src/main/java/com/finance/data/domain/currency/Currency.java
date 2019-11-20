@@ -12,7 +12,7 @@ import java.util.List;
 @Entity
 public class Currency {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String currencyName;
     private String base;

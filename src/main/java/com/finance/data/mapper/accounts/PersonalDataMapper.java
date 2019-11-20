@@ -19,7 +19,6 @@ public class PersonalDataMapper {
                 personalData.getHomeNumber(),
                 personalData.getId());
     }
-
     public PersonalData mapToPersonalData(PersonalDataDto personalDataDto, User user) {
         return new PersonalData(personalDataDto.getFirstName(),
                     personalDataDto.getLastName(),

@@ -42,7 +42,7 @@ public class PersonalDataControllerTest {
                 "voivodeship", "city", "postalCode", "street",
                 "homeNumber", "phoneNumber", new User());
 
-        when(personalDataService.getPersonalData(ArgumentMatchers.anyLong())).thenReturn(personalData);
+        when(personalDataService.getPersonalDataByUserId(ArgumentMatchers.anyLong())).thenReturn(personalData);
         when(personalDataMapper.mapToPersonalDataDto(ArgumentMatchers.any(PersonalData.class))).thenReturn(personalDataDto);
 
         mockMvc.perform(get("/finance/personalData/1")

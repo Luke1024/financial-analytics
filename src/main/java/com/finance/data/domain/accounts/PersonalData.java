@@ -5,7 +5,7 @@ import javax.persistence.*;
 @Entity
 public class PersonalData {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String firstName;
     private String lastName;
@@ -48,7 +48,9 @@ public class PersonalData {
         this.user = user;
     }
 
-
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public Long getId() {
         return id;

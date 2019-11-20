@@ -6,5 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PersonalDataRepository extends CrudRepository<PersonalData, Long> {
-
+    @Override
+    <S extends PersonalData> S save(S entity);
 }

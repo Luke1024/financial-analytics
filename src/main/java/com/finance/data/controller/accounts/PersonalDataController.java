@@ -20,16 +20,17 @@ public class PersonalDataController {
 
     @GetMapping(value = "/personalData/{userId}")
     public PersonalDataDto getUserPersonalData(@PathVariable Long userId) {
-        return personalDataMapper.mapToPersonalDataDto(personalDataService.getPersonalData(userId));
+        return personalDataMapper.mapToPersonalDataDto(personalDataService.getPersonalDataByUserId(userId));
     }
 
     @PostMapping(value = "/personalData", consumes = APPLICATION_JSON_VALUE)
     public void createPersonalData(PersonalDataDto personalDataDto) {
         personalDataService.createPersonalData(personalDataDto);
     }
-
+/*
     @PutMapping(value = "/personalData", consumes = APPLICATION_JSON_VALUE)
     public void updatePersonalData(PersonalDataDto personalDataDto){
         personalDataService.updatePersonalData(personalDataDto);
     }
+    */
 }

@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Entity
 public class CurrencyHistoryPoint {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long pointId;
     private LocalDateTime timeStamp;
     private Double value;

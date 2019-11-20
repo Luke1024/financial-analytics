@@ -22,11 +22,12 @@ public class PersonalDataService {
     @Autowired
     private PersonalDataMapper personalDataMapper;
 
-    public PersonalData getPersonalData(Long userId){
+    public PersonalData getPersonalDataByUserId(Long userId){
         Optional<User> retrievedUser = userRepository.findById(userId);
         if(retrievedUser.isPresent()) {
             return retrievedUser.get().getPersonalData();
         } else {
+            System.out.println("returning empty personalData");
             return new PersonalData();
         }
     }
@@ -34,16 +35,12 @@ public class PersonalDataService {
     public void createPersonalData(PersonalDataDto personalDataDto) {
         Optional<User> retrievedUser = userRepository.findById(personalDataDto.getUserId());
         if(retrievedUser.isPresent()){
-            personalDataRepository.save(personalDataMapper.mapToPersonalData(personalDataDto, retrievedUser.get()));
-        } else {}
-    }
-
-    public void updatePersonalData(PersonalDataDto personalDataDto) {
-        Optional<User> retrievedUser = userRepository.findById(personalDataDto.getUserId());
-        if(retrievedUser.isPresent()) {
-            Long retrievedPersonalDataId = retrievedUser.get().getPersonalData().getId();
-            personalDataRepository.save(personalDataMapper.mapToPersonalDataWithId(
-                    retrievedPersonalDataId, personalDataDto, retrievedUser.get()));
-        } else {}
+            User user = retrievedUser.get();
+            PersonalData personalData = personalDataMapper.mapToPersonalData(personalDataDto, user);
+            user.setPersonalData(personalData);
+            userRepository.save(retrievedUser.get());
+        } else {
+            System.out.println("user not found");
+        }
     }
 }

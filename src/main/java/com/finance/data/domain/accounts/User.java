@@ -7,7 +7,7 @@ import java.util.List;
 @Entity
 public class User {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private PersonalData personalData;
@@ -24,7 +24,7 @@ public class User {
 
     public User() {}
 
-    public User(PersonalData personalData, String password, String email, List<UserTradingAccount> userTradingAccounts,
+    public User(String password, String email, List<UserTradingAccount> userTradingAccounts,
                 UserStatus userStatus, LocalDateTime registrationDate) {
         this.personalData = personalData;
         this.password = password;
@@ -32,6 +32,14 @@ public class User {
         this.userTradingAccounts = userTradingAccounts;
         this.userStatus = userStatus;
         this.registrationDate = registrationDate;
+    }
+
+    public User(Long id) {
+        this.id = id;
+    }
+
+    public void setPersonalData(PersonalData personalData) {
+        this.personalData = personalData;
     }
 
     public Long getId() {
