@@ -6,6 +6,7 @@ import com.finance.data.mapper.accounts.UserMapper;
 import com.finance.data.service.account.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import sun.rmi.runtime.Log;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -18,12 +19,12 @@ public class UserController {
 
     @Autowired
     private UserMapper userMapper;
-/*
+
     @PostMapping(value = "/users", consumes = APPLICATION_JSON_VALUE)
     public boolean registerUser(@RequestBody UserRegistrationDto userRegistrationDto){
         return userService.saveUser(userMapper.mapToUser(userRegistrationDto));
     }
-*/
+
     @PostMapping(value = "/users/login", consumes = APPLICATION_JSON_VALUE)
     public boolean loginUser(@RequestBody LoginDto loginDto){
         return userService.loginUser(loginDto);
@@ -35,7 +36,7 @@ public class UserController {
     }
 
     @PutMapping(value = "/users/password", consumes = APPLICATION_JSON_VALUE)
-    public void changeUserPassword(@RequestBody LoginDto loginDto) {
-
+    public boolean changeUserPassword(@RequestBody LoginDto loginDto) {
+        return userService.changeUserPassword(loginDto);
     }
 }

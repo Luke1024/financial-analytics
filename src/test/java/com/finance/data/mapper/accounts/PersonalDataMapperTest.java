@@ -42,6 +42,6 @@ class PersonalDataMapperTest {
                 "voivodeship", "city", "postalCode", "street",
                 "homeNumber", "phoneNumber", 1L);
 
-        assertThat(personalData, sameBeanAs(personalDataMapper.mapToPersonalData(personalDataDto, user)));
+        assertThat(personalData, sameBeanAs(personalDataMapper.mapToPersonalDataWithUser(personalDataDto, user)));
     }
 }

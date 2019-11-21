@@ -1,5 +1,6 @@
 package com.finance.data.service.account;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.finance.data.domain.accounts.User;
 import com.finance.data.domain.accounts.UserStatus;
 import com.finance.data.domain.accounts.dto.LoginDto;
@@ -70,6 +71,20 @@ class UserServiceTest {
         userService.logOutUser(user.getId());
 
         Assert.assertFalse(userRepository.findById(user.getId()).get().getUserLoggedIn());
+
+        userRepository.deleteById(user.getId());
+    }
+
+    @Test
+    void changeUserPassword() {
+        User user = new User("password4", "email3", null, false, null);
+        userRepository.save(user);
+
+        Assert.assertTrue(userRepository.findById(user.getId()).isPresent());
+
+        Assert.assertTrue(userService.changeUserPassword(new LoginDto("email3", "password2")));
+
+        Assert.assertEquals("password2", userRepository.findById(user.getId()).get().getPassword());
 
         userRepository.deleteById(user.getId());
     }

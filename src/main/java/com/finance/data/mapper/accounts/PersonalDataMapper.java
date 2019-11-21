@@ -19,7 +19,7 @@ public class PersonalDataMapper {
                 personalData.getPhoneNumber(),
                 personalData.getUser().getId());
     }
-    public PersonalData mapToPersonalData(PersonalDataDto personalDataDto, User user) {
+    public PersonalData mapToPersonalDataWithUser(PersonalDataDto personalDataDto, User user) {
         return new PersonalData(personalDataDto.getFirstName(),
                     personalDataDto.getLastName(),
                     personalDataDto.getVoivodeship(),
@@ -29,5 +29,17 @@ public class PersonalDataMapper {
                     personalDataDto.getHomeNumber(),
                     personalDataDto.getPhoneNumber(),
                     user);
+    }
+
+    public PersonalData mapToPersonalData(PersonalDataDto personalDataDto) {
+        return new PersonalData(personalDataDto.getFirstName(),
+                personalDataDto.getLastName(),
+                personalDataDto.getVoivodeship(),
+                personalDataDto.getCity(),
+                personalDataDto.getPostalCode(),
+                personalDataDto.getStreet(),
+                personalDataDto.getHomeNumber(),
+                personalDataDto.getPhoneNumber(),
+                null);
     }
 }

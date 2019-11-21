@@ -32,6 +32,15 @@ public class User {
 
     public User(String password, String email, List<UserTradingAccount> userTradingAccounts,
                 boolean userLoggedIn, LocalDateTime registrationDate) {
+        this.password = password;
+        this.email = email;
+        this.userTradingAccounts = userTradingAccounts;
+        this.userLoggedIn = userLoggedIn;
+        this.registrationDate = registrationDate;
+    }
+
+    public User(PersonalData personalData, String password, String email, List<UserTradingAccount> userTradingAccounts,
+                boolean userLoggedIn, LocalDateTime registrationDate) {
         this.personalData = personalData;
         this.password = password;
         this.email = email;
@@ -58,6 +67,10 @@ public class User {
 
     public String getPassword() {
         return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getEmail() {

@@ -36,7 +36,7 @@ public class PersonalDataService {
         Optional<User> retrievedUser = userRepository.findById(personalDataDto.getUserId());
         if(retrievedUser.isPresent()){
             User user = retrievedUser.get();
-            PersonalData personalData = personalDataMapper.mapToPersonalData(personalDataDto, user);
+            PersonalData personalData = personalDataMapper.mapToPersonalDataWithUser(personalDataDto, user);
             user.setPersonalData(personalData);
             userRepository.save(retrievedUser.get());
         } else {
