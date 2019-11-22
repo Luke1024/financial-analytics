@@ -11,6 +11,9 @@ public class PersonalDataDto {
     private String phoneNumber;
     private Long userId;
 
+    public PersonalDataDto() {
+    }
+
     public PersonalDataDto(String firstName, String lastName, String voivodeship, String city, String postalCode, String street, String homeNumber, String phoneNumber, Long userId) {
         this.firstName = firstName;
         this.lastName = lastName;
