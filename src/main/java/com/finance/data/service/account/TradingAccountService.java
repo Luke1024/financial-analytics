@@ -1,13 +1,13 @@
 package com.finance.data.service.account;
 
+import com.finance.data.domain.accounts.User;
 import com.finance.data.domain.accounts.UserTradingAccount;
-import com.finance.data.domain.accounts.dto.TradingAccountCreationDto;
-import com.finance.data.mapper.accounts.TradingAccountMapper;
 import com.finance.data.repository.accounts.TradingAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TradingAccountService {
@@ -15,13 +15,20 @@ public class TradingAccountService {
     private TradingAccountRepository tradingAccountRepository;
 
     @Autowired
-    private TradingAccountMapper tradingAccountMapper;
+    private UserService userService;
 
-    //public List<UserTradingAccount> getUserTradingAccounts(Long userId) {
-      //  return tradingAccountRepository.findTradingAccountByUser(userId);
-    //}
+    public List<UserTradingAccount> getUserTradingAccounts(Long userId) {
+        return tradingAccountRepository.findTradingAccountByUserId(userId);
+    }
 
-    //public void createTradingAccount(TradingAccountCreationDto tradingAccountCreationDto) {
-      //  tradingAccountRepository.save(tradingAccountMapper.mapToNewTradingAccount(tradingAccountCreationDto));
-    //}
+    public void createTradingAccount(UserTradingAccount userTradingAccount) {
+        User retrievedUser = userService.getUserById(userTradingAccount.getUser().getId());
+        if(retrievedUser != null){
+            tradingAccountRepository.save(userTradingAccount);
+        } else {
+            System.out.println("User not found");
+        }
+    }
+
+    public void updateTradingAccount()
 }

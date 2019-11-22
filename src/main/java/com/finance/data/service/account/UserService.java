@@ -14,6 +14,16 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    public User getUserById(Long userId){
+        Optional<User> retrievedUser = userRepository.findById(userId);
+        if(retrievedUser.isPresent()){
+            return retrievedUser.get();
+        } else {
+            System.out.println("user not found");
+            return new User();
+        }
+    }
+
     public boolean saveUser(User user){
         Optional<User> retrievedUser = userRepository.findUserByEmail(user.getEmail());
         if(retrievedUser.isPresent()){

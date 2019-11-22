@@ -1,7 +1,8 @@
 package com.finance.data.domain.accounts.dto;
 
+import com.finance.data.domain.accounts.AccountType;
+
 public class TradingAccountCreationDto {
-    /*
     private Long userId;
     private AccountType accountType;
 
@@ -17,5 +18,4 @@ public class TradingAccountCreationDto {
     public AccountType getAccountType() {
         return accountType;
     }
-    */
 }

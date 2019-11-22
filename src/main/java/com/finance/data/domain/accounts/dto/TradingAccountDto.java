@@ -6,9 +6,12 @@ import java.util.List;
 
 public class TradingAccountDto {
     private double amount;
-    private List<UserTradingAccountHistoryPoint> points;
+    private List<UserTradingAccountHistoryPointDto> points;
 
-    public TradingAccountDto(double amount, List<UserTradingAccountHistoryPoint> points) {
+    public TradingAccountDto() {
+    }
+
+    public TradingAccountDto(double amount, List<UserTradingAccountHistoryPointDto> points) {
         this.amount = amount;
         this.points = points;
     }
@@ -17,7 +20,7 @@ public class TradingAccountDto {
         return amount;
     }
 
-    public List<UserTradingAccountHistoryPoint> getPoints() {
+    public List<UserTradingAccountHistoryPointDto> getPoints() {
         return points;
     }
 }

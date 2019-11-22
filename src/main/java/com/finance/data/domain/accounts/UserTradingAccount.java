@@ -4,6 +4,12 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+//@NamedNativeQuery(
+  //      name = "UserTradingAccount.findTradingAccountByUserId",
+    //    query = "SELECT * FROM user_trading_account WHERE id =: ID",
+      //  resultClass = UserTradingAccount.class
+//)
+
 @Entity
 public class UserTradingAccount {
     @Id
@@ -32,5 +38,29 @@ public class UserTradingAccount {
         this.leverage = leverage;
         this.openingTime = openingTime;
         this.points = points;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public int getLeverage() {
+        return leverage;
+    }
+
+    public LocalDateTime getOpeningTime() {
+        return openingTime;
+    }
+
+    public List<UserTradingAccountHistoryPoint> getPoints() {
+        return points;
     }
 }

@@ -11,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static com.shazam.shazamcrest.matcher.Matchers.sameBeanAs;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 //@Transactional
@@ -20,6 +23,23 @@ class UserServiceTest {
 
     @Autowired
     private UserService userService;
+
+    @Test
+    void getUserById() {
+        User user = new User("password", "email", null, false, null);
+
+        userService.saveUser(user);
+        if(user.getId() == null) {
+            user = userService.retrieveUserByEmail(user.getEmail());
+        }
+
+        assertThat(user, sameBeanAs(userService.getUserById(user.getId()));
+
+        if(user.getId() != null) {
+            userRepository.deleteById(user.getId());
+        }
+    }
+
 
     @Test
     void saveUserWithNonRepeatedEmail() {
@@ -32,7 +52,10 @@ class UserServiceTest {
 
         Assert.assertTrue(userRepository.findById(user.getId()).isPresent());
 
-        userRepository.deleteById(user.getId());
+
+        if(user.getId() != null) {
+            userRepository.deleteById(user.getId());
+        }
     }
 
     @Test
