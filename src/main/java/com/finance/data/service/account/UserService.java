@@ -2,6 +2,7 @@ package com.finance.data.service.account;
 
 import com.finance.data.domain.accounts.User;
 import com.finance.data.domain.accounts.dto.LoginDto;
+import com.finance.data.domain.accounts.dto.PasswordChangerDto;
 import com.finance.data.repository.accounts.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,17 +24,25 @@ public class UserService {
         }
     }
 
+    public User retrieveUserByEmail(String email){
+        Optional<User> userRetrieved = userRepository.findUserByEmail(email);
+        if(userRetrieved.isPresent()){
+            return userRetrieved.get();
+        } else {
+            System.out.println("User not found");
+            return new User();
+        }
+    }
+
     public boolean loginUser(LoginDto loginDto) {
         Optional<User> retrievedUser = userRepository.findUserByEmail(loginDto.getEmail());
         if(retrievedUser.isPresent()){
             if(retrievedUser.get().getPassword().equals(loginDto.getPassword())){
-
                 retrievedUser.get().setUserLoggedIn(true);
                 userRepository.save(retrievedUser.get());
                 return true;
             } else {
                 System.out.println("password incorrect");
-                System.out.println(retrievedUser.get().getPassword());
                 return false;
             }
         } else {
@@ -51,11 +60,11 @@ public class UserService {
         } else return false;
     }
 
-    public boolean changeUserPassword(LoginDto loginDto) {
-        Optional<User> retrievedUser = userRepository.findUserByEmail(loginDto.getEmail());
+    public boolean changeUserPassword(PasswordChangerDto passwordChangerDto) {
+        Optional<User> retrievedUser = userRepository.findUserByEmail(passwordChangerDto.getEmail());
         if(retrievedUser.isPresent()){
-            if(retrievedUser.get().getPassword().equals(loginDto.getPassword())){
-                retrievedUser.get().setPassword(loginDto.getPassword());
+            if(retrievedUser.get().getPassword().equals(passwordChangerDto.getPassword())){
+                retrievedUser.get().setPassword(passwordChangerDto.getNewPassword());
                 userRepository.save(retrievedUser.get());
                 return true;
             } else {

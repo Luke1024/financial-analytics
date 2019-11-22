@@ -1,9 +1,8 @@
 package com.finance.data.service.account;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.finance.data.domain.accounts.User;
-import com.finance.data.domain.accounts.UserStatus;
 import com.finance.data.domain.accounts.dto.LoginDto;
+import com.finance.data.domain.accounts.dto.PasswordChangerDto;
 import com.finance.data.repository.accounts.UserRepository;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
@@ -25,7 +24,11 @@ class UserServiceTest {
     @Test
     void saveUserWithNonRepeatedEmail() {
         User user = new User("password", "email", null, false, null);
+
         userService.saveUser(user);
+        if(user.getId() == null) {
+            user = userService.retrieveUserByEmail(user.getEmail());
+        }
 
         Assert.assertTrue(userRepository.findById(user.getId()).isPresent());
 
@@ -36,6 +39,9 @@ class UserServiceTest {
     void saveUserWithRepeatedEmail() {
         User user = new User("password", "email", null, false, null);
         userService.saveUser(user);
+        if(user.getId() == null) {
+            user = userService.retrieveUserByEmail(user.getEmail());
+        }
 
         Assert.assertFalse(userService.saveUser(user));
 
@@ -50,7 +56,11 @@ class UserServiceTest {
 
         User user = new User("password23", "email26", null, false, null);
 
-        userRepository.save(user);
+        userService.saveUser(user);
+        if(user.getId() == null) {
+            user = userService.retrieveUserByEmail(user.getEmail());
+        }
+
         Assert.assertTrue(userService.loginUser(loginDto));
         Assert.assertEquals(true, userRepository.findById(user.getId()).get().getUserLoggedIn());
 
@@ -64,7 +74,11 @@ class UserServiceTest {
 
         User user = new User("password23", "email26", null, false, null);
 
-        userRepository.save(user);
+        userService.saveUser(user);
+        if(user.getId() == null) {
+            user = userService.retrieveUserByEmail(user.getEmail());
+        }
+
         Assert.assertTrue(userService.loginUser(loginDto));
         Assert.assertEquals(true, userRepository.findById(user.getId()).get().getUserLoggedIn());
 
@@ -77,12 +91,19 @@ class UserServiceTest {
 
     @Test
     void changeUserPassword() {
-        User user = new User("password4", "email3", null, false, null);
-        userRepository.save(user);
+        User user = new User("password4", "email3",
+                null, false, null);
+        userService.saveUser(user);
+        if(user.getId() == null) {
+            user = userService.retrieveUserByEmail(user.getEmail());
+        }
 
         Assert.assertTrue(userRepository.findById(user.getId()).isPresent());
 
-        Assert.assertTrue(userService.changeUserPassword(new LoginDto("email3", "password2")));
+        PasswordChangerDto passwordChangerDto =
+                new PasswordChangerDto("email3", "password4", "password2");
+
+        Assert.assertTrue(userService.changeUserPassword(passwordChangerDto));
 
         Assert.assertEquals("password2", userRepository.findById(user.getId()).get().getPassword());
 

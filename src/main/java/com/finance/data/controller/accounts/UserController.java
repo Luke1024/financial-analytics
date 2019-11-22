@@ -1,12 +1,12 @@
 package com.finance.data.controller.accounts;
 
 import com.finance.data.domain.accounts.dto.LoginDto;
+import com.finance.data.domain.accounts.dto.PasswordChangerDto;
 import com.finance.data.domain.accounts.dto.UserRegistrationDto;
 import com.finance.data.mapper.accounts.UserMapper;
 import com.finance.data.service.account.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import sun.rmi.runtime.Log;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -21,7 +21,7 @@ public class UserController {
     private UserMapper userMapper;
 
     @PostMapping(value = "/users", consumes = APPLICATION_JSON_VALUE)
-    public boolean registerUser(@RequestBody UserRegistrationDto userRegistrationDto){
+    public boolean registerUser(@RequestBody UserRegistrationDto userRegistrationDto) {
         return userService.saveUser(userMapper.mapToUser(userRegistrationDto));
     }
 
@@ -36,7 +36,7 @@ public class UserController {
     }
 
     @PutMapping(value = "/users/password", consumes = APPLICATION_JSON_VALUE)
-    public boolean changeUserPassword(@RequestBody LoginDto loginDto) {
-        return userService.changeUserPassword(loginDto);
+    public boolean changeUserPassword(@RequestBody PasswordChangerDto passwordChangerDto) {
+        return userService.changeUserPassword(passwordChangerDto);
     }
 }
