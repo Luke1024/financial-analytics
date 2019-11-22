@@ -5,6 +5,9 @@ public class UserRegistrationDto {
     private String password;
     private String email;
 
+    public UserRegistrationDto() {
+    }
+
     public UserRegistrationDto(PersonalDataDto personalDataDto, String password, String email) {
         this.personalDataDto = personalDataDto;
         this.password = password;
