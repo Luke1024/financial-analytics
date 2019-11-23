@@ -30,9 +30,4 @@ public class UserTradingAccountController {
     public void createUserTradingAccount(@RequestBody TradingAccountCreationDto tradingAccountCreationDto) {
         tradingAccountService.createTradingAccount(tradingAccountMapper.mapToNewTradingAccount(tradingAccountCreationDto));
     }
-
-    @PutMapping(value = "/tradingAccount", consumes = APPLICATION_JSON_VALUE)
-    public void updateTradingAccount(@RequestBody TradingAccountUpdaterDto tradingAccountUpdaterDto) {
-        tradingAccountService.updateTradingAccount(tradingAccountUpdaterDto);
-    }
 }

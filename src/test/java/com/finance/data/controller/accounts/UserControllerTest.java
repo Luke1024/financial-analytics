@@ -47,7 +47,7 @@ class UserControllerTest {
         User user = new User();
 
         when(userMapper.mapToUser(ArgumentMatchers.any(UserRegistrationDto.class))).thenReturn(user);
-        when(userService.saveUser(ArgumentMatchers.any(User.class))).thenReturn(true);
+        when(userService.createUser(ArgumentMatchers.any(User.class))).thenReturn(true);
 
         mockMvc.perform(post("/finance/users")
                 .contentType(MediaType.APPLICATION_JSON)

@@ -28,12 +28,12 @@ class UserServiceTest {
     void getUserById() {
         User user = new User("password", "email", null, false, null);
 
-        userService.saveUser(user);
+        userService.createUser(user);
         if(user.getId() == null) {
             user = userService.retrieveUserByEmail(user.getEmail());
         }
 
-        assertThat(user, sameBeanAs(userService.getUserById(user.getId()));
+        assertThat(user, sameBeanAs(userService.getUserById(user.getId())));
 
         if(user.getId() != null) {
             userRepository.deleteById(user.getId());
@@ -45,7 +45,7 @@ class UserServiceTest {
     void saveUserWithNonRepeatedEmail() {
         User user = new User("password", "email", null, false, null);
 
-        userService.saveUser(user);
+        userService.createUser(user);
         if(user.getId() == null) {
             user = userService.retrieveUserByEmail(user.getEmail());
         }
@@ -61,12 +61,12 @@ class UserServiceTest {
     @Test
     void saveUserWithRepeatedEmail() {
         User user = new User("password", "email", null, false, null);
-        userService.saveUser(user);
+        userService.createUser(user);
         if(user.getId() == null) {
             user = userService.retrieveUserByEmail(user.getEmail());
         }
 
-        Assert.assertFalse(userService.saveUser(user));
+        Assert.assertFalse(userService.createUser(user));
 
         if(user.getId() != null) {
             userRepository.deleteById(user.getId());
@@ -79,7 +79,7 @@ class UserServiceTest {
 
         User user = new User("password23", "email26", null, false, null);
 
-        userService.saveUser(user);
+        userService.createUser(user);
         if(user.getId() == null) {
             user = userService.retrieveUserByEmail(user.getEmail());
         }
@@ -97,7 +97,7 @@ class UserServiceTest {
 
         User user = new User("password23", "email26", null, false, null);
 
-        userService.saveUser(user);
+        userService.createUser(user);
         if(user.getId() == null) {
             user = userService.retrieveUserByEmail(user.getEmail());
         }
@@ -116,7 +116,7 @@ class UserServiceTest {
     void changeUserPassword() {
         User user = new User("password4", "email3",
                 null, false, null);
-        userService.saveUser(user);
+        userService.createUser(user);
         if(user.getId() == null) {
             user = userService.retrieveUserByEmail(user.getEmail());
         }

@@ -22,7 +22,7 @@ public class UserController {
 
     @PostMapping(value = "/users", consumes = APPLICATION_JSON_VALUE)
     public boolean registerUser(@RequestBody UserRegistrationDto userRegistrationDto) {
-        return userService.saveUser(userMapper.mapToUser(userRegistrationDto));
+        return userService.createUser(userMapper.mapToUser(userRegistrationDto));
     }
 
     @PostMapping(value = "/users/login", consumes = APPLICATION_JSON_VALUE)

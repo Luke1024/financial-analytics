@@ -24,7 +24,7 @@ public class UserService {
         }
     }
 
-    public boolean saveUser(User user){
+    public boolean createUser(User user){
         Optional<User> retrievedUser = userRepository.findUserByEmail(user.getEmail());
         if(retrievedUser.isPresent()){
             return false;
@@ -32,6 +32,10 @@ public class UserService {
             userRepository.save(user);
             return true;
         }
+    }
+
+    public void saveUser(User user){
+        userRepository.save(user);
     }
 
     public User retrieveUserByEmail(String email){

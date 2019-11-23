@@ -16,8 +16,7 @@ public class UserTradingAccountHistoryPoint {
     private double moneyAmountAfterChange;
     private LocalDateTime localDateTime;
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "USER_TRADING_ACCOUNT_ID"
-    )
+    @JoinColumn(name = "USER_TRADING_ACCOUNT_ID")
     private UserTradingAccount userTradingAccount;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Order order;
@@ -35,5 +34,37 @@ public class UserTradingAccountHistoryPoint {
         this.localDateTime = localDateTime;
         this.userTradingAccount = userTradingAccount;
         this.order = order;
+    }
+
+    public Long getPointId() {
+        return pointId;
+    }
+
+    public OperationType getOperationType() {
+        return operationType;
+    }
+
+    public double getAccountChange() {
+        return accountChange;
+    }
+
+    public double getMoneyAmountBeforeChange() {
+        return moneyAmountBeforeChange;
+    }
+
+    public double getMoneyAmountAfterChange() {
+        return moneyAmountAfterChange;
+    }
+
+    public LocalDateTime getLocalDateTime() {
+        return localDateTime;
+    }
+
+    public UserTradingAccount getUserTradingAccount() {
+        return userTradingAccount;
+    }
+
+    public Order getOrder() {
+        return order;
     }
 }

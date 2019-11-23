@@ -31,9 +31,8 @@ public class UserTradingAccount {
     public UserTradingAccount() {
     }
 
-    public UserTradingAccount(User user, double amount, int leverage, LocalDateTime openingTime,
+    public UserTradingAccount(double amount, int leverage, LocalDateTime openingTime,
                               List<UserTradingAccountHistoryPoint> points) {
-        this.user = user;
         this.amount = amount;
         this.leverage = leverage;
         this.openingTime = openingTime;
@@ -42,6 +41,10 @@ public class UserTradingAccount {
 
     public Long getId() {
         return id;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public User getUser() {
