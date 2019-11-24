@@ -1,9 +1,13 @@
 package com.finance.data.mapper.accounts;
 
 import com.finance.data.domain.accounts.*;
+import com.finance.data.domain.accounts.dto.TradingAccountCreationDto;
 import com.finance.data.domain.accounts.dto.TradingAccountDto;
 import com.finance.data.domain.accounts.dto.TradingAccountHistoryPointDto;
 import com.finance.data.domain.currency.Order;
+import com.finance.data.repository.accounts.UserRepository;
+import com.finance.data.service.account.UserService;
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +26,12 @@ import java.util.List;
 class TradingAccountMapperTest {
     @Autowired
     private TradingAccountMapper tradingAccountMapper;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Test
     void mapToTradingDtoList() {
@@ -76,5 +86,25 @@ class TradingAccountMapperTest {
 
     @Test
     void mapToNewTradingAccount() {
+        User user = new User();
+
+        userService.saveUser(user);
+
+        TradingAccountCreationDto tradingAccountCreationDto =
+                new TradingAccountCreationDto(user.getId(), AccountType.REAL, 100);
+
+        TradingAccount tradingAccount = new TradingAccount(user, AccountType.REAL, 0.0, 100,
+                LocalDateTime.now(), new ArrayList<>());
+
+        TradingAccount tradingAccountMapped = tradingAccountMapper.mapToNewTradingAccount(tradingAccountCreationDto);
+
+        Assert.assertTrue(tradingAccountMapped.getUser().getId()==user.getId() &&
+                tradingAccountMapped.getAccountType()==tradingAccount.getAccountType() &&
+                tradingAccountMapped.getAmount()==tradingAccount.getAmount() &&
+                tradingAccountMapped.getLeverage()==tradingAccount.getLeverage());
+
+        if(user.getId() != null) {
+            userRepository.deleteById(user.getId());
+        }
     }
 }

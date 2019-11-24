@@ -37,7 +37,6 @@ public class TradingAccountMapper {
                     LocalDateTime.now(), new ArrayList<>());
             return tradingAccount;
         } else {
-            //catch exception
             System.out.println("user not found");
             return new TradingAccount();
         }

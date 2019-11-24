@@ -7,9 +7,10 @@ public class TradingAccountCreationDto {
     private AccountType accountType;
     private int leverage;
 
-    public TradingAccountCreationDto(Long userId, AccountType accountType) {
+    public TradingAccountCreationDto(Long userId, AccountType accountType, int leverage) {
         this.userId = userId;
         this.accountType = accountType;
+        this.leverage = leverage;
     }
 
     public Long getUserId() {
