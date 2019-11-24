@@ -14,7 +14,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/finance")
-public class UserTradingAccountController {
+public class TradingAccountController {
     @Autowired
     private TradingAccountService tradingAccountService;
 

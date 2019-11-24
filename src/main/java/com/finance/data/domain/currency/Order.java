@@ -1,6 +1,6 @@
 package com.finance.data.domain.currency;
 
-import com.finance.data.domain.accounts.UserTradingAccountHistoryPoint;
+import com.finance.data.domain.accounts.TradingAccountHistoryPoint;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -27,14 +27,18 @@ public class Order {
     private double orderClosingPrice;
     private double orderBalance;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private UserTradingAccountHistoryPoint userTradingAccountHistoryPoint;
+    private TradingAccountHistoryPoint tradingAccountHistoryPoint;
 
     public Order() {}
+
+    public Order(Long orderId) {
+        this.orderId = orderId;
+    }
 
     public Order(LongShort longShort, double lot, String baseCurrency, String currency, double stopLoss,
                  double takeProfit, CurrencyHistoryPoint currencyHistoryPointOpen, LocalDateTime orderOpened,
                  double orderOpeningPrice, CurrencyHistoryPoint currencyHistoryPointClose, LocalDateTime orderClosed,
-                 double orderClosingPrice, double orderBalance, UserTradingAccountHistoryPoint userTradingAccountHistoryPoint) {
+                 double orderClosingPrice, double orderBalance, TradingAccountHistoryPoint tradingAccountHistoryPoint) {
         this.longShort = longShort;
         this.lot = lot;
         this.baseCurrency = baseCurrency;
@@ -48,7 +52,7 @@ public class Order {
         this.orderClosed = orderClosed;
         this.orderClosingPrice = orderClosingPrice;
         this.orderBalance = orderBalance;
-        this.userTradingAccountHistoryPoint = userTradingAccountHistoryPoint;
+        this.tradingAccountHistoryPoint = tradingAccountHistoryPoint;
     }
 
     public Long getOrderId() {
@@ -107,7 +111,7 @@ public class Order {
         return orderBalance;
     }
 
-    public UserTradingAccountHistoryPoint getUserTradingAccountHistoryPoint() {
-        return userTradingAccountHistoryPoint;
+    public TradingAccountHistoryPoint getTradingAccountHistoryPoint() {
+        return tradingAccountHistoryPoint;
     }
 }

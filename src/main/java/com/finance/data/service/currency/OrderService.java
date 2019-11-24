@@ -26,7 +26,7 @@ public class OrderService {
     }
 
     public boolean placeOrder(OrderOpeningDto orderOpeningDto){
-        Optional<UserTradingAccount> retrievedTradingAccount =
+        Optional<TradingAccount> retrievedTradingAccount =
                 tradingAccountRepository.findById(orderOpeningDto.getUserTradingAccountId());
         if(retrievedTradingAccount.isPresent()) {
              orderOpeningEvaluator.evaluate(orderOpeningDto, retrievedTradingAccount.get());

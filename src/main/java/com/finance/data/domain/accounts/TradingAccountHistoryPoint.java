@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-public class UserTradingAccountHistoryPoint {
+public class TradingAccountHistoryPoint {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long pointId;
@@ -17,22 +17,39 @@ public class UserTradingAccountHistoryPoint {
     private LocalDateTime localDateTime;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "USER_TRADING_ACCOUNT_ID")
-    private UserTradingAccount userTradingAccount;
+    private TradingAccount tradingAccount;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Order order;
 
-    public UserTradingAccountHistoryPoint() {
+    public TradingAccountHistoryPoint() {
     }
 
-    public UserTradingAccountHistoryPoint(OperationType operationType, double accountChange,
-                                          double moneyAmountBeforeChange, double moneyAmountAfterChange,
-                                          LocalDateTime localDateTime, UserTradingAccount userTradingAccount, Order order) {
+    public TradingAccountHistoryPoint(Long pointId){
+        this.pointId = pointId;
+    }
+
+    public TradingAccountHistoryPoint(OperationType operationType, double accountChange,
+                                      double moneyAmountBeforeChange, double moneyAmountAfterChange,
+                                      LocalDateTime localDateTime, TradingAccount tradingAccount, Order order) {
         this.operationType = operationType;
         this.accountChange = accountChange;
         this.moneyAmountBeforeChange = moneyAmountBeforeChange;
         this.moneyAmountAfterChange = moneyAmountAfterChange;
         this.localDateTime = localDateTime;
-        this.userTradingAccount = userTradingAccount;
+        this.tradingAccount = tradingAccount;
+        this.order = order;
+    }
+
+    public TradingAccountHistoryPoint(Long pointId ,OperationType operationType, double accountChange,
+                                      double moneyAmountBeforeChange, double moneyAmountAfterChange,
+                                      LocalDateTime localDateTime, TradingAccount tradingAccount, Order order) {
+        this.pointId = pointId;
+        this.operationType = operationType;
+        this.accountChange = accountChange;
+        this.moneyAmountBeforeChange = moneyAmountBeforeChange;
+        this.moneyAmountAfterChange = moneyAmountAfterChange;
+        this.localDateTime = localDateTime;
+        this.tradingAccount = tradingAccount;
         this.order = order;
     }
 
@@ -60,8 +77,8 @@ public class UserTradingAccountHistoryPoint {
         return localDateTime;
     }
 
-    public UserTradingAccount getUserTradingAccount() {
-        return userTradingAccount;
+    public TradingAccount getTradingAccount() {
+        return tradingAccount;
     }
 
     public Order getOrder() {

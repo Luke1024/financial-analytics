@@ -1,8 +1,8 @@
 package com.finance.data.mapper.accounts;
 
 import com.finance.data.domain.accounts.PersonalData;
+import com.finance.data.domain.accounts.TradingAccount;
 import com.finance.data.domain.accounts.User;
-import com.finance.data.domain.accounts.UserTradingAccount;
 import com.finance.data.domain.accounts.dto.PersonalDataDto;
 import com.finance.data.domain.accounts.dto.UserRegistrationDto;
 import org.junit.jupiter.api.Test;
@@ -29,7 +29,7 @@ class UserMapperTest {
 
     @Test
     void mapToUser() {
-        List<UserTradingAccount> tradingAccountList = new ArrayList<>();
+        List<TradingAccount> tradingAccountList = new ArrayList<>();
 
         UserRegistrationDto userRegistrationDto = new UserRegistrationDto(new PersonalDataDto(),
                 "password", "email");

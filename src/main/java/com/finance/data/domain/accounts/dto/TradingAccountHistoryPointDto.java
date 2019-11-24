@@ -4,7 +4,7 @@ import com.finance.data.domain.accounts.OperationType;
 
 import java.time.LocalDateTime;
 
-public class UserTradingAccountHistoryPointDto {
+public class TradingAccountHistoryPointDto {
     private Long pointId;
     private OperationType operationType;
     private double accountChange;
@@ -14,12 +14,12 @@ public class UserTradingAccountHistoryPointDto {
     private Long userTradingAccountId;
     private Long orderId;
 
-    public UserTradingAccountHistoryPointDto() {
+    public TradingAccountHistoryPointDto() {
     }
 
-    public UserTradingAccountHistoryPointDto(Long pointId, OperationType operationType, double accountChange,
-                                             double moneyAmountBeforeChange, double moneyAmountAfterChange,
-                                             LocalDateTime localDateTime, Long userTradingAccountId, Long orderId) {
+    public TradingAccountHistoryPointDto(Long pointId, OperationType operationType, double accountChange,
+                                         double moneyAmountBeforeChange, double moneyAmountAfterChange,
+                                         LocalDateTime localDateTime, Long userTradingAccountId, Long orderId) {
         this.pointId = pointId;
         this.operationType = operationType;
         this.accountChange = accountChange;

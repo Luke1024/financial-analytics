@@ -19,32 +19,32 @@ public class User {
     private PersonalData personalData;
     private String password;
     private String email;
-    @OneToMany(targetEntity = UserTradingAccount.class,
+    @OneToMany(targetEntity = TradingAccount.class,
             mappedBy = "user",
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY
     )
-    private List<UserTradingAccount> userTradingAccounts;
+    private List<TradingAccount> tradingAccounts;
     private boolean userLoggedIn;
     private LocalDateTime registrationDate;
 
     public User() {}
 
-    public User(String password, String email, List<UserTradingAccount> userTradingAccounts,
+    public User(String password, String email, List<TradingAccount> tradingAccounts,
                 boolean userLoggedIn, LocalDateTime registrationDate) {
         this.password = password;
         this.email = email;
-        this.userTradingAccounts = userTradingAccounts;
+        this.tradingAccounts = tradingAccounts;
         this.userLoggedIn = userLoggedIn;
         this.registrationDate = registrationDate;
     }
 
-    public User(PersonalData personalData, String password, String email, List<UserTradingAccount> userTradingAccounts,
+    public User(PersonalData personalData, String password, String email, List<TradingAccount> tradingAccounts,
                 boolean userLoggedIn, LocalDateTime registrationDate) {
         this.personalData = personalData;
         this.password = password;
         this.email = email;
-        this.userTradingAccounts = userTradingAccounts;
+        this.tradingAccounts = tradingAccounts;
         this.userLoggedIn = userLoggedIn;
         this.registrationDate = registrationDate;
     }
@@ -77,8 +77,8 @@ public class User {
         return email;
     }
 
-    public List<UserTradingAccount> getUserTradingAccounts() {
-        return userTradingAccounts;
+    public List<TradingAccount> getTradingAccounts() {
+        return tradingAccounts;
     }
 
     public boolean getUserLoggedIn() {

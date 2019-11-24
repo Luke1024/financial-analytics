@@ -1,6 +1,6 @@
 package com.finance.data.repository.accounts;
 
-import com.finance.data.domain.accounts.UserTradingAccount;
+import com.finance.data.domain.accounts.TradingAccount;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -8,8 +8,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface TradingAccountRepository extends CrudRepository<UserTradingAccount, Long> {
+public interface TradingAccountRepository extends CrudRepository<TradingAccount, Long> {
 
     @Query
-    List<UserTradingAccount> findTradingAccountByUserId(Long id);
+    List<TradingAccount> findTradingAccountByUserId(Long id);
 }

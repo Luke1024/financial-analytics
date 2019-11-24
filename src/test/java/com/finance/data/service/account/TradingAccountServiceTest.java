@@ -1,7 +1,8 @@
 package com.finance.data.service.account;
 
+import com.finance.data.domain.accounts.AccountType;
+import com.finance.data.domain.accounts.TradingAccount;
 import com.finance.data.domain.accounts.User;
-import com.finance.data.domain.accounts.UserTradingAccount;
 import com.finance.data.repository.accounts.UserRepository;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
@@ -13,7 +14,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import javax.transaction.Transactional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static com.shazam.shazamcrest.matcher.Matchers.sameBeanAs;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -41,19 +41,18 @@ class TradingAccountServiceTest {
 
         userService.saveUser(user);
 
-        UserTradingAccount userTradingAccount1 = new UserTradingAccount(0.0, 100, accountOpening, new ArrayList<>());
-        UserTradingAccount userTradingAccount2 = new UserTradingAccount(0.0, 10, accountOpening, new ArrayList<>());
+        TradingAccount tradingAccount1 = new TradingAccount(user, AccountType.REAL,0.0, 100,
+                accountOpening, new ArrayList<>());
+        TradingAccount tradingAccount2 = new TradingAccount(user, AccountType.REAL ,0.0, 10,
+                accountOpening, new ArrayList<>());
 
-        userTradingAccount1.setUser(user);
-        userTradingAccount2.setUser(user);
+        tradingAccountService.createTradingAccount(tradingAccount1);
+        tradingAccountService.createTradingAccount(tradingAccount2);
 
-        tradingAccountService.createTradingAccount(userTradingAccount1);
-        tradingAccountService.createTradingAccount(userTradingAccount2);
+        List<TradingAccount> tradingAccounts = tradingAccountService.getUserTradingAccounts(user.getId());
 
-        List<UserTradingAccount> userTradingAccounts = tradingAccountService.getUserTradingAccounts(user.getId());
-
-        Assert.assertEquals(100, userTradingAccounts.get(0).getLeverage());
-        Assert.assertEquals(10, userTradingAccounts.get(1).getLeverage());
+        Assert.assertEquals(100, tradingAccounts.get(0).getLeverage());
+        Assert.assertEquals(10, tradingAccounts.get(1).getLeverage());
 
         if(user.getId() != null) {
             userRepository.deleteById(user.getId());

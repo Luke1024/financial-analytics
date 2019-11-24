@@ -1,47 +1,45 @@
 package com.finance.data.mapper.accounts;
 
+import com.finance.data.domain.accounts.TradingAccount;
 import com.finance.data.domain.accounts.User;
-import com.finance.data.domain.accounts.UserTradingAccount;
 import com.finance.data.domain.accounts.dto.TradingAccountCreationDto;
 import com.finance.data.domain.accounts.dto.TradingAccountDto;
-import com.finance.data.repository.accounts.UserRepository;
+import com.finance.data.service.account.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
 public class TradingAccountMapper {
     @Autowired
-    private UserTradingAccountHistoryPointMapper userTradingAccountHistoryPointMapper;
+    private TradingAccountHistoryPointMapper tradingAccountHistoryPointMapper;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
-    public List<TradingAccountDto> mapToTradingDtoList(List<UserTradingAccount> userTradingAccounts){
-        return userTradingAccounts.stream()
-                .map(userTradingAccount -> new TradingAccountDto(userTradingAccount.getAmount(),
-                userTradingAccountHistoryPointMapper.mapToTradingHistoryPointList(userTradingAccount.getPoints())))
+    public List<TradingAccountDto> mapToTradingDtoList(List<TradingAccount> tradingAccounts){
+        return tradingAccounts.stream()
+                .map(account -> new TradingAccountDto(account.getId(), account.getUser().getId(),
+                        account.getAccountType(), account.getAmount(), account.getLeverage(), account.getOpeningTime(),
+                        tradingAccountHistoryPointMapper.mapToTradingHistoryPointDtoList(account.getPoints())))
                 .collect(Collectors.toList());
     }
 
-    public UserTradingAccount mapToNewTradingAccount(TradingAccountCreationDto tradingAccountCreationDto){
-        Optional<User> retrievedUser = userRepository.findById(tradingAccountCreationDto.getUserId());
-        if(retrievedUser.isPresent()){
-
-            UserTradingAccount userTradingAccount = new UserTradingAccount(0.0, tradingAccountCreationDto.getLeverage(),
+    public TradingAccount mapToNewTradingAccount(TradingAccountCreationDto creationDto){
+        User retrievedUser = userService.getUserById(creationDto.getUserId());
+        if(retrievedUser != null){
+            TradingAccount tradingAccount = new TradingAccount(
+                    retrievedUser, creationDto.getAccountType(), 0.0, creationDto.getLeverage(),
                     LocalDateTime.now(), new ArrayList<>());
-
-            userTradingAccount.setUser(retrievedUser.get());
-            return userTradingAccount;
+            return tradingAccount;
         } else {
             //catch exception
             System.out.println("user not found");
-            return new UserTradingAccount();
+            return new TradingAccount();
         }
     }
 }

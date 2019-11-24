@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/finance")
-public class UserTradingAccountHistoryPointsController {
+public class TradingAccountHistoryPointsController {
 
     //@Autowired
     //private AccountHistoryPointService accountHistoryPointService;
