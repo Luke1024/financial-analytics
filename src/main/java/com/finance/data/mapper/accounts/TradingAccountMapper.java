@@ -25,7 +25,7 @@ public class TradingAccountMapper {
         return tradingAccounts.stream()
                 .map(account -> new TradingAccountDto(account.getId(), account.getUser().getId(),
                         account.getAccountType(), account.getAmount(), account.getLeverage(), account.getOpeningTime(),
-                        tradingAccountHistoryPointMapper.mapToTradingHistoryPointDtoList(account.getPoints())))
+                        tradingAccountHistoryPointMapper.mapToAccountHistoryPointDtos(account.getPoints())))
                 .collect(Collectors.toList());
     }
 
