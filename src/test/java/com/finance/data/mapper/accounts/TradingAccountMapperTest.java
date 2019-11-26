@@ -30,9 +30,6 @@ class TradingAccountMapperTest {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private UserRepository userRepository;
-
     @Test
     void mapToTradingDtoList() {
         LocalDateTime accountOpening = LocalDateTime.now();
@@ -104,7 +101,7 @@ class TradingAccountMapperTest {
                 tradingAccountMapped.getLeverage()==tradingAccount.getLeverage());
 
         if(user.getId() != null) {
-            userRepository.deleteById(user.getId());
+            userService.deleteUserById(user.getId());
         }
     }
 }

@@ -17,9 +17,6 @@ public class TradingAccountService {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private UserRepository userRepository;
-
     public List<TradingAccount> getUserTradingAccounts(Long userId) {
         return tradingAccountRepository.findTradingAccountByUserId(userId);
     }

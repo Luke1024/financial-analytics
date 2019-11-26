@@ -24,7 +24,7 @@ public class UserService {
         }
     }
 
-    public boolean createUser(User user){
+    public boolean saveUser(User user){
         Optional<User> retrievedUser = userRepository.findUserByEmail(user.getEmail());
         if(retrievedUser.isPresent()){
             return false;
@@ -32,10 +32,6 @@ public class UserService {
             userRepository.save(user);
             return true;
         }
-    }
-
-    public void saveUser(User user){
-        userRepository.save(user);
     }
 
     public User retrieveUserByEmail(String email){
@@ -89,5 +85,9 @@ public class UserService {
             System.out.println("user not found");
             return false;
         }
+    }
+
+    public void deleteUserById(Long userId){
+        userRepository.deleteById(userId);
     }
 }

@@ -28,9 +28,6 @@ class TradingAccountServiceTest {
     private UserService userService;
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
     private TradingAccountService tradingAccountService;
 
     @Test
@@ -55,7 +52,7 @@ class TradingAccountServiceTest {
         Assert.assertEquals(10, tradingAccounts.get(1).getLeverage());
 
         if(user.getId() != null) {
-            userRepository.deleteById(user.getId());
+            userService.deleteUserById(user.getId());
         }
     }
 }
