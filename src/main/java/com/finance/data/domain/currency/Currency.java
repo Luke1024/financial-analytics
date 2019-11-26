@@ -32,6 +32,10 @@ public class Currency {
         this.currencyHistoryPoints = currencyHistoryPoints;
     }
 
+    public void setCurrencyHistoryPoints(List<CurrencyHistoryPoint> currencyHistoryPoints) {
+        this.currencyHistoryPoints = currencyHistoryPoints;
+    }
+
     public Long getId() {
         return id;
     }

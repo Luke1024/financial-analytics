@@ -21,6 +21,12 @@ public class CurrencyService {
         if(currencies.size()==1) {
             return currencies.get(0).getCurrencyHistoryPoints().get(currencies.get(0).getCurrencyHistoryPoints().size()-1);
         } else {
+            if(currencies.size()==0){
+                System.out.println("Currency not found");
+            } else {
+                System.out.println("Multiple currencies found");
+            }
+
             return new CurrencyHistoryPoint();
         } //currency not found
     }
