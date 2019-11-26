@@ -27,11 +27,10 @@ public class CurrencyHistoryPoint {
     public CurrencyHistoryPoint() {
     }
 
-    public CurrencyHistoryPoint(LocalDateTime timeStamp, Double value, Currency currency, Order order) {
+    public CurrencyHistoryPoint(LocalDateTime timeStamp, Double value, Currency currency) {
         this.timeStamp = timeStamp;
         this.value = value;
         this.currency = currency;
-        this.order = order;
     }
 
     public Long getPointId() {
@@ -52,5 +51,9 @@ public class CurrencyHistoryPoint {
 
     public Order getOrder() {
         return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 }

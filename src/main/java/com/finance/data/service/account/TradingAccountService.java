@@ -3,7 +3,6 @@ package com.finance.data.service.account;
 import com.finance.data.domain.accounts.User;
 import com.finance.data.domain.accounts.TradingAccount;
 import com.finance.data.repository.accounts.TradingAccountRepository;
-import com.finance.data.repository.accounts.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

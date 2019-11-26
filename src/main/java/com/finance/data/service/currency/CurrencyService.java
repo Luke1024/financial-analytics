@@ -2,7 +2,6 @@ package com.finance.data.service.currency;
 
 import com.finance.data.domain.currency.Currency;
 import com.finance.data.domain.currency.CurrencyHistoryPoint;
-import com.finance.data.domain.currency.Order;
 import com.finance.data.repository.currency.CurrencyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +18,9 @@ public class CurrencyService {
     public CurrencyHistoryPoint getLastCurrencyHistoryPoint(String currencyKey){
         List<Currency> currencies = currencyRepository.findByCurrencyName(currencyKey);
         if(currencies.size()==1) {
-            return currencies.get(0).getCurrencyHistoryPoints().get(currencies.get(0).getCurrencyHistoryPoints().size()-1);
+            System.out.println(currencies.get(0).getCurrencyHistoryPoints().size());
+            int size = currencies.get(0).getCurrencyHistoryPoints().size();
+            return currencies.get(0).getCurrencyHistoryPoints().get(size-1);
         } else {
             if(currencies.size()==0){
                 System.out.println("Currency not found");
@@ -57,9 +58,9 @@ public class CurrencyService {
         }
     }
 
-    public void addCurrency(String key, String baseCurrency){
+    public void addCurrency(String baseCurrency, String key){
         List<CurrencyHistoryPoint> currencyHistoryPoints = new ArrayList<>();
-        Currency currency = new Currency(baseCurrency, key, currencyHistoryPoints);
+        Currency currency = new Currency(baseCurrency, key);
         List<Currency> currencyList = currencyRepository.findByCurrencyName(key);
         if(currencyList.size()==0){
             currencyRepository.save(currency);
@@ -69,6 +70,6 @@ public class CurrencyService {
     }
 
     private CurrencyHistoryPoint getCurrencyHistoryPoint(LocalDateTime currentTime, String value, Currency currency){
-        return new CurrencyHistoryPoint(currentTime, Double.parseDouble(value), currency, new Order());
+        return new CurrencyHistoryPoint(currentTime, Double.parseDouble(value), currency);
     }
 }

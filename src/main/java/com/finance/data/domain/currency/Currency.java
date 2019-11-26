@@ -4,8 +4,8 @@ import javax.persistence.*;
 import java.util.List;
 
 @NamedNativeQuery(
-        name="Currency.retrieveByName",
-        query="SELECT * FROM currency WHERE currency_name = :CURRENCY_NAME",
+        name="Currency.retrieveByBaseAndName",
+        query="SELECT * FROM currency WHERE base =:BASE AND currency_name =:CURRENCY_NAME",
         resultClass = Currency.class
 )
 
@@ -19,17 +19,16 @@ public class Currency {
     @OneToMany(targetEntity = CurrencyHistoryPoint.class,
             mappedBy = "currency",
             cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER
+            fetch = FetchType.LAZY
     )
     private List<CurrencyHistoryPoint> currencyHistoryPoints;
 
     public Currency() {
     }
 
-    public Currency(String base, String currencyName, List<CurrencyHistoryPoint> currencyHistoryPoints) {
+    public Currency(String base, String currencyName) {
         this.base = base;
         this.currencyName = currencyName;
-        this.currencyHistoryPoints = currencyHistoryPoints;
     }
 
     public void setCurrencyHistoryPoints(List<CurrencyHistoryPoint> currencyHistoryPoints) {
