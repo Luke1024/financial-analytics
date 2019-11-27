@@ -14,6 +14,6 @@ public class CurrencyMapper {
     private CurrencyService currencyService;
 
     public List<String> mapToStringKeys(List<Currency> currencies){
-        return currencyService.getCurrencies().stream().map(c -> c.getCurrencyName()).collect(Collectors.toList());
+        return currencies.stream().map(c -> c.getCurrencyName()).collect(Collectors.toList());
     }
 }

@@ -14,11 +14,8 @@ public class CurrencyController {
     @Autowired
     private CurrencyService currencyService;
 
-    @Autowired
-    private CurrencyMapper currencyMapper;
-
     @GetMapping(value = "/currency/")
     public List<String> getAllAvailableCurrencies(){
-        return currencyMapper.mapToStringKeys(currencyService.getCurrencies());
+        return currencyService.getCurrencies();
     }
 }

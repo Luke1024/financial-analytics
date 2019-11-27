@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class CurrencyService {
@@ -36,8 +36,22 @@ public class CurrencyService {
         return currencyRepository.findByCurrencyName(value);
     }
 
-    public List<Currency> getCurrencies(){
-        return currencyRepository.findAll();
+    public List<String> getCurrencies(){
+        List<Currency> currencies = currencyRepository.findAll();
+
+        List<String> currenciesNames = currencies.stream()
+                .map(currency -> currency.getCurrencyName())
+                .collect(Collectors.toList());
+
+        List<String> baseCurrencies = currencies.stream()
+                .map(currency -> currency.getBase())
+                .collect(Collectors.toList());
+
+        currenciesNames.addAll(baseCurrencies);
+
+        HashSet<String> currenciesAsSet = new HashSet<String>(currenciesNames);
+
+        return new ArrayList<String>(currenciesAsSet);
     }
 
     public void addHistoryPoint(String key, String value, LocalDateTime currentDateTime){
