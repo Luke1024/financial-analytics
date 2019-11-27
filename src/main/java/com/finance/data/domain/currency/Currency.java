@@ -19,8 +19,9 @@ public class Currency {
     @OneToMany(targetEntity = CurrencyHistoryPoint.class,
             mappedBy = "currency",
             cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY
+            fetch = FetchType.EAGER
     )
+    @OrderBy
     private List<CurrencyHistoryPoint> currencyHistoryPoints;
 
     public Currency() {

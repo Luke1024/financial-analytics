@@ -18,8 +18,8 @@ public class CurrencyService {
     public CurrencyHistoryPoint getLastCurrencyHistoryPoint(String currencyKey){
         List<Currency> currencies = currencyRepository.findByCurrencyName(currencyKey);
         if(currencies.size()==1) {
-            System.out.println(currencies.get(0).getCurrencyHistoryPoints().size());
             int size = currencies.get(0).getCurrencyHistoryPoints().size();
+            System.out.println(size);
             return currencies.get(0).getCurrencyHistoryPoints().get(size-1);
         } else {
             if(currencies.size()==0){

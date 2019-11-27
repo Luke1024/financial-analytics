@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +18,6 @@ import java.util.Optional;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Transactional
 class CurrencyServiceTest {
     @Autowired
     private CurrencyRepository currencyRepository;
@@ -32,8 +30,8 @@ class CurrencyServiceTest {
     public void getLastCurrencyHistoryPoint(){
         List<CurrencyHistoryPoint> currencyHistoryPointList = new ArrayList<>();
 
-        LocalDateTime localDateTime1 = LocalDateTime.now().minusDays(1);
-        LocalDateTime localDateTime2 = LocalDateTime.now();
+        LocalDateTime localDateTime1 = LocalDateTime.now().minusDays(1).withNano(0);
+        LocalDateTime localDateTime2 = LocalDateTime.now().withNano(0);
 
         Currency currency = new Currency("HKJFKLF", "LFKHGLYR");
 
@@ -46,6 +44,8 @@ class CurrencyServiceTest {
         currency.setCurrencyHistoryPoints(currencyHistoryPointList);
 
         currencySavingBlock(currency);
+
+        System.out.println(currency.getId());
 
         System.out.println("Currency history points size:" + currency.getCurrencyHistoryPoints().size());
 
@@ -105,6 +105,9 @@ class CurrencyServiceTest {
                 currency.getBase(), currency.getCurrencyName());
 
         if(retrievedCurrency.isEmpty()){
+            currencyRepository.save(currency);
+        } else {
+            currencyRepository.deleteById(retrievedCurrency.get(0).getId());
             currencyRepository.save(currency);
         }
     }
