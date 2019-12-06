@@ -21,7 +21,8 @@ public class TradingAccount {
     private AccountType accountType;
     private double amount;
     private int leverage;
-    private LocalDateTime openingTime;
+    private LocalDateTime creationTime;
+    private LocalDateTime archiveTime;
     @OneToMany(targetEntity = TradingAccountHistoryPoint.class,
         mappedBy = "tradingAccount",
         cascade = CascadeType.ALL,
@@ -37,24 +38,32 @@ public class TradingAccount {
     }
 
     public TradingAccount(User user, AccountType accountType, double amount, int leverage,
-                          LocalDateTime openingTime, List<TradingAccountHistoryPoint> points) {
+                          LocalDateTime creationTime, List<TradingAccountHistoryPoint> points) {
         this.user = user;
         this.accountType = accountType;
         this.amount = amount;
         this.leverage = leverage;
-        this.openingTime = openingTime;
+        this.creationTime = creationTime;
         this.points = points;
     }
 
-    public TradingAccount(Long id ,User user, AccountType accountType, double amount, int leverage,
-                          LocalDateTime openingTime, List<TradingAccountHistoryPoint> points) {
+    public TradingAccount(Long id , User user, AccountType accountType, double amount, int leverage,
+                          LocalDateTime creationTime, List<TradingAccountHistoryPoint> points) {
         this.id = id;
         this.user = user;
         this.accountType = accountType;
         this.amount = amount;
         this.leverage = leverage;
-        this.openingTime = openingTime;
+        this.creationTime = creationTime;
         this.points = points;
+    }
+
+    public void setLeverage(int leverage) {
+        this.leverage = leverage;
+    }
+
+    public void setArchiveTime(LocalDateTime archiveTime) {
+        this.archiveTime = archiveTime;
     }
 
     public Long getId() {
@@ -77,8 +86,8 @@ public class TradingAccount {
         return leverage;
     }
 
-    public LocalDateTime getOpeningTime() {
-        return openingTime;
+    public LocalDateTime getCreationTime() {
+        return creationTime;
     }
 
     public List<TradingAccountHistoryPoint> getPoints() {

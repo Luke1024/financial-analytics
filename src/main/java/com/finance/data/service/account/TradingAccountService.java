@@ -2,11 +2,15 @@ package com.finance.data.service.account;
 
 import com.finance.data.domain.accounts.User;
 import com.finance.data.domain.accounts.TradingAccount;
+import com.finance.data.domain.accounts.dto.TradingAccountLeverageModDto;
 import com.finance.data.repository.accounts.TradingAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TradingAccountService {
@@ -20,6 +24,22 @@ public class TradingAccountService {
         return tradingAccountRepository.findTradingAccountByUserId(userId);
     }
 
+    public TradingAccount modifyLeverageInAccount(
+            TradingAccountLeverageModDto tradingAccountLeverageModDto) {
+        User retrievedUser = userService.getUserById(tradingAccountLeverageModDto.getUserId());
+        List<TradingAccount> retrievedAccount = retrievedUser.getTradingAccounts()
+                .stream().filter(account -> account.getId()==tradingAccountLeverageModDto.getAccountId())
+                .collect(Collectors.toList());
+        if(retrievedAccount.size()>0){
+            TradingAccount tradingAccount = retrievedAccount.get(0);
+            tradingAccount.setLeverage(tradingAccountLeverageModDto.getLeverage());
+            return tradingAccountRepository.save(tradingAccount);
+        } else {
+            System.out.println("trading account not found");
+            return new TradingAccount();
+        }
+    }
+
     public void createTradingAccount(TradingAccount tradingAccount) {
         User retrievedUser = userService.getUserById(tradingAccount.getUser().getId());
         if(retrievedUser != null){
@@ -27,6 +47,16 @@ public class TradingAccountService {
             userService.saveUser(retrievedUser);
         } else {
             System.out.println("User not found");
+        }
+    }
+
+    public void archiveAccount(Long accountId) {
+        Optional<TradingAccount> retrievedTradingAccount = tradingAccountRepository.findById(accountId);
+        if(retrievedTradingAccount.isPresent()){
+            retrievedTradingAccount.get().setArchiveTime(LocalDateTime.now());
+            tradingAccountRepository.save(retrievedTradingAccount.get());
+        } else {
+            System.out.println("Trading account not found.");
         }
     }
 }

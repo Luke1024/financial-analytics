@@ -12,4 +12,7 @@ public interface TradingAccountRepository extends CrudRepository<TradingAccount,
 
     @Query
     List<TradingAccount> findTradingAccountByUserId(Long id);
+
+    @Override
+    TradingAccount save(TradingAccount tradingAccount);
 }

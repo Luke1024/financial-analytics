@@ -24,9 +24,15 @@ public class TradingAccountMapper {
     public List<TradingAccountDto> mapToTradingDtoList(List<TradingAccount> tradingAccounts){
         return tradingAccounts.stream()
                 .map(account -> new TradingAccountDto(account.getId(), account.getUser().getId(),
-                        account.getAccountType(), account.getAmount(), account.getLeverage(), account.getOpeningTime(),
+                        account.getAccountType(), account.getAmount(), account.getLeverage(), account.getCreationTime(),
                         tradingAccountHistoryPointMapper.mapToAccountHistoryPointDtos(account.getPoints())))
                 .collect(Collectors.toList());
+    }
+
+    public TradingAccountDto mapToTradingAccountDto(TradingAccount account){
+        return new TradingAccountDto(account.getId(), account.getUser().getId(),
+                account.getAccountType(), account.getAmount(), account.getLeverage(), account.getCreationTime(),
+                tradingAccountHistoryPointMapper.mapToAccountHistoryPointDtos(account.getPoints()));
     }
 
     public TradingAccount mapToNewTradingAccount(TradingAccountCreationDto creationDto){
@@ -41,4 +47,6 @@ public class TradingAccountMapper {
             return new TradingAccount();
         }
     }
+
+
 }

@@ -1,11 +1,11 @@
 package com.finance.data.domain.accounts.dto;
 
-public class LeverageModificationDto {
+public class TradingAccountLeverageModDto {
     private Long userId;
     private Long accountId;
     private int leverage;
 
-    public LeverageModificationDto(Long userId, Long accountId, int leverage) {
+    public TradingAccountLeverageModDto(Long userId, Long accountId, int leverage) {
         this.userId = userId;
         this.accountId = accountId;
         this.leverage = leverage;
