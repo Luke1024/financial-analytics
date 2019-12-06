@@ -44,46 +44,47 @@ public class UserService {
         }
     }
 
-    public boolean loginUser(LoginDto loginDto) {
+    public User loginUser(LoginDto loginDto) {
         Optional<User> retrievedUser = userRepository.findUserByEmail(loginDto.getEmail());
         if(retrievedUser.isPresent()){
             if(retrievedUser.get().getPassword().equals(loginDto.getPassword())){
                 retrievedUser.get().setUserLoggedIn(true);
                 userRepository.save(retrievedUser.get());
-                return true;
+                return userRepository.findUserByEmail(loginDto.getEmail()).get();
             } else {
                 System.out.println("password incorrect");
-                return false;
+                return new User();
             }
         } else {
             System.out.println("user not found");
-            return false;
+            return new User();
         }
     }
 
-    public boolean logOutUser(Long userId) {
+    public User logOutUser(Long userId) {
         Optional<User> retrievedUser = userRepository.findById(userId);
         if(retrievedUser.isPresent()){
             retrievedUser.get().setUserLoggedIn(false);
-            userRepository.save(retrievedUser.get());
-            return true;
-        } else return false;
+            return userRepository.save(retrievedUser.get());
+        } else {
+            System.out.println("user not found");
+            return new User();
+        }
     }
 
-    public boolean changeUserPassword(PasswordChangerDto passwordChangerDto) {
+    public User changeUserPassword(PasswordChangerDto passwordChangerDto) {
         Optional<User> retrievedUser = userRepository.findUserByEmail(passwordChangerDto.getEmail());
         if(retrievedUser.isPresent()){
             if(retrievedUser.get().getPassword().equals(passwordChangerDto.getPassword())){
                 retrievedUser.get().setPassword(passwordChangerDto.getNewPassword());
-                userRepository.save(retrievedUser.get());
-                return true;
+                return userRepository.save(retrievedUser.get());
             } else {
                 System.out.println("password is incorrect");
-                return false;
+                return new User();
             }
         } else {
             System.out.println("user not found");
-            return false;
+            return new User();
         }
     }
 
