@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class CurrencyPairService {
@@ -22,6 +23,16 @@ public class CurrencyPairService {
     public List<CurrencyHistoryPoint> getCurrencyPairHistory(PairHistoryRequestDto pairHistoryRequestDto){
         String baseCurrencyName = pairHistoryRequestDto.getBaseCurrencyName();
         String currencyName = pairHistoryRequestDto.getCurrencyName();
+
+        List<Currency> retrievedCurrenciesWithoutComputing = checkIfRequireValueComputing(pairHistoryRequestDto);
+
+        if(retrievedCurrenciesWithoutComputing.size() > 0){
+            return cutTimeRange(retrievedCurrenciesWithoutComputing, pairHistoryRequestDto);
+        } else {
+            List<CurrencyHistoryPoint> computedCurrency computePairValues
+        }
+
+
         List<CurrencyHistoryPoint> currencyHistoryPoints = new ArrayList<>();
 
         Currency retrievedCurrency = retrieveCurrency(currencyName);
@@ -36,9 +47,33 @@ public class CurrencyPairService {
         } else {
             currencyHistoryPoints = computeValueBasedOnBaseCurrency(retrievedCurrencyHistory, pairHistoryRequestDto);
         }
-
         return currencyHistoryPoints;
     }
+
+    private List<Currency> checkIfRequireValueComputing(PairHistoryRequestDto pairHistoryRequestDto){
+        String baseCurrencyName = pairHistoryRequestDto.getBaseCurrencyName();
+        String currencyName = pairHistoryRequestDto.getCurrencyName();
+
+        List<Currency> retrievedBaseCurrency = currencyService.retrieveCurrencyByBase(baseCurrencyName);
+        return retrievedBaseCurrency.stream().filter(currency -> currency.getBase()==currencyName)
+                .collect(Collectors.toList());
+    }
+
+    private List<CurrencyHistoryPoint> cutTimeRange(List<Currency> currenciesToCut, PairHistoryRequestDto pairHistoryRequestDto){
+        if(pairHistoryRequestDto.isRequestAllHistory()){
+            return currenciesToCut;
+        } else {
+            if(pairHistoryRequestDto.getStart()==null && pairHistoryRequestDto.getStop()==null){
+                System.out.println("time range is not set");
+            } else {
+                currenciesToCut = cropFromStart(pairHistoryRequestDto, currenciesToCut);
+                currenciesToCut = cropFromStop(pairHistoryRequestDto, currenciesToCut);
+                return currenciesToCut;
+            }
+        }
+    }
+
+    private
 
     private Currency retrieveCurrency(String currencyName){
         List<Currency> currencyList = currencyService.retrieveCurrencyByKey(currencyName);

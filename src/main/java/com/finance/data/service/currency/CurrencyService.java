@@ -36,6 +36,10 @@ public class CurrencyService {
         return currencyRepository.findByCurrencyName(value);
     }
 
+    public List<Currency> retrieveCurrencyByBase(String value){
+        return currencyRepository.findByBase(value);
+    }
+
     public List<String> getCurrencies(){
         List<Currency> currencies = currencyRepository.findAll();
 

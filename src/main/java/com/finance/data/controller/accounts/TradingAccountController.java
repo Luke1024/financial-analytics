@@ -1,5 +1,7 @@
 package com.finance.data.controller.accounts;
 
+import com.finance.data.domain.accounts.dto.AccountDeletionDto;
+import com.finance.data.domain.accounts.dto.LeverageModificationDto;
 import com.finance.data.domain.accounts.dto.TradingAccountCreationDto;
 import com.finance.data.domain.accounts.dto.TradingAccountDto;
 import com.finance.data.mapper.accounts.TradingAccountMapper;
@@ -29,5 +31,16 @@ public class TradingAccountController {
     @PostMapping(value = "/tradingAccount", consumes = APPLICATION_JSON_VALUE)
     public void createUserTradingAccount(@RequestBody TradingAccountCreationDto tradingAccountCreationDto) {
         tradingAccountService.createTradingAccount(tradingAccountMapper.mapToNewTradingAccount(tradingAccountCreationDto));
+    }
+
+    @PutMapping(value = "/tradingAccount", consumes = APPLICATION_JSON_VALUE)
+    public TradingAccountDto changeLeverageInTradingAccount(@RequestBody LeverageModificationDto leverageModificationDto) {
+        return tradingAccountMapper.mapToTradingAccountDto(
+                tradingAccountService.modifyLeverageInAccount(leverageModificationDto));
+    }
+
+    @DeleteMapping(value = "/tradingAccount", consumes = APPLICATION_JSON_VALUE)
+    public void deleteUserTradingAccount(@RequestParam AccountDeletionDto accountDeletionDto) {
+        tradingAccountService.deleteAccount(accountDeletionDto);
     }
 }

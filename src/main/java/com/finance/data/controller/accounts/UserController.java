@@ -25,12 +25,12 @@ public class UserController {
         return userService.saveUser(userMapper.mapToUser(userRegistrationDto));
     }
 
-    @PostMapping(value = "/users/login", consumes = APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/users/login", consumes = APPLICATION_JSON_VALUE)
     public boolean loginUser(@RequestBody LoginDto loginDto){
         return userService.loginUser(loginDto);
     }
 
-    @PostMapping(value = "/users/logout/{userId}", consumes = APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/users/logout/{userId}")
     public boolean logOutUser(@PathVariable Long userId) throws Exception {
         return userService.logOutUser(userId);
     }

@@ -23,7 +23,7 @@ public class PersonalDataController {
         return personalDataMapper.mapToPersonalDataDto(personalDataService.getPersonalDataByUserId(userId));
     }
 
-    @PostMapping(value = "/personalData", consumes = APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/personalData", consumes = APPLICATION_JSON_VALUE)
     public void createUpdatePersonalData(PersonalDataDto personalDataDto) {
         personalDataService.createUpdatePersonalData(personalDataDto);
     }

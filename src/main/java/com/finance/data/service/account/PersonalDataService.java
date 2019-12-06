@@ -32,15 +32,17 @@ public class PersonalDataService {
         }
     }
 
-    public void createUpdatePersonalData(PersonalDataDto personalDataDto) {
+    public PersonalData createUpdatePersonalData(PersonalDataDto personalDataDto) {
         Optional<User> retrievedUser = userRepository.findById(personalDataDto.getUserId());
         if(retrievedUser.isPresent()){
             User user = retrievedUser.get();
             PersonalData personalData = personalDataMapper.mapToPersonalDataWithUser(personalDataDto, user);
             user.setPersonalData(personalData);
-            userRepository.save(retrievedUser.get());
+            user = userRepository.save(retrievedUser.get());
+            return user.getPersonalData();
         } else {
             System.out.println("user not found");
+            return new PersonalData();
         }
     }
 }
