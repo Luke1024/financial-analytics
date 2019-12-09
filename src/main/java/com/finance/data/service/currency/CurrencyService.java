@@ -1,7 +1,7 @@
 package com.finance.data.service.currency;
 
-import com.finance.data.domain.currency.Currency;
-import com.finance.data.domain.currency.CurrencyHistoryPoint;
+import com.finance.data.domain.currency.CurrencyPair;
+import com.finance.data.domain.currency.CurrencyPairHistoryPoint;
 import com.finance.data.repository.currency.CurrencyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,12 +15,12 @@ public class CurrencyService {
     @Autowired
     private CurrencyRepository currencyRepository;
 
-    public CurrencyHistoryPoint getLastCurrencyHistoryPoint(String currencyKey){
-        List<Currency> currencies = currencyRepository.findByCurrencyName(currencyKey);
+    public CurrencyPairHistoryPoint getLastCurrencyHistoryPoint(String currencyKey){
+        List<CurrencyPair> currencies = currencyRepository.findByCurrencyName(currencyKey);
         if(currencies.size()==1) {
-            int size = currencies.get(0).getCurrencyHistoryPoints().size();
+            int size = currencies.get(0).getCurrencyPairHistoryPoints().size();
             System.out.println(size);
-            return currencies.get(0).getCurrencyHistoryPoints().get(size-1);
+            return currencies.get(0).getCurrencyPairHistoryPoints().get(size-1);
         } else {
             if(currencies.size()==0){
                 System.out.println("Currency not found");
@@ -28,23 +28,23 @@ public class CurrencyService {
                 System.out.println("Multiple currencies found");
             }
 
-            return new CurrencyHistoryPoint();
+            return new CurrencyPairHistoryPoint();
         } //currency not found
     }
 
-    public List<Currency> retrieveCurrencyByKey(String value){
+    public List<CurrencyPair> retrieveCurrencyByKey(String value){
         return currencyRepository.findByCurrencyName(value);
     }
 
-    public List<Currency> retrieveCurrencyByBase(String value){
+    public List<CurrencyPair> retrieveCurrencyByBase(String value){
         return currencyRepository.findByBase(value);
     }
 
     public List<String> getCurrencies(){
-        List<Currency> currencies = currencyRepository.findAll();
+        List<CurrencyPair> currencies = currencyRepository.findAll();
 
         List<String> currenciesNames = currencies.stream()
-                .map(currency -> currency.getCurrencyName())
+                .map(currency -> currency.getCurrencyPairName())
                 .collect(Collectors.toList());
 
         List<String> baseCurrencies = currencies.stream()
@@ -59,12 +59,12 @@ public class CurrencyService {
     }
 
     public void addHistoryPoint(String key, String value, LocalDateTime currentDateTime){
-        List<Currency> currencyList = currencyRepository.findByCurrencyName(key);
+        List<CurrencyPair> currencyList = currencyRepository.findByCurrencyName(key);
 
         if(currencyList.size()==1){
-            Currency retrievedCurency = currencyList.get(0);
-            CurrencyHistoryPoint currencyHistoryPoint = getCurrencyHistoryPoint(currentDateTime, value, retrievedCurency);
-            retrievedCurency.getCurrencyHistoryPoints().add(currencyHistoryPoint);
+            CurrencyPair retrievedCurency = currencyList.get(0);
+            CurrencyPairHistoryPoint currencyPairHistoryPoint = getCurrencyHistoryPoint(currentDateTime, value, retrievedCurency);
+            retrievedCurency.getCurrencyPairHistoryPoints().add(currencyPairHistoryPoint);
             currencyRepository.save(retrievedCurency);
         } else {
             if(currencyList.size()==0){
@@ -77,9 +77,9 @@ public class CurrencyService {
     }
 
     public void addCurrency(String baseCurrency, String key){
-        List<CurrencyHistoryPoint> currencyHistoryPoints = new ArrayList<>();
-        Currency currency = new Currency(baseCurrency, key);
-        List<Currency> currencyList = currencyRepository.findByCurrencyName(key);
+        List<CurrencyPairHistoryPoint> currencyPairHistoryPoints = new ArrayList<>();
+        CurrencyPair currency = new CurrencyPair(baseCurrency, key);
+        List<CurrencyPair> currencyList = currencyRepository.findByCurrencyName(key);
         if(currencyList.size()==0){
             currencyRepository.save(currency);
         } else {
@@ -87,7 +87,7 @@ public class CurrencyService {
         }
     }
 
-    private CurrencyHistoryPoint getCurrencyHistoryPoint(LocalDateTime currentTime, String value, Currency currency){
-        return new CurrencyHistoryPoint(currentTime, Double.parseDouble(value), currency);
+    private CurrencyPairHistoryPoint getCurrencyHistoryPoint(LocalDateTime currentTime, String value, CurrencyPair currency){
+        return new CurrencyPairHistoryPoint(currentTime, Double.parseDouble(value), currency);
     }
 }

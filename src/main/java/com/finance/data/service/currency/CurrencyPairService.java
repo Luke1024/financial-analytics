@@ -1,7 +1,7 @@
 package com.finance.data.service.currency;
 
-import com.finance.data.domain.currency.Currency;
-import com.finance.data.domain.currency.CurrencyHistoryPoint;
+import com.finance.data.domain.currency.CurrencyPair;
+import com.finance.data.domain.currency.CurrencyPairHistoryPoint;
 import com.finance.data.domain.currency.dto.PairHistoryRequestDto;
 import com.finance.data.repository.currency.CurrencyHistoryPointRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,46 +20,46 @@ public class CurrencyPairService {
     @Autowired
     private CurrencyHistoryPointRepository currencyHistoryPointRepository;
 
-    public List<CurrencyHistoryPoint> getCurrencyPairHistory(PairHistoryRequestDto pairHistoryRequestDto){
+    public List<CurrencyPairHistoryPoint> getCurrencyPairHistory(PairHistoryRequestDto pairHistoryRequestDto){
         String baseCurrencyName = pairHistoryRequestDto.getBaseCurrencyName();
         String currencyName = pairHistoryRequestDto.getCurrencyName();
 
-        List<Currency> retrievedCurrenciesWithoutComputing = checkIfRequireValueComputing(pairHistoryRequestDto);
+        List<CurrencyPair> retrievedCurrenciesWithoutComputing = checkIfRequireValueComputing(pairHistoryRequestDto);
 
         if(retrievedCurrenciesWithoutComputing.size() > 0){
             return cutTimeRange(retrievedCurrenciesWithoutComputing, pairHistoryRequestDto);
         } else {
-            List<CurrencyHistoryPoint> computedCurrency computePairValues
+            List<CurrencyPairHistoryPoint> computedCurrency computePairValues
         }
 
 
-        List<CurrencyHistoryPoint> currencyHistoryPoints = new ArrayList<>();
+        List<CurrencyPairHistoryPoint> currencyPairHistoryPoints = new ArrayList<>();
 
-        Currency retrievedCurrency = retrieveCurrency(currencyName);
+        CurrencyPair retrievedCurrency = retrieveCurrency(currencyName);
 
-        List<CurrencyHistoryPoint> retrievedCurrencyHistory =
+        List<CurrencyPairHistoryPoint> retrievedCurrencyHistory =
                 retrieveRequestedTimeRange(retrievedCurrency, pairHistoryRequestDto);
 
         String retrievedBaseCurrency = retrievedCurrencyHistory.get(0).getCurrency().getBase();
 
         if(retrievedBaseCurrency == baseCurrencyName){
-            currencyHistoryPoints = retrievedCurrencyHistory;
+            currencyPairHistoryPoints = retrievedCurrencyHistory;
         } else {
-            currencyHistoryPoints = computeValueBasedOnBaseCurrency(retrievedCurrencyHistory, pairHistoryRequestDto);
+            currencyPairHistoryPoints = computeValueBasedOnBaseCurrency(retrievedCurrencyHistory, pairHistoryRequestDto);
         }
-        return currencyHistoryPoints;
+        return currencyPairHistoryPoints;
     }
 
-    private List<Currency> checkIfRequireValueComputing(PairHistoryRequestDto pairHistoryRequestDto){
+    private List<CurrencyPair> checkIfRequireValueComputing(PairHistoryRequestDto pairHistoryRequestDto){
         String baseCurrencyName = pairHistoryRequestDto.getBaseCurrencyName();
         String currencyName = pairHistoryRequestDto.getCurrencyName();
 
-        List<Currency> retrievedBaseCurrency = currencyService.retrieveCurrencyByBase(baseCurrencyName);
+        List<CurrencyPair> retrievedBaseCurrency = currencyService.retrieveCurrencyByBase(baseCurrencyName);
         return retrievedBaseCurrency.stream().filter(currency -> currency.getBase()==currencyName)
                 .collect(Collectors.toList());
     }
 
-    private List<CurrencyHistoryPoint> cutTimeRange(List<Currency> currenciesToCut, PairHistoryRequestDto pairHistoryRequestDto){
+    private List<CurrencyPairHistoryPoint> cutTimeRange(List<CurrencyPair> currenciesToCut, PairHistoryRequestDto pairHistoryRequestDto){
         if(pairHistoryRequestDto.isRequestAllHistory()){
             return currenciesToCut;
         } else {
@@ -75,9 +75,9 @@ public class CurrencyPairService {
 
     private
 
-    private Currency retrieveCurrency(String currencyName){
-        List<Currency> currencyList = currencyService.retrieveCurrencyByKey(currencyName);
-        Currency currency = new Currency();
+    private CurrencyPair retrieveCurrency(String currencyName){
+        List<CurrencyPair> currencyList = currencyService.retrieveCurrencyByKey(currencyName);
+        CurrencyPair currency = new CurrencyPair();
         if(currencyList.size()==1){
             currency = currencyList.get(0);
         } else {
@@ -86,9 +86,9 @@ public class CurrencyPairService {
         return currency;
     }
 
-    private List<CurrencyHistoryPoint> retrieveRequestedTimeRange(Currency currency, PairHistoryRequestDto pairHistoryRequestDto){
+    private List<CurrencyPairHistoryPoint> retrieveRequestedTimeRange(CurrencyPair currency, PairHistoryRequestDto pairHistoryRequestDto){
         if(pairHistoryRequestDto.isRequestAllHistory()){
-            return currency.getCurrencyHistoryPoints();
+            return currency.getCurrencyPairHistoryPoints();
         } else {
             LocalDateTime start = pairHistoryRequestDto.getStart();
             LocalDateTime stop = pairHistoryRequestDto.getStop();
@@ -101,27 +101,27 @@ public class CurrencyPairService {
         }
     }
 
-    private List<CurrencyHistoryPoint> retrieveRequestedTimeRange(LocalDateTime start, LocalDateTime stop, Currency currency) {
+    private List<CurrencyPairHistoryPoint> retrieveRequestedTimeRange(LocalDateTime start, LocalDateTime stop, CurrencyPair currency) {
         return currencyHistoryPointRepository.retrieveByTimeRangeAndCurrencyId(start, stop, currency.getId());
     }
 
-    private List<CurrencyHistoryPoint> computeValueBasedOnBaseCurrency
-            (List<CurrencyHistoryPoint> currencyHistory, PairHistoryRequestDto pairHistoryRequestDto){
+    private List<CurrencyPairHistoryPoint> computeValueBasedOnBaseCurrency
+            (List<CurrencyPairHistoryPoint> currencyHistory, PairHistoryRequestDto pairHistoryRequestDto){
 
-        Currency baseCurrency = currencyHistory.get(0).getCurrency();
+        CurrencyPair baseCurrency = currencyHistory.get(0).getCurrency();
 
-        List<CurrencyHistoryPoint> baseCurrencyHistory = retrieveRequestedTimeRange(pairHistoryRequestDto.getStart(),
+        List<CurrencyPairHistoryPoint> baseCurrencyHistory = retrieveRequestedTimeRange(pairHistoryRequestDto.getStart(),
                 pairHistoryRequestDto.getStop(), baseCurrency);
 
         LocalDateTime start = currencyHistory.get(0).getTimeStamp();
         LocalDateTime baseStart =  baseCurrencyHistory.get(0).getTimeStamp();
 
-        List<CurrencyHistoryPoint> historyComputed = new ArrayList<>();
+        List<CurrencyPairHistoryPoint> historyComputed = new ArrayList<>();
 
         if(currencyHistory.size() == baseCurrencyHistory.size() && start.equals(baseStart)){
             for(int i=0; i<baseCurrencyHistory.size(); i++){
                 //double computedValue = 1D/(baseCurrencyHistory.get(i).getValue()/currencyHistory.get(i).getValue());
-                //historyComputed.add(new CurrencyHistoryPoint(baseCurrencyHistory.get(i).getTimeStamp(), computedValue, new Order()));
+                //historyComputed.add(new CurrencyPairHistoryPoint(baseCurrencyHistory.get(i).getTimeStamp(), computedValue, new Order()));
             }
         } else {
             //implement histories synchronization

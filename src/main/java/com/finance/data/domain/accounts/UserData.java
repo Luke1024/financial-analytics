@@ -3,7 +3,7 @@ package com.finance.data.domain.accounts;
 import javax.persistence.*;
 
 @Entity
-public class PersonalData {
+public class UserData {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -18,11 +18,11 @@ public class PersonalData {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private User user;
 
-    public PersonalData() {
+    public UserData() {
     }
 
-    public PersonalData(String firstName, String lastName, String voivodeship, String city, String postalCode,
-                        String street, String homeNumber, String phoneNumber, User user) {
+    public UserData(String firstName, String lastName, String voivodeship, String city, String postalCode,
+                    String street, String homeNumber, String phoneNumber, User user) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.voivodeship = voivodeship;
@@ -34,8 +34,8 @@ public class PersonalData {
         this.user = user;
     }
 
-    public PersonalData(Long id, String firstName, String lastName, String voivodeship, String city, String postalCode,
-                        String street, String homeNumber, String phoneNumber, User user) {
+    public UserData(Long id, String firstName, String lastName, String voivodeship, String city, String postalCode,
+                    String street, String homeNumber, String phoneNumber, User user) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;

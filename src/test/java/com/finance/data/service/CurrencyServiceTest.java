@@ -1,7 +1,7 @@
 package com.finance.data.service;
 
-import com.finance.data.domain.currency.Currency;
-import com.finance.data.domain.currency.CurrencyHistoryPoint;
+import com.finance.data.domain.currency.CurrencyPair;
+import com.finance.data.domain.currency.CurrencyPairHistoryPoint;
 import com.finance.data.repository.currency.CurrencyRepository;
 import com.finance.data.service.currency.CurrencyService;
 import org.junit.Assert;
@@ -28,32 +28,32 @@ class CurrencyServiceTest {
 
     @Test
     public void getLastCurrencyHistoryPoint(){
-        List<CurrencyHistoryPoint> currencyHistoryPointList = new ArrayList<>();
+        List<CurrencyPairHistoryPoint> currencyPairHistoryPointList = new ArrayList<>();
 
         LocalDateTime localDateTime1 = LocalDateTime.now().minusDays(1).withNano(0);
         LocalDateTime localDateTime2 = LocalDateTime.now().withNano(0);
 
-        Currency currency = new Currency("HKJFKLF", "LFKHGLYR");
+        CurrencyPair currency = new CurrencyPair("HKJFKLF", "LFKHGLYR");
 
-        CurrencyHistoryPoint currencyHistoryPoint1 = new CurrencyHistoryPoint(localDateTime1, 1.0, currency);
-        CurrencyHistoryPoint currencyHistoryPoint2 = new CurrencyHistoryPoint(localDateTime2, 2.0, currency);
+        CurrencyPairHistoryPoint currencyPairHistoryPoint1 = new CurrencyPairHistoryPoint(localDateTime1, 1.0, currency);
+        CurrencyPairHistoryPoint currencyPairHistoryPoint2 = new CurrencyPairHistoryPoint(localDateTime2, 2.0, currency);
 
-        currencyHistoryPointList.add(currencyHistoryPoint1);
-        currencyHistoryPointList.add(currencyHistoryPoint2);
+        currencyPairHistoryPointList.add(currencyPairHistoryPoint1);
+        currencyPairHistoryPointList.add(currencyPairHistoryPoint2);
 
-        currency.setCurrencyHistoryPoints(currencyHistoryPointList);
+        currency.setCurrencyPairHistoryPoints(currencyPairHistoryPointList);
 
         currencySavingBlock(currency);
 
         System.out.println(currency.getId());
 
-        System.out.println("Currency history points size:" + currency.getCurrencyHistoryPoints().size());
+        System.out.println("Currency history points size:" + currency.getCurrencyPairHistoryPoints().size());
 
-        CurrencyHistoryPoint retrievedCurrencyHistoryPoint = currencyService.getLastCurrencyHistoryPoint("LFKHGLYR");
+        CurrencyPairHistoryPoint retrievedCurrencyPairHistoryPoint = currencyService.getLastCurrencyHistoryPoint("LFKHGLYR");
 
-        System.out.println(retrievedCurrencyHistoryPoint.getTimeStamp() + " " + localDateTime2);
+        System.out.println(retrievedCurrencyPairHistoryPoint.getTimeStamp() + " " + localDateTime2);
 
-        Assert.assertTrue(retrievedCurrencyHistoryPoint.getTimeStamp().equals(localDateTime2));
+        Assert.assertTrue(retrievedCurrencyPairHistoryPoint.getTimeStamp().equals(localDateTime2));
 
         currencyRepository.deleteById(currency.getId());
 
@@ -61,14 +61,14 @@ class CurrencyServiceTest {
 
     @Test
     public void retrieveCurrencyByKey() {
-        List<CurrencyHistoryPoint> currencyHistoryPointList = new ArrayList<>();
-        Currency currency = new Currency("HKJFKLF", "LFKHGLYR");
+        List<CurrencyPairHistoryPoint> currencyPairHistoryPointList = new ArrayList<>();
+        CurrencyPair currency = new CurrencyPair("HKJFKLF", "LFKHGLYR");
 
         currencySavingBlock(currency);
 
-        List<Currency> currencyList = currencyService.retrieveCurrencyByKey(currency.getCurrencyName());
+        List<CurrencyPair> currencyList = currencyService.retrieveCurrencyByKey(currency.getCurrencyPairName());
         Assert.assertEquals("HKJFKLF", currencyList.get(0).getBase());
-        Assert.assertEquals("LFKHGLYR", currencyList.get(0).getCurrencyName());
+        Assert.assertEquals("LFKHGLYR", currencyList.get(0).getCurrencyPairName());
 
         System.out.println(currency.getId());
         currencyRepository.deleteById(currency.getId());
@@ -76,17 +76,17 @@ class CurrencyServiceTest {
 
     @Test
     public void addHistoryPoint() {
-        List<CurrencyHistoryPoint> currencyHistoryPointList = new ArrayList<>();
-        Currency currency = new Currency("HKJFKLF", "LFKHGLYR");
+        List<CurrencyPairHistoryPoint> currencyPairHistoryPointList = new ArrayList<>();
+        CurrencyPair currency = new CurrencyPair("HKJFKLF", "LFKHGLYR");
         currencySavingBlock(currency);
 
         currencyService.addHistoryPoint("LFKHGLYR", "0.4123", LocalDateTime.now());
 
-        Optional<Currency> currencyOptional = currencyRepository.findById(currency.getId());
+        Optional<CurrencyPair> currencyOptional = currencyRepository.findById(currency.getId());
         System.out.println();
 
-        Assert.assertEquals("LFKHGLYR" ,currencyOptional.get().getCurrencyName());
-        Assert.assertEquals(new Double(0.4123), currencyOptional.get().getCurrencyHistoryPoints().get(0).getValue());
+        Assert.assertEquals("LFKHGLYR" ,currencyOptional.get().getCurrencyPairName());
+        Assert.assertEquals(new Double(0.4123), currencyOptional.get().getCurrencyPairHistoryPoints().get(0).getValue());
 
         currencyRepository.deleteById(currency.getId());
     }
@@ -94,15 +94,15 @@ class CurrencyServiceTest {
     @Test
     public void addCurrency() {
         currencyService.addCurrency("HKJFKLF", "LFKHGLYR");
-        List<Currency> currencies = currencyRepository.findByCurrencyName("LFKHGLYR");
-        Assert.assertEquals("LFKHGLYR", currencies.get(0).getCurrencyName());
+        List<CurrencyPair> currencies = currencyRepository.findByCurrencyName("LFKHGLYR");
+        Assert.assertEquals("LFKHGLYR", currencies.get(0).getCurrencyPairName());
 
         currencyRepository.deleteById(currencies.get(0).getId());
     }
 
-    private void currencySavingBlock(Currency currency){
-        List<Currency> retrievedCurrency = currencyRepository.retrieveByBaseAndName(
-                currency.getBase(), currency.getCurrencyName());
+    private void currencySavingBlock(CurrencyPair currency){
+        List<CurrencyPair> retrievedCurrency = currencyRepository.retrieveByBaseAndName(
+                currency.getBase(), currency.getCurrencyPairName());
 
         if(retrievedCurrency.isEmpty()){
             currencyRepository.save(currency);

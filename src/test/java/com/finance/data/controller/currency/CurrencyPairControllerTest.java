@@ -1,6 +1,6 @@
 package com.finance.data.controller.currency;
 
-import com.finance.data.domain.currency.CurrencyHistoryPoint;
+import com.finance.data.domain.currency.CurrencyPairHistoryPoint;
 import com.finance.data.domain.currency.dto.PairHistoryRequestDto;
 import com.finance.data.mapper.currency.CurrencyPairMapper;
 import com.finance.data.service.currency.CurrencyPairService;
@@ -38,7 +38,7 @@ class CurrencyPairControllerTest {
 
         when(currencyPairService.getCurrencyPairHistory(ArgumentMatchers.any(PairHistoryRequestDto.class)))
                 .thenReturn(new ArrayList<>());
-        when(currencyPairMapper.mapToDTOList(ArgumentMatchers.anyListOf(CurrencyHistoryPoint.class)))
+        when(currencyPairMapper.mapToDTOList(ArgumentMatchers.anyListOf(CurrencyPairHistoryPoint.class)))
                 .thenReturn(new ArrayList<>());
 
         mockMvc.perform(get("/finance/currency/pair/history")

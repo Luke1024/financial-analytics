@@ -1,6 +1,6 @@
 package com.finance.data.controller.currency;
 
-import com.finance.data.domain.currency.Currency;
+import com.finance.data.domain.currency.CurrencyPair;
 import com.finance.data.mapper.currency.CurrencyMapper;
 import com.finance.data.service.currency.CurrencyService;
 import org.junit.jupiter.api.Test;
@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(CurrencyController.class)
-class CurrencyControllerTest {
+class CurrencyPairControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
@@ -34,7 +34,7 @@ class CurrencyControllerTest {
     @Test
     void getAllAvailableCurrencies() throws Exception {
         when(currencyService.getCurrencies()).thenReturn(new ArrayList<>());
-        when(currencyMapper.mapToStringKeys(ArgumentMatchers.anyListOf(Currency.class))).thenReturn(new ArrayList<>());
+        when(currencyMapper.mapToStringKeys(ArgumentMatchers.anyListOf(CurrencyPair.class))).thenReturn(new ArrayList<>());
 
         mockMvc.perform(get("/finance/currency/")
         .contentType(MediaType.APPLICATION_JSON))

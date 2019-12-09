@@ -1,6 +1,6 @@
 package com.finance.data.mapper.accounts;
 
-import com.finance.data.domain.accounts.PersonalData;
+import com.finance.data.domain.accounts.UserData;
 import com.finance.data.domain.accounts.User;
 import com.finance.data.domain.accounts.dto.PersonalDataDto;
 import org.springframework.stereotype.Component;
@@ -8,19 +8,19 @@ import org.springframework.stereotype.Component;
 @Component
 public class PersonalDataMapper {
 
-    public PersonalDataDto mapToPersonalDataDto(PersonalData personalData){
-        return new PersonalDataDto(personalData.getFirstName(),
-                personalData.getLastName(),
-                personalData.getVoivodeship(),
-                personalData.getCity(),
-                personalData.getPostalCode(),
-                personalData.getStreet(),
-                personalData.getHomeNumber(),
-                personalData.getPhoneNumber(),
-                personalData.getUser().getId());
+    public PersonalDataDto mapToPersonalDataDto(UserData userData){
+        return new PersonalDataDto(userData.getFirstName(),
+                userData.getLastName(),
+                userData.getVoivodeship(),
+                userData.getCity(),
+                userData.getPostalCode(),
+                userData.getStreet(),
+                userData.getHomeNumber(),
+                userData.getPhoneNumber(),
+                userData.getUser().getId());
     }
-    public PersonalData mapToPersonalDataWithUser(PersonalDataDto personalDataDto, User user) {
-        return new PersonalData(personalDataDto.getFirstName(),
+    public UserData mapToPersonalDataWithUser(PersonalDataDto personalDataDto, User user) {
+        return new UserData(personalDataDto.getFirstName(),
                     personalDataDto.getLastName(),
                     personalDataDto.getVoivodeship(),
                     personalDataDto.getCity(),
@@ -31,8 +31,8 @@ public class PersonalDataMapper {
                     user);
     }
 
-    public PersonalData mapToPersonalData(PersonalDataDto personalDataDto) {
-        return new PersonalData(personalDataDto.getFirstName(),
+    public UserData mapToPersonalData(PersonalDataDto personalDataDto) {
+        return new UserData(personalDataDto.getFirstName(),
                 personalDataDto.getLastName(),
                 personalDataDto.getVoivodeship(),
                 personalDataDto.getCity(),

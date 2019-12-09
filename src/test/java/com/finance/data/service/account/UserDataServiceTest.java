@@ -1,6 +1,6 @@
 package com.finance.data.service.account;
 
-import com.finance.data.domain.accounts.PersonalData;
+import com.finance.data.domain.accounts.UserData;
 import com.finance.data.domain.accounts.User;
 import com.finance.data.domain.accounts.dto.PersonalDataDto;
 import com.finance.data.repository.accounts.PersonalDataRepository;
@@ -19,7 +19,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Transactional
-public class PersonalDataServiceTest {
+public class UserDataServiceTest {
 
     @Autowired
     private UserService userService;
@@ -33,15 +33,15 @@ public class PersonalDataServiceTest {
     @Test
     public void getPersonalData() {
         User user = new User();
-        PersonalData personalData = new PersonalData("firstName", "lastName",
+        UserData userData = new UserData("firstName", "lastName",
                 "voivodeship", "city", "postalCode", "street",
                 "homeNumber", "phoneNumber", user);
 
-        user.setPersonalData(personalData);
+        user.setUserData(userData);
 
         userService.saveUser(user);
 
-        assertThat(personalData, sameBeanAs(userService.getUserById(user.getId()).getPersonalData()));
+        assertThat(userData, sameBeanAs(userService.getUserById(user.getId()).getUserData()));
 
         userService.deleteUserById(user.getId());
     }
@@ -57,18 +57,18 @@ public class PersonalDataServiceTest {
                 "voivodeship", "city", "postalCode", "street",
                 "homeNumber", "phoneNumber", user.getId());
 
-        PersonalData personalData = new PersonalData("firstName", "lastName",
+        UserData userData = new UserData("firstName", "lastName",
                 "voivodeship", "city", "postalCode", "street",
                 "homeNumber", "phoneNumber", user);
 
         personalDataService.createUpdatePersonalData(personalDataDto);
 
-        PersonalData retrievedPersonalData = personalDataService.getPersonalDataByUserId(user.getId());
+        UserData retrievedUserData = personalDataService.getPersonalDataByUserId(user.getId());
 
-        assertEquals(personalData.getFirstName(), retrievedPersonalData.getFirstName());
-        assertEquals(personalData.getLastName(), retrievedPersonalData.getLastName());
-        assertEquals(user.getId(), retrievedPersonalData.getUser().getId());
+        assertEquals(userData.getFirstName(), retrievedUserData.getFirstName());
+        assertEquals(userData.getLastName(), retrievedUserData.getLastName());
+        assertEquals(user.getId(), retrievedUserData.getUser().getId());
 
-        personalDataRepository.deleteById(retrievedPersonalData.getId());
+        personalDataRepository.deleteById(retrievedUserData.getId());
     }
 }
