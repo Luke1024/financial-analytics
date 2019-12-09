@@ -16,7 +16,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private PersonalData personalData;
+    private UserData userData;
     private String password;
     private String email;
     @OneToMany(targetEntity = TradingAccount.class,
@@ -39,9 +39,9 @@ public class User {
         this.registrationDate = registrationDate;
     }
 
-    public User(PersonalData personalData, String password, String email, List<TradingAccount> tradingAccounts,
+    public User(UserData userData, String password, String email, List<TradingAccount> tradingAccounts,
                 boolean userLoggedIn, LocalDateTime registrationDate) {
-        this.personalData = personalData;
+        this.userData = userData;
         this.password = password;
         this.email = email;
         this.tradingAccounts = tradingAccounts;
@@ -53,16 +53,16 @@ public class User {
         this.id = id;
     }
 
-    public void setPersonalData(PersonalData personalData) {
-        this.personalData = personalData;
+    public void setUserData(UserData userData) {
+        this.userData = userData;
     }
 
     public Long getId() {
         return id;
     }
 
-    public PersonalData getPersonalData() {
-        return personalData;
+    public UserData getUserData() {
+        return userData;
     }
 
     public String getPassword() {

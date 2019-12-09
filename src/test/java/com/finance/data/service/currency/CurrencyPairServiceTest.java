@@ -1,7 +1,7 @@
 package com.finance.data.service.currency;
 
-import com.finance.data.domain.currency.Currency;
-import com.finance.data.domain.currency.CurrencyHistoryPoint;
+import com.finance.data.domain.currency.CurrencyPair;
+import com.finance.data.domain.currency.CurrencyPairHistoryPoint;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +19,8 @@ public class CurrencyPairServiceTest {
     @Autowired
     private CurrencyService currencyService;
 
-    private List<CurrencyHistoryPoint> baseCurrencyHistoryPoints = new ArrayList<>();
-    private List<CurrencyHistoryPoint> currencyHistoryPoints = new ArrayList<>();
+    private List<CurrencyPairHistoryPoint> baseCurrencyPairHistoryPoints = new ArrayList<>();
+    private List<CurrencyPairHistoryPoint> currencyPairHistoryPoints = new ArrayList<>();
 
     @Test
     void getCurrencyPairHistory() {
@@ -30,6 +30,6 @@ public class CurrencyPairServiceTest {
         LocalDateTime localDateTime4 = LocalDateTime.now().minusDays(1).withNano(0);
         LocalDateTime localDateTime5 = LocalDateTime.now().withNano(0);
 
-        CurrencyHistoryPoint baseCurrencyHistoryPoint = new CurrencyHistoryPoint(localDateTime1, 2.0, new Currency());
+        CurrencyPairHistoryPoint baseCurrencyPairHistoryPoint = new CurrencyPairHistoryPoint(localDateTime1, 2.0, new CurrencyPair());
     }
 }

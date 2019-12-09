@@ -1,11 +1,11 @@
 package com.finance.data.repository.accounts;
 
-import com.finance.data.domain.accounts.PersonalData;
+import com.finance.data.domain.accounts.UserData;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PersonalDataRepository extends CrudRepository<PersonalData, Long> {
+public interface PersonalDataRepository extends CrudRepository<UserData, Long> {
     @Override
-    <S extends PersonalData> S save(S entity);
+    <S extends UserData> S save(S entity);
 }

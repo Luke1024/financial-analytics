@@ -16,9 +16,9 @@ public class OrderOpeningEvaluator {
     //}
 
     //private boolean evaluateAccountBalance(OrderOpeningDto orderOpeningDto, TradingAccount userTradingAccount) {
-      //  CurrencyHistoryPoint baseCurrency = currencyHistoryPointService
+      //  CurrencyPairHistoryPoint baseCurrency = currencyHistoryPointService
         //        .getLastCurrencyHistoryPoint(orderOpeningDto.getBaseCurrency());
-        //CurrencyHistoryPoint currency = currencyHistoryPointService
+        //CurrencyPairHistoryPoint currency = currencyHistoryPointService
       //          .getLastCurrencyHistoryPoint(orderOpeningDto.getCurrency());
 
         //double baseCurrencyValue = b

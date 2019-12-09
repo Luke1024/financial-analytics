@@ -1,6 +1,6 @@
 package com.finance.data.service.account;
 
-import com.finance.data.domain.accounts.PersonalData;
+import com.finance.data.domain.accounts.UserData;
 import com.finance.data.domain.accounts.User;
 import com.finance.data.domain.accounts.dto.PersonalDataDto;
 import com.finance.data.mapper.accounts.PersonalDataMapper;
@@ -22,27 +22,27 @@ public class PersonalDataService {
     @Autowired
     private PersonalDataMapper personalDataMapper;
 
-    public PersonalData getPersonalDataByUserId(Long userId){
+    public UserData getPersonalDataByUserId(Long userId){
         Optional<User> retrievedUser = userRepository.findById(userId);
         if(retrievedUser.isPresent()) {
-            return retrievedUser.get().getPersonalData();
+            return retrievedUser.get().getUserData();
         } else {
             System.out.println("returning empty personalData");
-            return new PersonalData();
+            return new UserData();
         }
     }
 
-    public PersonalData createUpdatePersonalData(PersonalDataDto personalDataDto) {
+    public UserData createUpdatePersonalData(PersonalDataDto personalDataDto) {
         Optional<User> retrievedUser = userRepository.findById(personalDataDto.getUserId());
         if(retrievedUser.isPresent()){
             User user = retrievedUser.get();
-            PersonalData personalData = personalDataMapper.mapToPersonalDataWithUser(personalDataDto, user);
-            user.setPersonalData(personalData);
+            UserData userData = personalDataMapper.mapToPersonalDataWithUser(personalDataDto, user);
+            user.setUserData(userData);
             user = userRepository.save(retrievedUser.get());
-            return user.getPersonalData();
+            return user.getUserData();
         } else {
             System.out.println("user not found");
-            return new PersonalData();
+            return new UserData();
         }
     }
 }

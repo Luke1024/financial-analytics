@@ -1,6 +1,6 @@
 package com.finance.data.mapper.accounts;
 
-import com.finance.data.domain.accounts.PersonalData;
+import com.finance.data.domain.accounts.UserData;
 import com.finance.data.domain.accounts.User;
 import com.finance.data.domain.accounts.dto.PersonalDataDto;
 import org.junit.jupiter.api.Test;
@@ -13,14 +13,14 @@ import static com.shazam.shazamcrest.matcher.Matchers.sameBeanAs;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-class PersonalDataMapperTest {
+class UserDataMapperTest {
 
     @Autowired
     private PersonalDataMapper personalDataMapper;
 
     @Test
     void mapToPersonalDataDto() {
-        PersonalData personalData = new PersonalData("firstName", "lastName",
+        UserData userData = new UserData("firstName", "lastName",
                 "voivodeship", "city", "postalCode", "street",
                 "homeNumber", "phoneNumber", new User(1L));
 
@@ -28,13 +28,13 @@ class PersonalDataMapperTest {
                 "voivodeship", "city", "postalCode", "street",
                 "homeNumber", "phoneNumber", 1L);
 
-        assertThat(personalDataDto, sameBeanAs(personalDataMapper.mapToPersonalDataDto(personalData)));
+        assertThat(personalDataDto, sameBeanAs(personalDataMapper.mapToPersonalDataDto(userData)));
     }
 
     @Test
     void mapToPersonalData() {
         User user = new User(1L);
-        PersonalData personalData = new PersonalData("firstName", "lastName",
+        UserData userData = new UserData("firstName", "lastName",
                 "voivodeship", "city", "postalCode", "street",
                 "homeNumber", "phoneNumber", user);
 
@@ -42,6 +42,6 @@ class PersonalDataMapperTest {
                 "voivodeship", "city", "postalCode", "street",
                 "homeNumber", "phoneNumber", 1L);
 
-        assertThat(personalData, sameBeanAs(personalDataMapper.mapToPersonalDataWithUser(personalDataDto, user)));
+        assertThat(userData, sameBeanAs(personalDataMapper.mapToPersonalDataWithUser(personalDataDto, user)));
     }
 }

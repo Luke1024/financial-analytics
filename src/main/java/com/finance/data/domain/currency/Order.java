@@ -18,11 +18,11 @@ public class Order {
     private double stopLoss;
     private double takeProfit;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private CurrencyHistoryPoint currencyHistoryPointOpen;
+    private CurrencyPairHistoryPoint currencyPairHistoryPointOpen;
     private LocalDateTime orderOpened;
     private double orderOpeningPrice;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private CurrencyHistoryPoint currencyHistoryPointClose;
+    private CurrencyPairHistoryPoint currencyPairHistoryPointClose;
     private LocalDateTime orderClosed;
     private double orderClosingPrice;
     private double orderBalance;
@@ -36,8 +36,8 @@ public class Order {
     }
 
     public Order(LongShort longShort, double lot, String baseCurrency, String currency, double stopLoss,
-                 double takeProfit, CurrencyHistoryPoint currencyHistoryPointOpen, LocalDateTime orderOpened,
-                 double orderOpeningPrice, CurrencyHistoryPoint currencyHistoryPointClose, LocalDateTime orderClosed,
+                 double takeProfit, CurrencyPairHistoryPoint currencyPairHistoryPointOpen, LocalDateTime orderOpened,
+                 double orderOpeningPrice, CurrencyPairHistoryPoint currencyPairHistoryPointClose, LocalDateTime orderClosed,
                  double orderClosingPrice, double orderBalance, TradingAccountHistoryPoint tradingAccountHistoryPoint) {
         this.longShort = longShort;
         this.lot = lot;
@@ -45,10 +45,10 @@ public class Order {
         this.currency = currency;
         this.stopLoss = stopLoss;
         this.takeProfit = takeProfit;
-        this.currencyHistoryPointOpen = currencyHistoryPointOpen;
+        this.currencyPairHistoryPointOpen = currencyPairHistoryPointOpen;
         this.orderOpened = orderOpened;
         this.orderOpeningPrice = orderOpeningPrice;
-        this.currencyHistoryPointClose = currencyHistoryPointClose;
+        this.currencyPairHistoryPointClose = currencyPairHistoryPointClose;
         this.orderClosed = orderClosed;
         this.orderClosingPrice = orderClosingPrice;
         this.orderBalance = orderBalance;
@@ -83,8 +83,8 @@ public class Order {
         return takeProfit;
     }
 
-    public CurrencyHistoryPoint getCurrencyHistoryPointOpen() {
-        return currencyHistoryPointOpen;
+    public CurrencyPairHistoryPoint getCurrencyPairHistoryPointOpen() {
+        return currencyPairHistoryPointOpen;
     }
 
     public LocalDateTime getOrderOpened() {
@@ -95,8 +95,8 @@ public class Order {
         return orderOpeningPrice;
     }
 
-    public CurrencyHistoryPoint getCurrencyHistoryPointClose() {
-        return currencyHistoryPointClose;
+    public CurrencyPairHistoryPoint getCurrencyPairHistoryPointClose() {
+        return currencyPairHistoryPointClose;
     }
 
     public LocalDateTime getOrderClosed() {

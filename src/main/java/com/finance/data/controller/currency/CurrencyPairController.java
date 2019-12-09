@@ -23,4 +23,9 @@ public class CurrencyPairController {
     public List<PairHistoryPointDto> currencyPairHistory(PairHistoryRequestDto pairHistoryRequestDto){
         return currencyPairMapper.mapToDTOList(currencyPairService.getCurrencyPairHistory(pairHistoryRequestDto));
     }
+
+    //@GetMapping(value = "/currency/primarypair")
+    //public List<PairHistoryPointDto> getCurrencies(){
+      //  return
+    //}
 }

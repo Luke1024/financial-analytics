@@ -1,6 +1,6 @@
 package com.finance.data.repository.currency;
 
-import com.finance.data.domain.currency.CurrencyHistoryPoint;
+import com.finance.data.domain.currency.CurrencyPairHistoryPoint;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -10,9 +10,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
-public interface CurrencyHistoryPointRepository extends CrudRepository<CurrencyHistoryPoint, Long> {
+public interface CurrencyHistoryPointRepository extends CrudRepository<CurrencyPairHistoryPoint, Long> {
     @Query
-    List<CurrencyHistoryPoint> retrieveByTimeRangeAndCurrencyId(@Param("TIME_STAMP_START")LocalDateTime time_stamp_start,
-                                                                @Param("TIME_STAMP_STOP")LocalDateTime time_stamp_stop,
-                                                                @Param("CURRENCY_ID")Long currency_id);
+    List<CurrencyPairHistoryPoint> retrieveByTimeRangeAndCurrencyId(@Param("TIME_STAMP_START")LocalDateTime time_stamp_start,
+                                                                    @Param("TIME_STAMP_STOP")LocalDateTime time_stamp_stop,
+                                                                    @Param("CURRENCY_ID")Long currency_id);
 }

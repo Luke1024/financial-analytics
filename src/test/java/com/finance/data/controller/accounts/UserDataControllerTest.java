@@ -1,6 +1,6 @@
 package com.finance.data.controller.accounts;
 
-import com.finance.data.domain.accounts.PersonalData;
+import com.finance.data.domain.accounts.UserData;
 import com.finance.data.domain.accounts.User;
 import com.finance.data.domain.accounts.dto.PersonalDataDto;
 import com.finance.data.mapper.accounts.PersonalDataMapper;
@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(PersonalDataController.class)
-public class PersonalDataControllerTest {
+public class UserDataControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
@@ -38,14 +38,14 @@ public class PersonalDataControllerTest {
                 "voivodeship", "city", "postalCode", "street",
                 "homeNumber", "phoneNumber", 1L);
 
-        PersonalData personalData = new PersonalData(1L, "firstName", "lastName",
+        UserData userData = new UserData(1L, "firstName", "lastName",
                 "voivodeship", "city", "postalCode", "street",
                 "homeNumber", "phoneNumber", new User());
 
-        when(personalDataService.getPersonalDataByUserId(ArgumentMatchers.anyLong())).thenReturn(personalData);
-        when(personalDataMapper.mapToPersonalDataDto(ArgumentMatchers.any(PersonalData.class))).thenReturn(personalDataDto);
+        when(personalDataService.getPersonalDataByUserId(ArgumentMatchers.anyLong())).thenReturn(userData);
+        when(personalDataMapper.mapToPersonalDataDto(ArgumentMatchers.any(UserData.class))).thenReturn(personalDataDto);
 
-        mockMvc.perform(get("/finance/personalData/1")
+        mockMvc.perform(get("/finance/userData/1")
         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
