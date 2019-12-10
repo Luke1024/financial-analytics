@@ -3,7 +3,6 @@ package com.finance.data.service;
 import com.finance.data.domain.currency.CurrencyPair;
 import com.finance.data.domain.currency.CurrencyPairHistoryPoint;
 import com.finance.data.repository.currency.CurrencyRepository;
-import com.finance.data.service.currency.CurrencyService;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;

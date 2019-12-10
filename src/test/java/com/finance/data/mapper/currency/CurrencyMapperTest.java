@@ -1,6 +1,5 @@
 package com.finance.data.mapper.currency;
 
-import com.finance.data.service.currency.CurrencyService;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

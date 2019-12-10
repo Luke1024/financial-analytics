@@ -2,7 +2,6 @@ package com.finance.data.controller.currency;
 
 import com.finance.data.domain.currency.CurrencyPair;
 import com.finance.data.mapper.currency.CurrencyMapper;
-import com.finance.data.service.currency.CurrencyService;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatchers;

@@ -14,8 +14,6 @@ import java.util.stream.Collectors;
 
 @Component
 public class CurrencyPairService {
-    @Autowired
-    private CurrencyService currencyService;
 
     @Autowired
     private CurrencyHistoryPointRepository currencyHistoryPointRepository;
