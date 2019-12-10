@@ -5,6 +5,7 @@ import com.finance.data.config.WorldTradingDownloaderServiceConfig;
 import com.finance.data.domain.currency.CurrencyPair;
 import com.finance.data.service.currency.CurrencyService;
 import com.finance.data.service.currency.utilities.CurrencyPairAssembler;
+import com.finance.data.service.currency.utilities.PairDto;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -57,8 +58,8 @@ public class TradingDataDownloaderService {
         return currencyPairs;
     }
 
-    private CurrencyPair assemblyPair(String pair, Map<String, String> currencyMap) {
-
+    private PairDto assemblyPair(String pair, Map<String, String> currencyMap) {
+        return currencyPairAssembler.assembleCurrencyPair(pair, currencyMap);
     }
 }
     /*
