@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(CurrencyController.class)
-class CurrencyPairControllerTest {
+class CurrencyPairRepositoryControllerTest {
     @Autowired
     private MockMvc mockMvc;
 

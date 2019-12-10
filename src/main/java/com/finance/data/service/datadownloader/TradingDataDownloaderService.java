@@ -63,7 +63,7 @@ public class TradingDataDownloaderService {
     }
 
     private void addCurrencyPairHistoryPoints(List<PairDto> currencies){
-        addHistoryPoints(currencies, currencyPairService.getCurrencyPair(currencies));
+        addHistoryPoints(currencies, currencyPairService.getCurrencyPair(currencies.get(0).getPairName()));
     }
 
     private void addHistoryPoints(List<PairDto> currencies, Optional<CurrencyPair> currencyPair) {
@@ -74,7 +74,7 @@ public class TradingDataDownloaderService {
             }
         } else {
             addCurrencyPair(currencies);
-            addHistoryPoints(currencies, currencyPairService.getCurrencyPair(currencies));
+            addHistoryPoints(currencies, currencyPairService.getCurrencyPair(currencies.get(0).getPairName()));
         }
     }
 

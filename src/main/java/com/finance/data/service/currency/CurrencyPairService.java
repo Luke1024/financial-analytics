@@ -1,23 +1,31 @@
 package com.finance.data.service.currency;
 
 import com.finance.data.domain.currency.CurrencyPair;
-import com.finance.data.domain.currency.CurrencyPairHistoryPoint;
-import com.finance.data.domain.currency.dto.PairHistoryRequestDto;
-import com.finance.data.repository.currency.CurrencyHistoryPointRepository;
+import com.finance.data.repository.currency.CurrencyPairHistoryPointRepository;
+import com.finance.data.repository.currency.CurrencyPairRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Component
 public class CurrencyPairService {
+    @Autowired
+    private CurrencyPairRepository currencyPairRepository;
 
     @Autowired
-    private CurrencyHistoryPointRepository currencyHistoryPointRepository;
+    private CurrencyPairHistoryPointRepository currencyPairHistoryPointRepository;
 
+    public Optional<CurrencyPair> getCurrencyPair(String pairName) {
+        return currencyPairRepository.findByCurrencyName(pairName);
+    }
+
+    public void saveCurrencyPair(CurrencyPair currencyPair){
+        currencyPairRepository.save(currencyPair);
+    }
+
+
+    /*
     public List<CurrencyPairHistoryPoint> getCurrencyPairHistory(PairHistoryRequestDto pairHistoryRequestDto){
         String baseCurrencyName = pairHistoryRequestDto.getBaseCurrencyName();
         String currencyName = pairHistoryRequestDto.getCurrencyName();
@@ -127,4 +135,5 @@ public class CurrencyPairService {
         }
         return historyComputed;
     }
+    */
 }

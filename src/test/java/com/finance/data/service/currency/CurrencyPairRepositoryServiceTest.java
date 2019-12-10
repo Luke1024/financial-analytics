@@ -14,7 +14,7 @@ import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class CurrencyPairServiceTest {
+public class CurrencyPairRepositoryServiceTest {
 
     @Autowired
     private CurrencyService currencyService;

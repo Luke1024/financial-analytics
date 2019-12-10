@@ -2,7 +2,6 @@ package com.finance.data.service;
 
 import com.finance.data.domain.currency.CurrencyPair;
 import com.finance.data.domain.currency.CurrencyPairHistoryPoint;
-import com.finance.data.repository.currency.CurrencyRepository;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -19,7 +18,7 @@ import java.util.Optional;
 @SpringBootTest
 class CurrencyServiceTest {
     @Autowired
-    private CurrencyRepository currencyRepository;
+    private CurrencyPair currencyPair;
 
     @Autowired
     private CurrencyService currencyService;
@@ -54,7 +53,7 @@ class CurrencyServiceTest {
 
         Assert.assertTrue(retrievedCurrencyPairHistoryPoint.getTimeStamp().equals(localDateTime2));
 
-        currencyRepository.deleteById(currency.getId());
+        currencyPair.deleteById(currency.getId());
 
     }
 
@@ -70,7 +69,7 @@ class CurrencyServiceTest {
         Assert.assertEquals("LFKHGLYR", currencyList.get(0).getCurrencyPairName());
 
         System.out.println(currency.getId());
-        currencyRepository.deleteById(currency.getId());
+        currencyPair.deleteById(currency.getId());
     }
 
     @Test
@@ -81,33 +80,33 @@ class CurrencyServiceTest {
 
         currencyService.addHistoryPoint("LFKHGLYR", "0.4123", LocalDateTime.now());
 
-        Optional<CurrencyPair> currencyOptional = currencyRepository.findById(currency.getId());
+        Optional<CurrencyPair> currencyOptional = currencyPair.findById(currency.getId());
         System.out.println();
 
         Assert.assertEquals("LFKHGLYR" ,currencyOptional.get().getCurrencyPairName());
         Assert.assertEquals(new Double(0.4123), currencyOptional.get().getCurrencyPairHistoryPoints().get(0).getValue());
 
-        currencyRepository.deleteById(currency.getId());
+        currencyPair.deleteById(currency.getId());
     }
 
     @Test
     public void addCurrency() {
         currencyService.addCurrency("HKJFKLF", "LFKHGLYR");
-        List<CurrencyPair> currencies = currencyRepository.findByCurrencyName("LFKHGLYR");
+        List<CurrencyPair> currencies = currencyPair.findByCurrencyName("LFKHGLYR");
         Assert.assertEquals("LFKHGLYR", currencies.get(0).getCurrencyPairName());
 
-        currencyRepository.deleteById(currencies.get(0).getId());
+        currencyPair.deleteById(currencies.get(0).getId());
     }
 
     private void currencySavingBlock(CurrencyPair currency){
-        List<CurrencyPair> retrievedCurrency = currencyRepository.retrieveByBaseAndName(
+        List<CurrencyPair> retrievedCurrency = currencyPair.retrieveByBaseAndName(
                 currency.getBase(), currency.getCurrencyPairName());
 
         if(retrievedCurrency.isEmpty()){
-            currencyRepository.save(currency);
+            currencyPair.save(currency);
         } else {
-            currencyRepository.deleteById(retrievedCurrency.get(0).getId());
-            currencyRepository.save(currency);
+            currencyPair.deleteById(retrievedCurrency.get(0).getId());
+            currencyPair.save(currency);
         }
     }
 }
