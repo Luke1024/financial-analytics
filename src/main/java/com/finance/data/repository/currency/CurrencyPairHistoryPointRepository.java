@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface CurrencyPairHistoryPointRepository extends CrudRepository<CurrencyPairHistoryPoint, Long> {
     @Query
-    List<CurrencyPairHistoryPoint> retrieveByTimeRangeAndCurrencyId(@Param("TIME_STAMP_START")LocalDateTime time_stamp_start,
-                                                                    @Param("TIME_STAMP_STOP")LocalDateTime time_stamp_stop,
-                                                                    @Param("CURRENCY_ID")Long currency_id);
+    List<CurrencyPairHistoryPoint> retrieveByTimeRangeAndCurrencyName(@Param("TIME_STAMP_START")LocalDateTime time_stamp_start,
+                                                                      @Param("TIME_STAMP_STOP")LocalDateTime time_stamp_stop,
+                                                                      @Param("CURRENCY_NAME")String currency_name);
 }

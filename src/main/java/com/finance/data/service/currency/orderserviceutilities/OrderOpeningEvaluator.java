@@ -1,6 +1,5 @@
 package com.finance.data.service.currency.orderserviceutilities;
 
-import com.finance.data.service.currency.CurrencyHistoryPointService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

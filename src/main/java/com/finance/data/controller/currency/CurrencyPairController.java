@@ -1,7 +1,6 @@
 package com.finance.data.controller.currency;
 
-import com.finance.data.domain.currency.dto.PairHistoryPointDto;
-import com.finance.data.domain.currency.dto.PairHistoryRequestDto;
+import com.finance.data.domain.currency.dto.CurrencyOverviewDto;
 import com.finance.data.mapper.currency.CurrencyPairMapper;
 import com.finance.data.service.currency.CurrencyPairService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +18,8 @@ public class CurrencyPairController {
     @Autowired
     private CurrencyPairMapper currencyPairMapper;
 
-    @GetMapping(value = "/currency/pair/history")
-    public List<PairHistoryPointDto> currencyPairHistory(PairHistoryRequestDto pairHistoryRequestDto){
-        return currencyPairMapper.mapToDTOList(currencyPairService.getCurrencyPairHistory(pairHistoryRequestDto));
-    }
-
-    @GetMapping(value = "/currency/primarypair")
-    public List<PairHistoryPointDto> getCurrencies(){
-        return
+    @GetMapping(value = "/currency/pairs")
+    public List<CurrencyOverviewDto> getCurrencies(){
+        return currencyPairMapper.mapToOverviewDto(currencyPairService.getCurrencies());
     }
 }

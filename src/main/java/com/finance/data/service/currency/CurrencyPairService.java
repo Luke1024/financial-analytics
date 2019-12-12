@@ -1,11 +1,14 @@
 package com.finance.data.service.currency;
 
 import com.finance.data.domain.currency.CurrencyPair;
+import com.finance.data.domain.currency.CurrencyPairHistoryPoint;
+import com.finance.data.domain.currency.dto.PairHistoryRequestDto;
 import com.finance.data.repository.currency.CurrencyPairHistoryPointRepository;
 import com.finance.data.repository.currency.CurrencyPairRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -15,6 +18,10 @@ public class CurrencyPairService {
 
     @Autowired
     private CurrencyPairHistoryPointRepository currencyPairHistoryPointRepository;
+
+    public List<CurrencyPair> getCurrencies() {
+        return currencyPairRepository.findAll();
+    }
 
     public Optional<CurrencyPair> getCurrencyPair(String pairName) {
         return currencyPairRepository.findByCurrencyName(pairName);
@@ -108,7 +115,7 @@ public class CurrencyPairService {
     }
 
     private List<CurrencyPairHistoryPoint> retrieveRequestedTimeRange(LocalDateTime start, LocalDateTime stop, CurrencyPair currency) {
-        return currencyHistoryPointRepository.retrieveByTimeRangeAndCurrencyId(start, stop, currency.getId());
+        return currencyHistoryPointRepository.retrieveByTimeRangeAndCurrencyName(start, stop, currency.getId());
     }
 
     private List<CurrencyPairHistoryPoint> computeValueBasedOnBaseCurrency

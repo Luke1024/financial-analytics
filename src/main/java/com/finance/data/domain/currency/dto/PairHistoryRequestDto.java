@@ -3,8 +3,7 @@ package com.finance.data.domain.currency.dto;
 import java.time.LocalDateTime;
 
 public class PairHistoryRequestDto {
-    private String baseCurrencyName;
-    private String currencyName;
+    private String pairName;
     private boolean requestAllHistory; //override time settings
     private LocalDateTime start;
     private LocalDateTime stop;
@@ -12,20 +11,15 @@ public class PairHistoryRequestDto {
     public PairHistoryRequestDto() {
     }
 
-    public PairHistoryRequestDto(String baseCurrencyName, String currencyName, boolean requestAllHistory, LocalDateTime start, LocalDateTime stop) {
-        this.baseCurrencyName = baseCurrencyName;
-        this.currencyName = currencyName;
+    public PairHistoryRequestDto(String pairName, boolean requestAllHistory, LocalDateTime start, LocalDateTime stop) {
+        this.pairName = pairName;
         this.requestAllHistory = requestAllHistory;
         this.start = start;
         this.stop = stop;
     }
 
-    public String getBaseCurrencyName() {
-        return baseCurrencyName;
-    }
-
-    public String getCurrencyName() {
-        return currencyName;
+    public String getPairName() {
+        return pairName;
     }
 
     public boolean isRequestAllHistory() {

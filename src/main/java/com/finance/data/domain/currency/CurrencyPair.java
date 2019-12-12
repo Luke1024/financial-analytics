@@ -43,6 +43,10 @@ public class CurrencyPair {
         return currencyPairName;
     }
 
+    public CurrencyPairHistoryPoint getLastPairHistoryPoint() {
+        return currencyPairHistoryPoints.get(currencyPairHistoryPoints.size()-1);
+    }
+
     public List<CurrencyPairHistoryPoint> getCurrencyPairHistoryPoints() {
         return currencyPairHistoryPoints;
     }
