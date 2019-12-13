@@ -8,20 +8,19 @@ public class OrderOpeningDto {
     private double lot;
     private double takeProfit;
     private double stopLoss;
-    private String baseCurrency;
-    private String currency;
+    private String currencyPair;
 
     public OrderOpeningDto() {
     }
 
-    public OrderOpeningDto(Long userTradingAccountId, LongShort longShort, double lot, double takeProfit, double stopLoss, String baseCurrency, String currency) {
+    public OrderOpeningDto(Long userTradingAccountId, LongShort longShort, double lot,
+                           double takeProfit, double stopLoss, String currencyPair) {
         this.userTradingAccountId = userTradingAccountId;
         this.longShort = longShort;
         this.lot = lot;
         this.takeProfit = takeProfit;
         this.stopLoss = stopLoss;
-        this.baseCurrency = baseCurrency;
-        this.currency = currency;
+        this.currencyPair = currencyPair;
     }
 
     public Long getUserTradingAccountId() {
@@ -44,11 +43,7 @@ public class OrderOpeningDto {
         return stopLoss;
     }
 
-    public String getBaseCurrency() {
-        return baseCurrency;
-    }
-
-    public String getCurrency() {
-        return currency;
+    public String getCurrencyPair() {
+        return currencyPair;
     }
 }

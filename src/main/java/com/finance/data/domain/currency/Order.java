@@ -13,18 +13,15 @@ public class Order {
     private Long orderId;
     private LongShort longShort;
     private double lot;
-    private String baseCurrency;
-    private String currency;
+    private String currencyPair;
     private double stopLoss;
     private double takeProfit;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private CurrencyPairHistoryPoint currencyPairHistoryPointOpen;
     private LocalDateTime orderOpened;
-    private double orderOpeningPrice;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private CurrencyPairHistoryPoint currencyPairHistoryPointClose;
     private LocalDateTime orderClosed;
-    private double orderClosingPrice;
     private double orderBalance;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private TradingAccountHistoryPoint tradingAccountHistoryPoint;
@@ -35,14 +32,14 @@ public class Order {
         this.orderId = orderId;
     }
 
-    public Order(LongShort longShort, double lot, String baseCurrency, String currency, double stopLoss,
-                 double takeProfit, CurrencyPairHistoryPoint currencyPairHistoryPointOpen, LocalDateTime orderOpened,
-                 double orderOpeningPrice, CurrencyPairHistoryPoint currencyPairHistoryPointClose, LocalDateTime orderClosed,
-                 double orderClosingPrice, double orderBalance, TradingAccountHistoryPoint tradingAccountHistoryPoint) {
+    public Order(LongShort longShort, double lot, String currencyPair, double stopLoss, double takeProfit,
+                 CurrencyPairHistoryPoint currencyPairHistoryPointOpen, LocalDateTime orderOpened,
+                 double orderOpeningPrice, CurrencyPairHistoryPoint currencyPairHistoryPointClose,
+                 LocalDateTime orderClosed, double orderClosingPrice, double orderBalance,
+                 TradingAccountHistoryPoint tradingAccountHistoryPoint) {
         this.longShort = longShort;
         this.lot = lot;
-        this.baseCurrency = baseCurrency;
-        this.currency = currency;
+        this.currencyPair = currencyPair;
         this.stopLoss = stopLoss;
         this.takeProfit = takeProfit;
         this.currencyPairHistoryPointOpen = currencyPairHistoryPointOpen;
@@ -67,12 +64,8 @@ public class Order {
         return lot;
     }
 
-    public String getBaseCurrency() {
-        return baseCurrency;
-    }
-
-    public String getCurrency() {
-        return currency;
+    public String getCurrencyPair() {
+        return currencyPair;
     }
 
     public double getStopLoss() {

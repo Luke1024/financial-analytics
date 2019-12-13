@@ -8,8 +8,6 @@ public class OrderDto {
     private Long orderId;
     private LongShort longShort;
     private double lot;
-    private String baseCurrency;
-    private String currency;
     private String currencyPair;
     private double stopLoss;
     private double takeProfit;
@@ -24,15 +22,13 @@ public class OrderDto {
 
     public OrderDto() {}
 
-    public OrderDto(Long orderId, LongShort longShort, double lot, String baseCurrency, String currency,
-                    String currencyPair, double stopLoss, double takeProfit, Long currencyHistoryPointOpenId,
-                    LocalDateTime orderOpened, double orderOpeningPrice, Long currencyHistoryPointCloseId,
-                    LocalDateTime orderClosed, double orderClosingPrice, double orderBalance, Long userTradingAccountId) {
+    public OrderDto(Long orderId, LongShort longShort, double lot, String currencyPair, double stopLoss,
+                    double takeProfit, Long currencyHistoryPointOpenId, LocalDateTime orderOpened,
+                    double orderOpeningPrice, Long currencyHistoryPointCloseId, LocalDateTime orderClosed,
+                    double orderClosingPrice, double orderBalance, Long userTradingAccountId) {
         this.orderId = orderId;
         this.longShort = longShort;
         this.lot = lot;
-        this.baseCurrency = baseCurrency;
-        this.currency = currency;
         this.currencyPair = currencyPair;
         this.stopLoss = stopLoss;
         this.takeProfit = takeProfit;
@@ -56,14 +52,6 @@ public class OrderDto {
 
     public double getLot() {
         return lot;
-    }
-
-    public String getBaseCurrency() {
-        return baseCurrency;
-    }
-
-    public String getCurrency() {
-        return currency;
     }
 
     public String getCurrencyPair() {
