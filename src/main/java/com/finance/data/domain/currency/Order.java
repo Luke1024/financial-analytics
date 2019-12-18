@@ -1,6 +1,5 @@
 package com.finance.data.domain.currency;
 
-import com.finance.data.domain.accounts.TradingAccountHistoryPoint;
 import com.finance.data.domain.currency.enums.LongShort;
 
 import javax.persistence.*;
@@ -24,8 +23,6 @@ public class Order {
     private CurrencyPairHistoryPoint currencyPairHistoryPointClose;
     private LocalDateTime orderClosed;
     private double orderBalance;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private TradingAccountHistoryPoint tradingAccountHistoryPoint;
 
     public Order() {}
 
@@ -35,9 +32,7 @@ public class Order {
 
     public Order(LongShort longShort, double lot, String currencyPair, double stopLoss, double takeProfit,
                  CurrencyPairHistoryPoint currencyPairHistoryPointOpen, LocalDateTime orderOpened,
-                 double orderOpeningPrice, CurrencyPairHistoryPoint currencyPairHistoryPointClose,
-                 LocalDateTime orderClosed, double orderClosingPrice, double orderBalance,
-                 TradingAccountHistoryPoint tradingAccountHistoryPoint) {
+                 CurrencyPairHistoryPoint currencyPairHistoryPointClose, LocalDateTime orderClosed, double orderBalance) {
         this.longShort = longShort;
         this.lot = lot;
         this.currencyPair = currencyPair;
@@ -48,7 +43,6 @@ public class Order {
         this.currencyPairHistoryPointClose = currencyPairHistoryPointClose;
         this.orderClosed = orderClosed;
         this.orderBalance = orderBalance;
-        this.tradingAccountHistoryPoint = tradingAccountHistoryPoint;
     }
 
     public Long getOrderId() {
@@ -93,9 +87,5 @@ public class Order {
 
     public double getOrderBalance() {
         return orderBalance;
-    }
-
-    public TradingAccountHistoryPoint getTradingAccountHistoryPoint() {
-        return tradingAccountHistoryPoint;
     }
 }

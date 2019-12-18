@@ -40,7 +40,7 @@ public class OrderService {
     public List<Order> getCurrentlyOpenOrders(Long userId) {
         return orderRepository.findOrderByOrderClosedNull(userId);
     }
-
+/*
     public List<Order> getUserOrdersFromLastMonth(Long userId) {
         return userService.getUserById(userId)
                 .getTradingAccounts()
@@ -52,6 +52,7 @@ public class OrderService {
 
         //return orderRepository.findOrderByC(userId ,LocalDateTime.now().minusMonths(1))
     }
+*/
 
     public boolean placeOrder(OrderOpeningDto orderOpeningDto) {
         Optional<TradingAccount> retrievedTradingAccount =

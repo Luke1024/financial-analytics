@@ -15,7 +15,6 @@ public class UserData {
     private String street;
     private String homeNumber;
     private String phoneNumber;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private User user;
 
     public UserData() {

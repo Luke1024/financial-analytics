@@ -33,6 +33,7 @@ public class TradingAccount {
     private List<TradingAccountHistoryPoint> points;
 
     public TradingAccount() {
+
     }
 
     public TradingAccount(Long id) {
