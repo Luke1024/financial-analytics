@@ -1,6 +1,6 @@
 package com.finance.data.domain.accounts.dto;
 
-import com.finance.data.domain.accounts.AccountType;
+import com.finance.data.domain.accounts.enums.AccountType;
 
 public class TradingAccountCreationDto {
     private Long userId;

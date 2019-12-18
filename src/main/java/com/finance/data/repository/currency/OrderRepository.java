@@ -10,8 +10,7 @@ import java.util.List;
 
 @Repository
 public interface OrderRepository extends CrudRepository<Order, Long> {
-    @Query
-    List<Order> findOrderByOrderClosedAfterAnd(Long userId, LocalDateTime dateTime);
+
 
     List<Order> findOrderByOrderClosedNull(Long userId);
 }

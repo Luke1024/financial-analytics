@@ -1,6 +1,6 @@
 package com.finance.data.domain.currency.dto;
 
-import com.finance.data.domain.currency.LongShort;
+import com.finance.data.domain.currency.enums.LongShort;
 
 public class OrderOpeningDto {
     private Long userTradingAccountId;

@@ -1,5 +1,6 @@
 package com.finance.data.domain.accounts;
 
+import com.finance.data.domain.accounts.enums.OperationType;
 import com.finance.data.domain.currency.Order;
 
 import javax.persistence.*;
@@ -14,7 +15,7 @@ public class TradingAccountHistoryPoint {
     private double accountChange;
     private double moneyAmountBeforeChange;
     private double moneyAmountAfterChange;
-    private LocalDateTime localDateTime;
+    private LocalDateTime accountChangeTime;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "USER_TRADING_ACCOUNT_ID")
     private TradingAccount tradingAccount;
@@ -30,25 +31,25 @@ public class TradingAccountHistoryPoint {
 
     public TradingAccountHistoryPoint(OperationType operationType, double accountChange,
                                       double moneyAmountBeforeChange, double moneyAmountAfterChange,
-                                      LocalDateTime localDateTime, TradingAccount tradingAccount, Order order) {
+                                      LocalDateTime accountChangeTime, TradingAccount tradingAccount, Order order) {
         this.operationType = operationType;
         this.accountChange = accountChange;
         this.moneyAmountBeforeChange = moneyAmountBeforeChange;
         this.moneyAmountAfterChange = moneyAmountAfterChange;
-        this.localDateTime = localDateTime;
+        this.accountChangeTime = accountChangeTime;
         this.tradingAccount = tradingAccount;
         this.order = order;
     }
 
-    public TradingAccountHistoryPoint(Long pointId ,OperationType operationType, double accountChange,
+    public TradingAccountHistoryPoint(Long pointId , OperationType operationType, double accountChange,
                                       double moneyAmountBeforeChange, double moneyAmountAfterChange,
-                                      LocalDateTime localDateTime, TradingAccount tradingAccount, Order order) {
+                                      LocalDateTime accountChangeTime, TradingAccount tradingAccount, Order order) {
         this.pointId = pointId;
         this.operationType = operationType;
         this.accountChange = accountChange;
         this.moneyAmountBeforeChange = moneyAmountBeforeChange;
         this.moneyAmountAfterChange = moneyAmountAfterChange;
-        this.localDateTime = localDateTime;
+        this.accountChangeTime = accountChangeTime;
         this.tradingAccount = tradingAccount;
         this.order = order;
     }
@@ -73,8 +74,8 @@ public class TradingAccountHistoryPoint {
         return moneyAmountAfterChange;
     }
 
-    public LocalDateTime getLocalDateTime() {
-        return localDateTime;
+    public LocalDateTime getAccountChangeTime() {
+        return accountChangeTime;
     }
 
     public TradingAccount getTradingAccount() {

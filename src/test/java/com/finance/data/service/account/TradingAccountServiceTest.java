@@ -1,9 +1,8 @@
 package com.finance.data.service.account;
 
-import com.finance.data.domain.accounts.AccountType;
+import com.finance.data.domain.accounts.enums.AccountType;
 import com.finance.data.domain.accounts.TradingAccount;
 import com.finance.data.domain.accounts.User;
-import com.finance.data.repository.accounts.UserRepository;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;

@@ -1,6 +1,6 @@
 package com.finance.data.domain.accounts.dto;
 
-import com.finance.data.domain.accounts.OperationType;
+import com.finance.data.domain.accounts.enums.OperationType;
 
 import java.time.LocalDateTime;
 

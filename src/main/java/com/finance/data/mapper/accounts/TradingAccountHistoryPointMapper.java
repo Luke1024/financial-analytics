@@ -14,7 +14,7 @@ public class TradingAccountHistoryPointMapper {
         return tradingAccountHistoryPoints.stream()
                 .map(point -> new TradingAccountHistoryPointDto(point.getPointId(),
                         point.getOperationType(), point.getAccountChange(), point.getMoneyAmountBeforeChange(),
-                        point.getMoneyAmountAfterChange(), point.getLocalDateTime(),
+                        point.getMoneyAmountAfterChange(), point.getAccountChangeTime(),
                         point.getTradingAccount().getId(), point.getOrder()
                         .getOrderId())).collect(Collectors.toList());
     }

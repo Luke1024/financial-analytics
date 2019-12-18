@@ -1,5 +1,7 @@
 package com.finance.data.domain.accounts;
 
+import com.finance.data.domain.accounts.enums.AccountType;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;

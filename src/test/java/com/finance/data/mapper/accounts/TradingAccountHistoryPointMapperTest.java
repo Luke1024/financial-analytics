@@ -1,6 +1,6 @@
 package com.finance.data.mapper.accounts;
 
-import com.finance.data.domain.accounts.OperationType;
+import com.finance.data.domain.accounts.enums.OperationType;
 import com.finance.data.domain.accounts.TradingAccount;
 import com.finance.data.domain.accounts.TradingAccountHistoryPoint;
 import com.finance.data.domain.accounts.dto.TradingAccountHistoryPointDto;

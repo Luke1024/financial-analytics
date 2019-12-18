@@ -1,6 +1,7 @@
 package com.finance.data.domain.currency;
 
 import com.finance.data.domain.accounts.TradingAccountHistoryPoint;
+import com.finance.data.domain.currency.enums.LongShort;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -44,10 +45,8 @@ public class Order {
         this.takeProfit = takeProfit;
         this.currencyPairHistoryPointOpen = currencyPairHistoryPointOpen;
         this.orderOpened = orderOpened;
-        this.orderOpeningPrice = orderOpeningPrice;
         this.currencyPairHistoryPointClose = currencyPairHistoryPointClose;
         this.orderClosed = orderClosed;
-        this.orderClosingPrice = orderClosingPrice;
         this.orderBalance = orderBalance;
         this.tradingAccountHistoryPoint = tradingAccountHistoryPoint;
     }
@@ -84,20 +83,12 @@ public class Order {
         return orderOpened;
     }
 
-    public double getOrderOpeningPrice() {
-        return orderOpeningPrice;
-    }
-
     public CurrencyPairHistoryPoint getCurrencyPairHistoryPointClose() {
         return currencyPairHistoryPointClose;
     }
 
     public LocalDateTime getOrderClosed() {
         return orderClosed;
-    }
-
-    public double getOrderClosingPrice() {
-        return orderClosingPrice;
     }
 
     public double getOrderBalance() {
