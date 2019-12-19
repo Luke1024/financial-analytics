@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -66,35 +65,31 @@ public class OrderService {
 
     private boolean evaluateAndIfOkOpenOrder(OrderOpeningDto orderOpeningDto, TradingAccount tradingAccount) {
 
+        TradingAccountHistoryPoint newTradingAccountHistoryPoint = initializeAccountHistoryPoint(tradingAccount);
+        Order order = initializeOrder(orderOpeningDto);
 
-        TradingAccountHistoryPoint newTradingAccountHistoryPoint =
-                new TradingAccountHistoryPoint(
-                        OperationType.TRADE,
-                        null,
-                        tradingAccount.getAmount(),
-                        null,
-                        null,
-                        new Order);
-
-
-        if(orderOpeningEvaluator.evaluateOrder(orderOpeningDto, tradingAccount)){
-            Order newOrder = new Order(orderOpeningDto.getLongShort(),
-                    orderOpeningDto.getLot(),
-                    orderOpeningDto.getCurrencyPair(),
-                    orderOpeningDto.getStopLoss(),
-                    orderOpeningDto.getTakeProfit(),
-                    getLastHistoryPoint(orderOpeningDto.getCurrencyPair()),
-                    LocalDateTime.now(),
-                    null,
-                    null,
-                    null,
-
-                    );
-            orderRepository.save(new Order());
+        if(orderOpeningEvaluator.evaluateOrder(orderOpeningDto, tradingAccount)) {
+            orderRepository.save(order);
             return true;
         } else {
             return false;
         }
+    }
+
+    private TradingAccountHistoryPoint initializeAccountHistoryPoint(TradingAccount tradingAccount) {
+        return new TradingAccountHistoryPoint(
+                OperationType.TRADE, 0, tradingAccount.getAmount(), 0, null, tradingAccount, new Order());
+    }
+
+    private Order initializeOrder(OrderOpeningDto orderOpeningDto) {
+        return new Order(orderOpeningDto.getLongShort(),
+                orderOpeningDto.getLot(),
+                orderOpeningDto.getCurrencyPair(),
+                orderOpeningDto.getStopLoss(),
+                orderOpeningDto.getTakeProfit(),
+                getLastHistoryPoint(orderOpeningDto.getCurrencyPair()),
+                LocalDateTime.now(),
+                null, null, 0);
     }
 
     private CurrencyPairHistoryPoint getLastHistoryPoint(String currencyPairName) {
@@ -108,6 +103,18 @@ public class OrderService {
     }
 
     public Order modifyOrder(OrderModDto orderModDto) {
+        Optional<Order> retrievedOrder = orderRepository.findById(orderModDto.getOrderId());
+        if(retrievedOrder.isPresent()){
+            return orderRepository.save(modifyOrder(orderModDto, retrievedOrder.get()));
+        } else {
+            return null;
+        }
+    }
+
+    private Order modifyOrder(OrderModDto orderModDto, Order order) {
+        order.setStopLoss(orderModDto.getStopLoss());
+        order.setTakeProfit(orderModDto.getTakeProfit());
+        return order;
     }
 
     public boolean closeOrder(Long orderId) {

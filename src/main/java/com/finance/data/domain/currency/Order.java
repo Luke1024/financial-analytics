@@ -45,6 +45,14 @@ public class Order {
         this.orderBalance = orderBalance;
     }
 
+    public void setStopLoss(double stopLoss) {
+        this.stopLoss = stopLoss;
+    }
+
+    public void setTakeProfit(double takeProfit) {
+        this.takeProfit = takeProfit;
+    }
+
     public Long getOrderId() {
         return orderId;
     }

@@ -25,7 +25,7 @@ public class TradingAccountHistoryPoint {
     public TradingAccountHistoryPoint() {
     }
 
-    public TradingAccountHistoryPoint(Long pointId){
+    public TradingAccountHistoryPoint(Long pointId) {
         this.pointId = pointId;
     }
 
