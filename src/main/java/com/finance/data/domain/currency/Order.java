@@ -45,6 +45,14 @@ public class Order {
         this.orderBalance = orderBalance;
     }
 
+    public void setOrderClosed(LocalDateTime orderClosed) {
+        this.orderClosed = orderClosed;
+    }
+
+    public void setOrderBalance(double orderBalance) {
+        this.orderBalance = orderBalance;
+    }
+
     public void setStopLoss(double stopLoss) {
         this.stopLoss = stopLoss;
     }

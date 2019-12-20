@@ -36,6 +36,9 @@ public class OrderService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private CalculatingService calculatingService;
+
     public List<Order> getCurrentlyOpenOrders(Long userId) {
         return orderRepository.findOrderByOrderClosedNull(userId);
     }
@@ -118,6 +121,22 @@ public class OrderService {
     }
 
     public boolean closeOrder(Long orderId) {
+        Optional<Order> retrievedOrder = orderRepository.findById(orderId);
+        if(retrievedOrder.isPresent()) {
+            orderRepository.save(setOrderToClose(retrievedOrder.get()));
+            return true;
+        } else {
+            return false;
+        }
+    }
 
+    private Order setOrderToClose(Order order) {
+        order.setOrderClosed(LocalDateTime.now());
+        order.setOrderBalance(calculateClosingBalance(order));
+        return order;
+    }
+
+    private double calculateClosingBalance(Order order) {
+        return calculatingService.getClosingBalance(order);
     }
 }
