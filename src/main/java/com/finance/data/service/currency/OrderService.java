@@ -10,7 +10,6 @@ import com.finance.data.domain.currency.dto.OrderModDto;
 import com.finance.data.domain.currency.dto.OrderOpeningDto;
 import com.finance.data.repository.currency.OrderRepository;
 import com.finance.data.repository.accounts.TradingAccountRepository;
-import com.finance.data.service.account.UserService;
 import com.finance.data.service.currency.orderserviceutilities.OrderOpeningEvaluator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,9 +31,6 @@ public class OrderService {
 
     @Autowired
     private OrderOpeningEvaluator orderOpeningEvaluator;
-
-    @Autowired
-    private UserService userService;
 
     @Autowired
     private CalculatingService calculatingService;
@@ -137,6 +133,6 @@ public class OrderService {
     }
 
     private double calculateClosingBalance(Order order) {
-        return calculatingService.getClosingBalance(order);
+        return calculatingService.calculateOrderPriceChange(order);
     }
 }
