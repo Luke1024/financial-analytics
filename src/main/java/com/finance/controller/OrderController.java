@@ -22,19 +22,14 @@ public class OrderController {
     @Autowired
     private OrderMapper orderMapper;
 
-    @GetMapping(value = "/orders")
-    public List<OrderDto> getUserOpenOrders(@PathVariable Long userId) {
-        return orderMapper.mapToOrderDtoList(orderService.getCurrentlyOpenOrders(userId));
-    }
-
-    //@GetMapping(value = "/orders/last")
-    //public List<OrderDto> getUserOrdersFromLastMonth(@PathVariable Long userId){
-      //  return orderMapper.mapToOrderDtoList(orderService.getUserOrdersFromLastMonth(userId));
-    //}
-
     @GetMapping(value = "/orders/open")
     public List<OrderDto> getOpenOrders(@PathVariable Long userId) {
         return orderMapper.mapToOrderDtoList(orderService.getCurrentlyOpenOrders(userId));
+    }
+
+    @GetMapping(value = "/orders/last")
+    public List<OrderDto> getUserOrdersFromLastMonth(@PathVariable Long userId){
+        return orderMapper.mapToOrderDtoList(orderService.getUserOrdersFromLastMonth(userId));
     }
 
     @PostMapping(value = "/order/new", consumes = APPLICATION_JSON_VALUE)
