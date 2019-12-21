@@ -38,10 +38,9 @@ public class TradingAccountMapper {
     public TradingAccount mapToNewTradingAccount(TradingAccountCreationDto creationDto){
         User retrievedUser = userService.getUserById(creationDto.getUserId());
         if(retrievedUser != null){
-            TradingAccount tradingAccount = new TradingAccount(
+            return new TradingAccount(
                     retrievedUser, creationDto.getAccountType(), 0.0, creationDto.getLeverage(),
                     LocalDateTime.now(), new ArrayList<>());
-            return tradingAccount;
         } else {
             System.out.println("user not found");
             return new TradingAccount();

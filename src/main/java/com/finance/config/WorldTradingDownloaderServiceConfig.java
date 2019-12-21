@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class WorldTradingDownloaderServiceConfig {
-    private final String[] currencyPairs =
+    private final static String[] currencyPairs =
             {"USD/CAD",
                     "EUR/JPY",
                     "EUR/USD",
@@ -25,7 +25,7 @@ public class WorldTradingDownloaderServiceConfig {
                     "AUD/NZD"
             };
 
-    private final String apiSetBaseCurrency = "USD";
+    private final static String apiSetBaseCurrency = "USD";
 
     public String[] getCurrencyPairs() {
         return currencyPairs;

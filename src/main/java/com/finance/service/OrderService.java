@@ -52,7 +52,7 @@ public class OrderService {
 
     private boolean evaluateAndIfOkOpenOrder(OrderOpeningDto orderOpeningDto, TradingAccount tradingAccount) {
 
-        TradingAccountHistoryPoint newTradingAccountHistoryPoint = initializeAccountHistoryPoint(tradingAccount);
+        initializeAccountHistoryPoint(tradingAccount);
         Order order = initializeOrder(orderOpeningDto);
 
         OrderEvaluatorResponseDto orderEvaluatorResponseDto = orderOpeningEvaluator.evaluate(orderOpeningDto, tradingAccount);

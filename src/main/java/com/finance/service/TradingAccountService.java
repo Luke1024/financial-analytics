@@ -30,7 +30,7 @@ public class TradingAccountService {
         List<TradingAccount> retrievedAccount = retrievedUser.getTradingAccounts()
                 .stream().filter(account -> account.getId()==tradingAccountLeverageModDto.getAccountId())
                 .collect(Collectors.toList());
-        if(retrievedAccount.size()>0){
+        if(! retrievedAccount.isEmpty()){
             TradingAccount tradingAccount = retrievedAccount.get(0);
             tradingAccount.setLeverage(tradingAccountLeverageModDto.getLeverage());
             return tradingAccountRepository.save(tradingAccount);
