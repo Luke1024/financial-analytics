@@ -10,6 +10,7 @@ import com.finance.data.domain.currency.dto.OrderModDto;
 import com.finance.data.domain.currency.dto.OrderOpeningDto;
 import com.finance.data.repository.currency.OrderRepository;
 import com.finance.data.repository.accounts.TradingAccountRepository;
+import com.finance.data.service.currency.orderserviceutilities.OrderEvaluatorResponseDto;
 import com.finance.data.service.currency.orderserviceutilities.OrderOpeningEvaluator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,27 +39,14 @@ public class OrderService {
     public List<Order> getCurrentlyOpenOrders(Long userId) {
         return orderRepository.findOrderByOrderClosedNull(userId);
     }
-/*
-    public List<Order> getUserOrdersFromLastMonth(Long userId) {
-        return userService.getUserById(userId)
-                .getTradingAccounts()
-                .stream()
-                .map(tradingAccount -> tradingAccount.getPoints())
-                .flatMap(Collection::parallelStream)
-                .map(tradingAccountHistoryPoint -> tradingAccountHistoryPoint.getOrder())
-
-
-        //return orderRepository.findOrderByC(userId ,LocalDateTime.now().minusMonths(1))
-    }
-*/
 
     public boolean placeOrder(OrderOpeningDto orderOpeningDto) {
         Optional<TradingAccount> retrievedTradingAccount =
                 tradingAccountRepository.findById(orderOpeningDto.getUserTradingAccountId());
         if(retrievedTradingAccount.isPresent()) {
-            evaluateAndIfOkOpenOrder(orderOpeningDto, retrievedTradingAccount.get());
+            return evaluateAndIfOkOpenOrder(orderOpeningDto, retrievedTradingAccount.get());
         } else {
-            //account is not available
+            return false;
         }
     }
 
@@ -67,7 +55,9 @@ public class OrderService {
         TradingAccountHistoryPoint newTradingAccountHistoryPoint = initializeAccountHistoryPoint(tradingAccount);
         Order order = initializeOrder(orderOpeningDto);
 
-        if(orderOpeningEvaluator.evaluateOrder(orderOpeningDto, tradingAccount)) {
+        OrderEvaluatorResponseDto orderEvaluatorResponseDto = orderOpeningEvaluator.evaluate(orderOpeningDto, tradingAccount);
+
+        if(orderEvaluatorResponseDto.isOpen()) {
             orderRepository.save(order);
             return true;
         } else {
