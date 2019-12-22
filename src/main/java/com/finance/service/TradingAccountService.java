@@ -20,6 +20,10 @@ public class TradingAccountService {
     @Autowired
     private UserService userService;
 
+    public List<TradingAccount> getAllTradingAccounts() {
+        return tradingAccountRepository.findAll();
+    }
+
     public List<TradingAccount> getUserTradingAccounts(Long userId) {
         return tradingAccountRepository.findTradingAccountByUserId(userId);
     }

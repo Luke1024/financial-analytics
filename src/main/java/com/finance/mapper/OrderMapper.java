@@ -18,12 +18,10 @@ public class OrderMapper {
                 order.getTakeProfit(),
                 order.getCurrencyPairHistoryPointOpen().getPointId(),
                 order.getOrderOpened(),
-                order.getOrderOpeningPrice(),
                 order.getCurrencyPairHistoryPointClose().getPointId(),
                 order.getOrderClosed(),
-                order.getOrderClosingPrice(),
                 order.getOrderBalance(),
-                order.getTradingAccountHistoryPoint().getPointId())).collect(Collectors.toList());
+                order.getPointId())).collect(Collectors.toList());
     }
 
     public OrderDto mapToOrderDto(Order order){

@@ -15,4 +15,6 @@ public interface TradingAccountRepository extends CrudRepository<TradingAccount,
 
     @Override
     TradingAccount save(TradingAccount tradingAccount);
+
+    List<TradingAccount> findAll();
 }

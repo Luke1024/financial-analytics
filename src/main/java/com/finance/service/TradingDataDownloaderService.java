@@ -61,7 +61,7 @@ public class TradingDataDownloaderService {
         return currencyPairAssembler.assembleCurrencyPair(pair, currencyMap);
     }
 
-    private void addCurrencyPairHistoryPoints(List<PairDto> currencies){
+    private void addCurrencyPairHistoryPoints(List<PairDto> currencies) {
         addHistoryPoints(currencies, currencyPairService.getCurrencyPair(currencies.get(0).getPairName()));
     }
 

@@ -25,6 +25,8 @@ public class TradingAccount {
     private int leverage;
     private LocalDateTime creationTime;
     private LocalDateTime archiveTime;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Order> openOrders;
     @OneToMany(targetEntity = TradingAccountHistoryPoint.class,
         mappedBy = "tradingAccount",
         cascade = CascadeType.ALL,
@@ -40,24 +42,28 @@ public class TradingAccount {
         this.id = id;
     }
 
-    public TradingAccount(User user, AccountType accountType, double amount, int leverage,
-                          LocalDateTime creationTime, List<TradingAccountHistoryPoint> points) {
+    public TradingAccount(User user, AccountType accountType, double amount, int leverage, LocalDateTime creationTime,
+                          LocalDateTime archiveTime, List<Order> openOrders, List<TradingAccountHistoryPoint> points) {
         this.user = user;
         this.accountType = accountType;
         this.amount = amount;
         this.leverage = leverage;
         this.creationTime = creationTime;
+        this.archiveTime = archiveTime;
+        this.openOrders = openOrders;
         this.points = points;
     }
 
-    public TradingAccount(Long id , User user, AccountType accountType, double amount, int leverage,
-                          LocalDateTime creationTime, List<TradingAccountHistoryPoint> points) {
+    public TradingAccount(Long id ,User user, AccountType accountType, double amount, int leverage, LocalDateTime creationTime,
+                          LocalDateTime archiveTime, List<Order> openOrders, List<TradingAccountHistoryPoint> points) {
         this.id = id;
         this.user = user;
         this.accountType = accountType;
         this.amount = amount;
         this.leverage = leverage;
         this.creationTime = creationTime;
+        this.archiveTime = archiveTime;
+        this.openOrders = openOrders;
         this.points = points;
     }
 
