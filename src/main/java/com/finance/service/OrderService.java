@@ -52,22 +52,17 @@ public class OrderService {
 
     private boolean evaluateAndIfOkOpenOrder(OrderOpeningDto orderOpeningDto, TradingAccount tradingAccount) {
 
-        initializeAccountHistoryPoint(tradingAccount);
         Order order = initializeOrder(orderOpeningDto);
 
         OrderEvaluatorResponseDto orderEvaluatorResponseDto = orderOpeningEvaluator.evaluate(orderOpeningDto, tradingAccount);
 
         if(orderEvaluatorResponseDto.isOpen()) {
-            orderRepository.save(order);
+            tradingAccount.getOpenOrders().add(order);
+            tradingAccountRepository.save(tradingAccount);
             return true;
         } else {
             return false;
         }
-    }
-
-    private TradingAccountHistoryPoint initializeAccountHistoryPoint(TradingAccount tradingAccount) {
-        return new TradingAccountHistoryPoint(
-                OperationType.TRADE, 0, tradingAccount.getAmount(), 0, null, tradingAccount, new Order());
     }
 
     private Order initializeOrder(OrderOpeningDto orderOpeningDto) {

@@ -67,6 +67,10 @@ public class TradingAccount {
         this.points = points;
     }
 
+    public List<Order> getOpenOrders() {
+        return openOrders;
+    }
+
     public void setLeverage(int leverage) {
         this.leverage = leverage;
     }
