@@ -1,15 +1,12 @@
 package com.finance.service;
 
-import com.finance.domain.enums.OperationType;
 import com.finance.domain.TradingAccount;
-import com.finance.domain.TradingAccountHistoryPoint;
 import com.finance.domain.CurrencyPair;
 import com.finance.domain.CurrencyPairHistoryPoint;
 import com.finance.domain.Order;
 import com.finance.domain.dto.OrderModDto;
 import com.finance.domain.dto.OrderOpeningDto;
 import com.finance.repository.OrderRepository;
-import com.finance.repository.TradingAccountRepository;
 import com.finance.service.orderserviceutilities.OrderEvaluatorResponseDto;
 import com.finance.service.orderserviceutilities.OrderOpeningEvaluator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +22,7 @@ public class OrderService {
     private OrderRepository orderRepository;
 
     @Autowired
-    private TradingAccountRepository tradingAccountRepository;
+    private TradingAccountService tradingAccountService;
 
     @Autowired
     private CurrencyPairService currencyPairService;
@@ -41,24 +38,56 @@ public class OrderService {
     }
 
     public boolean placeOrder(OrderOpeningDto orderOpeningDto) {
-        Optional<TradingAccount> retrievedTradingAccount =
-                tradingAccountRepository.findById(orderOpeningDto.getUserTradingAccountId());
-        if(retrievedTradingAccount.isPresent()) {
-            return evaluateAndIfOkOpenOrder(orderOpeningDto, retrievedTradingAccount.get());
+        TradingAccount retrievedTradingAccount =
+                tradingAccountService.getTradingAccountByAccountId(
+                        orderOpeningDto.getTradingAccountId());
+        if(retrievedTradingAccount != null) {
+            return evaluateAndIfOkOpenOrder(orderOpeningDto, retrievedTradingAccount);
         } else {
             return false;
         }
+    }
+
+    public Order modifyOpenOrder(OrderModDto orderModDto) {
+        TradingAccount retrievedTradingAccount =
+                tradingAccountService.getTradingAccountByAccountId(orderModDto.getTradingAccountId());
+        if(retrievedTradingAccount != null){
+            Order order = retrieveOrder(retrievedTradingAccount, orderModDto);
+            order = modifyOpenOrder(orderModDto, order);
+            return orderRepository.save(order);
+        } else return null;
+    }
+
+    public boolean closeOrder(Long orderId) {
+        Optional<Order> retrievedOrder = orderRepository.findById(orderId);
+        if(retrievedOrder.isPresent()) {
+            orderRepository.save(setOrderToClose(retrievedOrder.get()));
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+
+
+    private Order retrieveOrder(TradingAccount tradingAccount, OrderModDto orderModDto){
+        return tradingAccount.getOpenOrders().stream()
+                .filter(order -> order.getOrderId()==orderModDto.getOrderId())
+                .findAny().orElse(null);
     }
 
     private boolean evaluateAndIfOkOpenOrder(OrderOpeningDto orderOpeningDto, TradingAccount tradingAccount) {
 
         Order order = initializeOrder(orderOpeningDto);
 
-        OrderEvaluatorResponseDto orderEvaluatorResponseDto = orderOpeningEvaluator.evaluate(orderOpeningDto, tradingAccount);
+        OrderEvaluatorResponseDto orderEvaluatorResponseDto =
+                orderOpeningEvaluator.evaluate(orderOpeningDto, tradingAccount);
 
         if(orderEvaluatorResponseDto.isOpen()) {
             tradingAccount.getOpenOrders().add(order);
-            tradingAccountRepository.save(tradingAccount);
+            order.setTradingAccount(tradingAccount);
+            tradingAccountService.saveTradingAccount(tradingAccount);
             return true;
         } else {
             return false;
@@ -86,34 +115,16 @@ public class OrderService {
         }
     }
 
-    public Order modifyOrder(OrderModDto orderModDto) {
-        Optional<Order> retrievedOrder = orderRepository.findById(orderModDto.getOrderId());
-        if(retrievedOrder.isPresent()){
-            return orderRepository.save(modifyOrder(orderModDto, retrievedOrder.get()));
-        } else {
-            return null;
-        }
-    }
-
-    private Order modifyOrder(OrderModDto orderModDto, Order order) {
-        order.setStopLoss(orderModDto.getStopLoss());
-        order.setTakeProfit(orderModDto.getTakeProfit());
-        return order;
-    }
-
-    public boolean closeOrder(Long orderId) {
-        Optional<Order> retrievedOrder = orderRepository.findById(orderId);
-        if(retrievedOrder.isPresent()) {
-            orderRepository.save(setOrderToClose(retrievedOrder.get()));
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     private Order setOrderToClose(Order order) {
         order.setOrderClosed(LocalDateTime.now());
         order.setOrderBalance(calculateClosingBalance(order));
+        return order;
+    }
+
+
+    private Order modifyOpenOrder(OrderModDto orderModDto, Order order) {
+        order.setStopLoss(orderModDto.getStopLoss());
+        order.setTakeProfit(orderModDto.getTakeProfit());
         return order;
     }
 

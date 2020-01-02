@@ -23,7 +23,7 @@ public class OrderOpeningDto {
         this.currencyPair = currencyPair;
     }
 
-    public Long getUserTradingAccountId() {
+    public Long getTradingAccountId() {
         return userTradingAccountId;
     }
 

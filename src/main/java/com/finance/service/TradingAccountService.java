@@ -28,6 +28,19 @@ public class TradingAccountService {
         return tradingAccountRepository.findTradingAccountByUserId(userId);
     }
 
+    public void saveTradingAccount(TradingAccount tradingAccount){
+        tradingAccountRepository.save(tradingAccount);
+    }
+
+    public TradingAccount getTradingAccountByAccountId(Long accountId) {
+        Optional<TradingAccount> retrievedTradingAccount = tradingAccountRepository.findById(accountId);
+        if(retrievedTradingAccount.isPresent()){
+            return retrievedTradingAccount.get();
+        } else {
+            return null;
+        }
+    }
+
     public TradingAccount modifyLeverageInAccount(
             TradingAccountLeverageModDto tradingAccountLeverageModDto) {
         User retrievedUser = userService.getUserById(tradingAccountLeverageModDto.getUserId());

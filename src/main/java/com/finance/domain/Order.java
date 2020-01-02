@@ -23,6 +23,9 @@ public class Order {
     private CurrencyPairHistoryPoint currencyPairHistoryPointClose;
     private LocalDateTime orderClosed;
     private double orderBalance;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "TRADING_ACCOUNT_ID")
+    private TradingAccount tradingAccount;
 
     public Order() {}
 
@@ -43,6 +46,10 @@ public class Order {
         this.currencyPairHistoryPointClose = currencyPairHistoryPointClose;
         this.orderClosed = orderClosed;
         this.orderBalance = orderBalance;
+    }
+
+    public void setTradingAccount(TradingAccount tradingAccount) {
+        this.tradingAccount = tradingAccount;
     }
 
     public void setOrderClosed(LocalDateTime orderClosed) {

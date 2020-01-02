@@ -21,6 +21,6 @@ public class TradingPlatformUpdaterScheduler {
     public void downloadTradingData() throws Exception{
         LocalDateTime currentDateTime = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
         downloaderService.downloadCurrentTradingDataForStocks(currentDateTime);
-        tradingAccountUpdaterService.updatePlatformAccounts;
+        tradingAccountUpdaterService.updatePlatformService();
     }
 }

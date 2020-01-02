@@ -25,7 +25,7 @@ public class TradingAccount {
     private int leverage;
     private LocalDateTime creationTime;
     private LocalDateTime archiveTime;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Order> openOrders;
     @OneToMany(targetEntity = TradingAccountHistoryPoint.class,
         mappedBy = "tradingAccount",

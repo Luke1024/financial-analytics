@@ -21,7 +21,8 @@ public class OrderMapper {
                 order.getCurrencyPairHistoryPointClose().getPointId(),
                 order.getOrderClosed(),
                 order.getOrderBalance(),
-                order.getPointId())).collect(Collectors.toList());
+                order.getPointId()))
+                .collect(Collectors.toList());
     }
 
     public OrderDto mapToOrderDto(Order order){

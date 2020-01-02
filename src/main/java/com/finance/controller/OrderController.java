@@ -39,7 +39,7 @@ public class OrderController {
 
     @PutMapping(value = "/order/mod", consumes = APPLICATION_JSON_VALUE)
     public OrderDto modifyOrder(OrderModDto orderModDto) {
-        return orderMapper.mapToOrderDto(orderService.modifyOrder(orderModDto));
+        return orderMapper.mapToOrderDto(orderService.modifyOpenOrder(orderModDto));
     }
 
     @DeleteMapping(value = "/order/delete", consumes = APPLICATION_JSON_VALUE)
