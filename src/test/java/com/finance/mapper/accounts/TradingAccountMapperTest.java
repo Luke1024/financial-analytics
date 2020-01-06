@@ -33,7 +33,7 @@ class TradingAccountMapperTest {
 
     @Autowired
     private UserService userService;
-
+/*
     @Test
     void mapToTradingDtoList() {
         LocalDateTime accountOpening = LocalDateTime.now();
@@ -85,6 +85,9 @@ class TradingAccountMapperTest {
         assertThat(tradingAccountDtos, sameBeanAs(tradingAccountMapper.mapToTradingDtoList(tradingAccounts)));
     }
 
+ */
+
+/*
     @Test
     void mapToNewTradingAccount() {
         User user = new User();
@@ -108,4 +111,5 @@ class TradingAccountMapperTest {
             userService.deleteUserById(user.getId());
         }
     }
+    */
 }

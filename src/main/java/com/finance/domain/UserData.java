@@ -15,13 +15,12 @@ public class UserData {
     private String street;
     private String homeNumber;
     private String phoneNumber;
-    private User user;
 
     public UserData() {
     }
 
     public UserData(String firstName, String lastName, String voivodeship, String city, String postalCode,
-                    String street, String homeNumber, String phoneNumber, User user) {
+                    String street, String homeNumber, String phoneNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.voivodeship = voivodeship;
@@ -30,11 +29,10 @@ public class UserData {
         this.street = street;
         this.homeNumber = homeNumber;
         this.phoneNumber = phoneNumber;
-        this.user = user;
     }
 
     public UserData(Long id, String firstName, String lastName, String voivodeship, String city, String postalCode,
-                    String street, String homeNumber, String phoneNumber, User user) {
+                    String street, String homeNumber, String phoneNumber) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -44,11 +42,6 @@ public class UserData {
         this.street = street;
         this.homeNumber = homeNumber;
         this.phoneNumber = phoneNumber;
-        this.user = user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public Long getId() {
@@ -85,9 +78,5 @@ public class UserData {
 
     public String getPhoneNumber() {
         return phoneNumber;
-    }
-
-    public User getUser() {
-        return user;
     }
 }

@@ -33,10 +33,9 @@ class CurrencyPairRepositoryControllerTest {
 
     @MockBean
     private CurrencyPairMapper currencyPairMapper;
-
+/*
     @Test
-    void currencyPairHistory() throws Exception {
-
+    void currencyPairHistory() throws Exception  {
         when(currencyPairService.getCurrencyPairHistory(ArgumentMatchers.any(PairHistoryRequestDto.class)))
                 .thenReturn(new ArrayList<>());
         when(currencyPairMapper.mapToDTOList(ArgumentMatchers.anyListOf(CurrencyPairHistoryPoint.class)))
@@ -46,4 +45,5 @@ class CurrencyPairRepositoryControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
+    */
 }

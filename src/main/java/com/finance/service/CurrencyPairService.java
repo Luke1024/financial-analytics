@@ -21,7 +21,7 @@ public class CurrencyPairService {
         return currencyPairRepository.findAll();
     }
 
-    public Optional<CurrencyPair> getCurrencyPair(String pairName) {
+    public List<CurrencyPair> getCurrencyPair(String pairName) {
         return currencyPairRepository.findByCurrencyName(pairName);
     }
 

@@ -1,6 +1,7 @@
 package com.finance.domain.dto;
 
 public class PersonalDataDto {
+    private Long userId;
     private String firstName;
     private String lastName;
     private String voivodeship;
@@ -9,12 +10,11 @@ public class PersonalDataDto {
     private String street;
     private String homeNumber;
     private String phoneNumber;
-    private Long userId;
 
     public PersonalDataDto() {
     }
 
-    public PersonalDataDto(String firstName, String lastName, String voivodeship, String city, String postalCode, String street, String homeNumber, String phoneNumber, Long userId) {
+    public PersonalDataDto(String firstName, String lastName, String voivodeship, String city, String postalCode, String street, String homeNumber, String phoneNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.voivodeship = voivodeship;
@@ -23,7 +23,22 @@ public class PersonalDataDto {
         this.street = street;
         this.homeNumber = homeNumber;
         this.phoneNumber = phoneNumber;
+    }
+
+    public PersonalDataDto(Long userId, String firstName, String lastName, String voivodeship, String city, String postalCode, String street, String homeNumber, String phoneNumber) {
         this.userId = userId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.voivodeship = voivodeship;
+        this.city = city;
+        this.postalCode = postalCode;
+        this.street = street;
+        this.homeNumber = homeNumber;
+        this.phoneNumber = phoneNumber;
+    }
+
+    public Long getUserId() {
+        return userId;
     }
 
     public String getFirstName() {
@@ -56,9 +71,5 @@ public class PersonalDataDto {
 
     public String getPhoneNumber() {
         return phoneNumber;
-    }
-
-    public Long getUserId() {
-        return userId;
     }
 }

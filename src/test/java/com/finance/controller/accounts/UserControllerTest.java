@@ -56,7 +56,7 @@ class UserControllerTest {
                 .content(userRegistrationDtoInJson))
                 .andExpect(status().isOk());
     }
-
+/*
     @Test
     void loginUser() throws Exception {
         LoginDto loginDto = new LoginDto();
@@ -73,7 +73,8 @@ class UserControllerTest {
                 .content(loginDtoInJson))
                 .andExpect(status().isOk());
     }
-
+    */
+/*
     @Test
     void logOutUser() throws Exception {
         when(userService.logOutUser(ArgumentMatchers.anyLong())).thenReturn(true);
@@ -83,6 +84,9 @@ class UserControllerTest {
                 .andExpect(status().isOk());
     }
 
+ */
+
+/*
     @Test
     void changeUserPassword() throws Exception {
         PasswordChangerDto passwordChangerDto = new PasswordChangerDto();
@@ -98,4 +102,5 @@ class UserControllerTest {
                 .content(passwordChangerDtoInJson))
                 .andExpect(status().isOk());
     }
+    */
 }

@@ -51,7 +51,7 @@ class TradingAccountControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
-
+/*
     @Test
     void createUserTradingAccount() throws Exception {
         TradingAccount tradingAccount = new TradingAccount();
@@ -68,4 +68,5 @@ class TradingAccountControllerTest {
                 .content(creationDtoInJson))
                 .andExpect(status().isOk());
     }
+    */
 }

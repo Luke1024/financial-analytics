@@ -38,7 +38,7 @@ public class CalculatingService {
     private double getLastValue(String currencyPair) {
         double value=0;
         try{
-            value = currencyPairService.getCurrencyPair(currencyPair).get().getLastPairHistoryPoint().getValue();
+            value = currencyPairService.getCurrencyPair(currencyPair).get(0).getLastPairHistoryPoint().getValue();
         } catch (Exception e) {}
         return value;
     }

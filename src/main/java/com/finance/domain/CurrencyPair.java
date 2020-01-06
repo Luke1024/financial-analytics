@@ -2,13 +2,12 @@ package com.finance.domain;
 
 import javax.persistence.*;
 import java.util.List;
-/*
+
 @NamedNativeQuery(
-        name="Currency.retrieveByBaseAndName",
-        query="SELECT * FROM currency WHERE base =:BASE AND currency_name =:CURRENCY_NAME",
+        name="CurrencyPair.findByCurrencyName",
+        query="SELECT * FROM currency_pair WHERE currency_pair_name =:CURRENCY_NAME",
         resultClass = CurrencyPair.class
 )
-*/
 
 @Entity
 public class CurrencyPair {
