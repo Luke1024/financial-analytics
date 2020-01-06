@@ -7,7 +7,7 @@ import com.finance.domain.dto.PersonalDataDto;
 import com.finance.domain.dto.UserRegistrationDto;
 import com.finance.mapper.PersonalDataMapper;
 import com.finance.mapper.UserMapper;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

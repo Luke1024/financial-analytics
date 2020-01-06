@@ -6,7 +6,7 @@ import com.finance.domain.TradingAccountHistoryPoint;
 import com.finance.domain.dto.TradingAccountHistoryPointDto;
 import com.finance.domain.Order;
 import com.finance.mapper.TradingAccountHistoryPointMapper;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -3,7 +3,7 @@ package com.finance.controller.accounts;
 import com.finance.controller.TradingAccountHistoryPointsController;
 import com.finance.mapper.TradingAccountHistoryPointMapper;
 import com.finance.service.TradingAccountHistoryPointService;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatchers;
 import org.springframework.beans.factory.annotation.Autowired;

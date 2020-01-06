@@ -2,7 +2,6 @@ package com.finance.service.currency;
 
 import com.finance.domain.CurrencyPair;
 import com.finance.domain.CurrencyPairHistoryPoint;
-import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -7,7 +7,7 @@ import com.finance.domain.dto.TradingAccountDto;
 import com.finance.mapper.TradingAccountMapper;
 import com.finance.service.TradingAccountService;
 import com.google.gson.Gson;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatchers;
 import org.springframework.beans.factory.annotation.Autowired;

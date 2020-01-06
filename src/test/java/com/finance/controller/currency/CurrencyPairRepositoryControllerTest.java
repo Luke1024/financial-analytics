@@ -5,7 +5,6 @@ import com.finance.domain.CurrencyPairHistoryPoint;
 import com.finance.domain.dto.PairHistoryRequestDto;
 import com.finance.mapper.CurrencyPairMapper;
 import com.finance.service.CurrencyPairService;
-import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatchers;
 import org.springframework.beans.factory.annotation.Autowired;
