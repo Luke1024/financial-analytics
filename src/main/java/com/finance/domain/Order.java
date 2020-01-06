@@ -5,6 +5,13 @@ import com.finance.domain.enums.LongShort;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@NamedNativeQuery(
+        name="Order.findOrderByOrderClosedNull",
+        query="SELECT * FROM orders WHERE trading_account_id = :TRADING_ACCOUNT_ID;",
+        resultClass = Order.class
+)
+
+
 @Entity
 @Table(name = "ORDERS")
 public class Order {
