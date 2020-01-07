@@ -31,7 +31,7 @@ public class UserDataServiceTest {
 
     @Autowired
     private PersonalDataService personalDataService;
-
+/*
     @Test
     public void getPersonalData() {
         User user = new User();
@@ -73,4 +73,6 @@ public class UserDataServiceTest {
 
         personalDataRepository.deleteById(retrievedUserData.getId());
     }
+
+ */
 }

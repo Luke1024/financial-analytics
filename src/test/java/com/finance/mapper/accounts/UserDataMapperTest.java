@@ -19,30 +19,30 @@ class UserDataMapperTest {
     @Autowired
     private PersonalDataMapper personalDataMapper;
 
-    @Test
-    void mapToPersonalDataDto() {
-        UserData userData = new UserData("firstName", "lastName",
-                "voivodeship", "city", "postalCode", "street",
-                "homeNumber", "phoneNumber", new User(1L));
+    //@Test
+    //void mapToPersonalDataDto() {
+      //  UserData userData = new UserData("firstName", "lastName",
+        //        "voivodeship", "city", "postalCode", "street",
+          //      "homeNumber", "phoneNumber", new User(1L));
 
-        PersonalDataDto personalDataDto = new PersonalDataDto("firstName", "lastName",
-                "voivodeship", "city", "postalCode", "street",
-                "homeNumber", "phoneNumber", 1L);
+        //PersonalDataDto personalDataDto = new PersonalDataDto("firstName", "lastName",
+          //      "voivodeship", "city", "postalCode", "street",
+            //    "homeNumber", "phoneNumber", 1L);
 
-        assertThat(personalDataDto, sameBeanAs(personalDataMapper.mapToPersonalDataDto(userData)));
-    }
+        //assertThat(personalDataDto, sameBeanAs(personalDataMapper.mapToPersonalDataDto(userData)));
+    //}
 
-    @Test
-    void mapToPersonalData() {
-        User user = new User(1L);
-        UserData userData = new UserData("firstName", "lastName",
-                "voivodeship", "city", "postalCode", "street",
-                "homeNumber", "phoneNumber", user);
+    //@Test
+    //void mapToPersonalData() {
+      //  User user = new User(1L);
+        //UserData userData = new UserData("firstName", "lastName",
+          //      "voivodeship", "city", "postalCode", "street",
+            //    "homeNumber", "phoneNumber", user);
 
-        PersonalDataDto personalDataDto = new PersonalDataDto("firstName", "lastName",
-                "voivodeship", "city", "postalCode", "street",
-                "homeNumber", "phoneNumber", 1L);
+        //PersonalDataDto personalDataDto = new PersonalDataDto("firstName", "lastName",
+          //      "voivodeship", "city", "postalCode", "street",
+            //    "homeNumber", "phoneNumber", 1L);
 
-        assertThat(userData, sameBeanAs(personalDataMapper.mapToPersonalDataWithUser(personalDataDto, user)));
-    }
+        //assertThat(userData, sameBeanAs(personalDataMapper.mapToPersonalDataWithUser(personalDataDto, user)));
+    //}
 }
