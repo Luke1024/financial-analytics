@@ -15,6 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static com.shazam.shazamcrest.matcher.Matchers.sameBeanAs;
 
+/*
 @RunWith(SpringRunner.class)
 @SpringBootTest
 //@Transactional
@@ -134,3 +135,4 @@ class UserServiceTest {
         userRepository.deleteById(user.getId());
     }
 }
+*/

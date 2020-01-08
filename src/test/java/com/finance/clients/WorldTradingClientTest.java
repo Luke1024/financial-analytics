@@ -11,7 +11,7 @@ public class WorldTradingClientTest {
     private WorldTradingClient worldTradingClient;
 
     @Test
-    void getUsdBasedCurrencyValues() throws Exception {
+    public void getUsdBasedCurrencyValues() throws Exception {
 
         String result = worldTradingClient.getCurrentUsdBasedCurrencyValues();
         JSONObject obj = new JSONObject(result);

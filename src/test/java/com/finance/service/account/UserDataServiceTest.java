@@ -17,7 +17,7 @@ import javax.transaction.Transactional;
 import static com.shazam.shazamcrest.matcher.Matchers.sameBeanAs;
 import static org.junit.Assert.assertEquals;
 import static org.hamcrest.MatcherAssert.assertThat;
-
+/*
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Transactional
@@ -74,3 +74,5 @@ public class UserDataServiceTest {
         personalDataRepository.deleteById(retrievedUserData.getId());
     }
 }
+
+ */
