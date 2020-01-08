@@ -1,6 +1,7 @@
 package com.finance.domain;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @NamedNativeQuery(
@@ -28,10 +29,7 @@ public class CurrencyPair {
 
     public CurrencyPair(String currencyPairName) {
         this.currencyPairName = currencyPairName;
-    }
-
-    public void setCurrencyPairHistoryPoints(List<CurrencyPairHistoryPoint> currencyPairHistoryPoints) {
-        this.currencyPairHistoryPoints = currencyPairHistoryPoints;
+        this.currencyPairHistoryPoints = new ArrayList<>();
     }
 
     public Long getId() {

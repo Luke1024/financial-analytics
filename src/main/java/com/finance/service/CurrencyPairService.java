@@ -1,5 +1,3 @@
-
-
 package com.finance.service;
 
 import com.finance.domain.CurrencyPair;
@@ -23,7 +21,7 @@ public class CurrencyPairService {
         return currencyPairRepository.findAll();
     }
 
-    public List<CurrencyPair> getCurrencyPair(String pairName) {
+    public Optional<CurrencyPair> getCurrencyPair(String pairName) {
         return currencyPairRepository.findByCurrencyName(pairName);
     }
 

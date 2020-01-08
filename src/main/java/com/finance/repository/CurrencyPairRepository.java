@@ -7,14 +7,13 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface CurrencyPairRepository extends CrudRepository<CurrencyPair, Long> {
-    //@Query
-    //List<CurrencyPairRepository> retrieveByBaseAndName(@Param("BASE")String base, @Param("CURRENCY_NAME")String currency_name);
 
     @Query
-    List<CurrencyPair> findByCurrencyName(@Param("CURRENCY_NAME") String currencyName);
+    Optional<CurrencyPair> findByCurrencyName(@Param("CURRENCY_NAME") String currencyName);
 
     void deleteById(Long id);
 
