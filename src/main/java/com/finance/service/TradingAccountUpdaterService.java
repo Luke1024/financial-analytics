@@ -18,10 +18,10 @@ public class TradingAccountUpdaterService {
     }
 
     private void updateAllOpenOrders(){
-        List<TradingAccount> retrievedAccouts = retrievedTradingAccounts();
-        if(retrievedAccouts.size()>0){
-            updateAccounts(retrievedAccouts);
-        }
+        //List<TradingAccount> retrievedAccouts = retrievedTradingAccounts();
+        //if(retrievedAccouts.size()>0){
+          //  updateAccounts(retrievedAccouts);
+        //}
     }
 
     private void updateAccounts(List<TradingAccount> retrievedAccounts){
@@ -31,8 +31,8 @@ public class TradingAccountUpdaterService {
     }
 
     private void updateAccount(TradingAccount tradingAccount){
-        tradingAccount.
-        for()
+        //tradingAccount.
+        //for()
     }
 
 

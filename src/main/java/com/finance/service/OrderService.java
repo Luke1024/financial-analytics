@@ -106,9 +106,9 @@ public class OrderService {
     }
 
     private CurrencyPairHistoryPoint getLastHistoryPoint(String currencyPairName) {
-        Optional<CurrencyPair> retrievedCurrencyPair = currencyPairService.getCurrencyPair(currencyPairName);
-        if(retrievedCurrencyPair.isPresent()){
-            return retrievedCurrencyPair.get().getLastPairHistoryPoint();
+        List<CurrencyPair> retrievedCurrencyPair = currencyPairService.getCurrencyPair(currencyPairName);
+        if(retrievedCurrencyPair.get(0) != null){
+            return retrievedCurrencyPair.get(0).getLastPairHistoryPoint();
         } else {
             //CurrencyPair not found
             return null;

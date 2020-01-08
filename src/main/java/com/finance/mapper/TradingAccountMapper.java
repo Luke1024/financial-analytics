@@ -34,7 +34,7 @@ public class TradingAccountMapper {
                 account.getAccountType(), account.getAmount(), account.getLeverage(), account.getCreationTime(),
                 tradingAccountHistoryPointMapper.mapToAccountHistoryPointDtos(account.getPoints()));
     }
-
+/*
     public TradingAccount mapToNewTradingAccount(TradingAccountCreationDto creationDto){
         User retrievedUser = userService.getUserById(creationDto.getUserId());
         if(retrievedUser != null){
@@ -46,6 +46,6 @@ public class TradingAccountMapper {
             return new TradingAccount();
         }
     }
-
+*/
 
 }

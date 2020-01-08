@@ -26,12 +26,12 @@ public class TradingAccountController {
     public List<TradingAccountDto> getUserTradingAccounts(@PathVariable Long userId){
         return tradingAccountMapper.mapToTradingDtoList(tradingAccountService.getUserTradingAccounts(userId));
     }
-
+/*
     @PostMapping(value = "/tradingAccount", consumes = APPLICATION_JSON_VALUE)
     public void createUserTradingAccount(@RequestBody TradingAccountCreationDto tradingAccountCreationDto) {
         tradingAccountService.createTradingAccount(tradingAccountMapper.mapToNewTradingAccount(tradingAccountCreationDto));
     }
-
+*/
     @PutMapping(value = "/tradingAccount", consumes = APPLICATION_JSON_VALUE)
     public TradingAccountDto changeLeverageInTradingAccount(@RequestBody TradingAccountLeverageModDto tradingAccountLeverageModDto) {
         return tradingAccountMapper.mapToTradingAccountDto(

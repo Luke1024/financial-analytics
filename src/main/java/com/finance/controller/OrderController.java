@@ -22,25 +22,25 @@ public class OrderController {
     @Autowired
     private OrderMapper orderMapper;
 
-    @GetMapping(value = "/orders/open")
-    public List<OrderDto> getOpenOrders(@PathVariable Long userId) {
-        return orderMapper.mapToOrderDtoList(orderService.getCurrentlyOpenOrders(userId));
-    }
+  //  @GetMapping(value = "/orders/open")
+    //public List<OrderDto> getOpenOrders(@PathVariable Long userId) {
+      //  return orderMapper.mapToOrderDtoList(orderService.getCurrentlyOpenOrders(userId));
+    //}
 
-    @GetMapping(value = "/orders/last")
-    public List<OrderDto> getUserOrdersFromLastMonth(@PathVariable Long userId){
-        return orderMapper.mapToOrderDtoList(orderService.getUserOrdersFromLastMonth(userId));
-    }
+ //   @GetMapping(value = "/orders/last")
+   // public List<OrderDto> getUserOrdersFromLastMonth(@PathVariable Long userId){
+     //   return orderMapper.mapToOrderDtoList(orderService.getUserOrdersFromLastMonth(userId));
+    //}
 
     @PostMapping(value = "/order/new", consumes = APPLICATION_JSON_VALUE)
     public boolean placeOrder(@RequestBody OrderOpeningDto orderOpeningDto){
         return orderService.placeOrder(orderOpeningDto);
     }
 
-    @PutMapping(value = "/order/mod", consumes = APPLICATION_JSON_VALUE)
-    public OrderDto modifyOrder(OrderModDto orderModDto) {
-        return orderMapper.mapToOrderDto(orderService.modifyOpenOrder(orderModDto));
-    }
+    //@PutMapping(value = "/order/mod", consumes = APPLICATION_JSON_VALUE)
+    //public OrderDto modifyOrder(OrderModDto orderModDto) {
+      //  return orderMapper.mapToOrderDto(orderService.modifyOpenOrder(orderModDto));
+    //}
 
     @DeleteMapping(value = "/order/delete", consumes = APPLICATION_JSON_VALUE)
     public boolean closeOrder(Long orderId) {

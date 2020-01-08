@@ -29,9 +29,9 @@ public class TradingDataDownloaderService {
     private CurrencyPairAssembler currencyPairAssembler;
 
     public void downloadCurrentTradingDataForStocks(LocalDateTime currentDateTime) throws Exception {
-         Map<String, String> currenciesMap = processToCurrenciesWithValue(getJsonWithTradingData());
-         List<PairDto> currencyPairs = assemblyRelevantPairs(currenciesMap);
-         addCurrencyPairHistoryPoints(currencyPairs);
+        Map<String, String> currenciesMap = processToCurrenciesWithValue(getJsonWithTradingData());
+        List<PairDto> currencyPairs = assemblyRelevantPairs(currenciesMap);
+        addCurrencyPairHistoryPoints(currencyPairs);
     }
 
     private JSONObject getJsonWithTradingData() throws Exception {
@@ -65,11 +65,11 @@ public class TradingDataDownloaderService {
         addHistoryPoints(currencies, currencyPairService.getCurrencyPair(currencies.get(0).getPairName()));
     }
 
-    private void addHistoryPoints(List<PairDto> currencies, Optional<CurrencyPair> currencyPair) {
-        if(currencyPair.isPresent()) {
+    private void addHistoryPoints(List<PairDto> currencies, List<CurrencyPair> currencyPair) {
+        if(currencyPair.get(0) != null) {
             for(PairDto pairDto : currencies) {
-                currencyPair.get().getCurrencyPairHistoryPoints()
-                        .add(mapToCurrencyHistoryPoint(pairDto, currencyPair.get()));
+                currencyPair.get(0).getCurrencyPairHistoryPoints()
+                        .add(mapToCurrencyHistoryPoint(pairDto, currencyPair.get(0)));
             }
         } else {
             addCurrencyPair(currencies);

@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class PersonalDataMapper {
-
     public PersonalDataDto mapToPersonalDataDto(UserData userData){
         return new PersonalDataDto(userData.getFirstName(),
                 userData.getLastName(),
@@ -16,19 +15,17 @@ public class PersonalDataMapper {
                 userData.getPostalCode(),
                 userData.getStreet(),
                 userData.getHomeNumber(),
-                userData.getPhoneNumber(),
-                userData.getUser().getId());
+                userData.getPhoneNumber());
     }
     public UserData mapToPersonalDataWithUser(PersonalDataDto personalDataDto, User user) {
         return new UserData(personalDataDto.getFirstName(),
-                    personalDataDto.getLastName(),
-                    personalDataDto.getVoivodeship(),
-                    personalDataDto.getCity(),
-                    personalDataDto.getPostalCode(),
-                    personalDataDto.getStreet(),
-                    personalDataDto.getHomeNumber(),
-                    personalDataDto.getPhoneNumber(),
-                    user);
+                personalDataDto.getLastName(),
+                personalDataDto.getVoivodeship(),
+                personalDataDto.getCity(),
+                personalDataDto.getPostalCode(),
+                personalDataDto.getStreet(),
+                personalDataDto.getHomeNumber(),
+                personalDataDto.getPhoneNumber());
     }
 
     public UserData mapToPersonalData(PersonalDataDto personalDataDto) {
@@ -39,7 +36,6 @@ public class PersonalDataMapper {
                 personalDataDto.getPostalCode(),
                 personalDataDto.getStreet(),
                 personalDataDto.getHomeNumber(),
-                personalDataDto.getPhoneNumber(),
-                null);
+                personalDataDto.getPhoneNumber());
     }
 }

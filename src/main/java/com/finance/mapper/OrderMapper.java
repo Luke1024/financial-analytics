@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 @Component
 public class OrderMapper {
+    /*
     public List<OrderDto> mapToOrderDtoList(List<Order> orders){
         return orders.stream().map(order -> new OrderDto(order.getOrderId(),
                 order.getLongShort(),
@@ -41,4 +42,5 @@ public class OrderMapper {
                 order.getOrderBalance(),
                 order.getTradingAccountHistoryPoint().getPointId());
     }
+    */
 }
