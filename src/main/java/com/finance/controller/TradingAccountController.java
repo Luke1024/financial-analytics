@@ -1,7 +1,6 @@
 package com.finance.controller;
 
 import com.finance.domain.dto.TradingAccountLeverageModDto;
-import com.finance.domain.dto.TradingAccountCreationDto;
 import com.finance.domain.dto.TradingAccountDto;
 import com.finance.mapper.TradingAccountMapper;
 import com.finance.service.TradingAccountService;
