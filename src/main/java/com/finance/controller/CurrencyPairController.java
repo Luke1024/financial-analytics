@@ -1,6 +1,7 @@
 package com.finance.controller;
 
 import com.finance.domain.dto.currencyPair.CurrencyPairDataDto;
+import com.finance.domain.dto.currencyPair.PairRequestDto;
 import com.finance.mapper.CurrencyPairMapper;
 import com.finance.service.CurrencyPairService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class CurrencyPairController {
     }
 
     @GetMapping(value = "/currency/pairs")
-    public CurrencyPairDataDto getCurrency(){
-        return currencyPairMapper.mapToOverviewDto(currencyPairService.getCurrencies());
+    public CurrencyPairDataDto getCurrency(@RequestBody PairRequestDto pairRequestDto){
+        return currencyPairMapper.mapToOverviewDto(currencyPairService.getCurrencyPair(pairRequestDto));
     }
 }

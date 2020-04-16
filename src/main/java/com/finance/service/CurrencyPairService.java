@@ -1,6 +1,7 @@
 package com.finance.service;
 
 import com.finance.domain.CurrencyPair;
+import com.finance.domain.dto.currencyPair.PairRequestDto;
 import com.finance.repository.CurrencyPairHistoryPointRepository;
 import com.finance.repository.CurrencyPairRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,8 @@ public class CurrencyPairService {
         return currencyPairRepository.findAll();
     }
 
-    public Optional<CurrencyPair> getCurrencyPair(String pairName) {
-        return currencyPairRepository.findByCurrencyName(pairName);
+    public Optional<CurrencyPair> getCurrencyPair(PairRequestDto pairRequestDto) {
+        return currencyPairRepository.findByCurrencyName(pairRequestDto.getPairName());
     }
 
     public void saveCurrencyPair(CurrencyPair currencyPair){
