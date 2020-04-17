@@ -5,33 +5,21 @@ import org.springframework.stereotype.Component;
 @Component
 public class WorldTradingDownloaderServiceConfig {
     private final static String[] currencyPairs =
-            {"USD/CAD",
-                    "EUR/JPY",
-                    "EUR/USD",
-                    "EUR/CHF",
-                    "USD/CHF",
-                    "EUR/GBP",
-                    "GBP/USD",
-                    "AUD/CAD",
-                    "NZD/USD",
-                    "GBP/CHF",
-                    "AUD/USD",
-                    "GBP/JPY",
+            {"EUR/USD",
                     "USD/JPY",
-                    "CHF/JPY",
-                    "EUR/CAD",
-                    "AUD/JPY",
-                    "EUR/AUD",
-                    "AUD/NZD"
+                    "GBP/USD",
+                    "AUD/USD",
+                    "USD/CHF",
+                    "USD/CAD"
             };
 
-    private final static String apiSetBaseCurrency = "USD";
+    private final static String baseCurrency = "USD";
 
     public String[] getCurrencyPairs() {
         return currencyPairs;
     }
 
     public String getApiSetBaseCurrency() {
-        return apiSetBaseCurrency;
+        return baseCurrency;
     }
 }

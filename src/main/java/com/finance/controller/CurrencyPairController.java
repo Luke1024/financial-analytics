@@ -24,8 +24,8 @@ public class CurrencyPairController {
         return currencyPairMapper.mapToPairsStringList(currencyPairService.getCurrencies());
     }
 
-    @GetMapping(value = "/currency/pairs")
+    @GetMapping(value = "/currency/pair")
     public CurrencyPairDataDto getCurrency(@RequestBody PairRequestDto pairRequestDto){
-        return currencyPairMapper.mapToOverviewDto(currencyPairService.getCurrencyPair(pairRequestDto));
+        return currencyPairMapper.mapToOverviewDto(currencyPairService.getCurrencyPair(pairRequestDto.getPairName()));
     }
 }
