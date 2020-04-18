@@ -10,7 +10,7 @@ import java.util.List;
 public class CsvReader {
     public List<List<String>> read(String filename){
         List<List<String>> records = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader("book.csv"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(",");
