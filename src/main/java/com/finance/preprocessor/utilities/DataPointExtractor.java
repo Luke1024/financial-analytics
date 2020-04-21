@@ -1,8 +1,8 @@
 package com.finance.preprocessor.utilities;
 
-import com.finance.preprocessor.utilities.dataPointStatusUtilities.Analysis;
-import com.finance.preprocessor.utilities.dataPointStatusUtilities.RowAnalyzer;
-import com.finance.preprocessor.utilities.dataPointStatusUtilities.RowParser;
+import com.finance.preprocessor.utilities.dataPointExtractorUtilities.Analysis;
+import com.finance.preprocessor.utilities.dataPointExtractorUtilities.RowAnalyzer;
+import com.finance.preprocessor.utilities.dataPointExtractorUtilities.RowParser;
 
 import java.util.ArrayList;
 import java.util.List;

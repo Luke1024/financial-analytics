@@ -1,16 +1,16 @@
 package com.finance.preprocessor;
 
 public class CurrencyFile {
-    private String fileName;
+    private String pairName;
     private String folderPath;
 
-    public CurrencyFile(String fileName, String folderPath) {
-        this.fileName = fileName;
+    public CurrencyFile(String pairName, String folderPath) {
+        this.pairName = pairName;
         this.folderPath = folderPath;
     }
 
-    public String getFileName() {
-        return fileName;
+    public String getPairName() {
+        return pairName;
     }
 
     public String getFolderPath() {
