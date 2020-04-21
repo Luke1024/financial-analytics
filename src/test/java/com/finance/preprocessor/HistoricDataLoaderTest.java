@@ -2,9 +2,9 @@ package com.finance.preprocessor;
 
 import org.junit.Test;
 
-public class PreprocessorTest {
+public class HistoricDataLoaderTest {
 
-    private Preprocessor preprocessor = new Preprocessor();
+    private HistoricDataLoader preprocessor = new HistoricDataLoader();
 
     @Test
     public void testPreprocessor(){
