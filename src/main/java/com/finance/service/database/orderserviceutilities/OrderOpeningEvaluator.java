@@ -1,10 +1,10 @@
-package com.finance.service.orderserviceutilities;
+package com.finance.service.database.orderserviceutilities;
 
 import com.finance.domain.TradingAccount;
 import com.finance.domain.dto.OrderOpeningDto;
 import com.finance.domain.enums.LongShort;
-import com.finance.service.CurrencyPairHistoryPointService;
-import com.finance.service.OrderService;
+import com.finance.service.database.CurrencyPairHistoryPointService;
+import com.finance.service.database.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

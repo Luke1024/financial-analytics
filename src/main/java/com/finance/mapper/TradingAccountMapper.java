@@ -1,15 +1,11 @@
 package com.finance.mapper;
 
 import com.finance.domain.TradingAccount;
-import com.finance.domain.User;
-import com.finance.domain.dto.TradingAccountCreationDto;
 import com.finance.domain.dto.TradingAccountDto;
-import com.finance.service.UserService;
+import com.finance.service.database.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

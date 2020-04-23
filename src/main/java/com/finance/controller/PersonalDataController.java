@@ -2,7 +2,7 @@ package com.finance.controller;
 
 import com.finance.domain.dto.PersonalDataDto;
 import com.finance.mapper.PersonalDataMapper;
-import com.finance.service.PersonalDataService;
+import com.finance.service.database.PersonalDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

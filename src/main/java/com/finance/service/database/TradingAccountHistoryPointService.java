@@ -1,4 +1,4 @@
-package com.finance.service;
+package com.finance.service.database;
 
 import com.finance.domain.TradingAccountHistoryPoint;
 import com.finance.repository.TradingAccountHistoryPointRepository;

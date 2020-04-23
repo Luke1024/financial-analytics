@@ -9,11 +9,8 @@ import java.util.List;
 
 public class HistoricDataLoader {
 
-
     private CurrencyReaderExtractor currencyReaderExtractor = new CurrencyReaderExtractor();
-
-
-
+    private DataBaseLoader dataBaseLoader = new DataBaseLoader();
 
     public void loadDataIntoDatabase() {
         List<CurrencyFile> files = new ArrayList<>(Arrays.asList(
@@ -21,7 +18,6 @@ public class HistoricDataLoader {
         ));
 
         List<CurrencyPairDataPack> pairDataPacks = currencyReaderExtractor.readAndProcess(files, ChronoUnit.HOURS, ChronoUnit.MINUTES);
-
-
+        dataBaseLoader.load(pairDataPacks);
     }
 }

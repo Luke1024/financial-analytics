@@ -1,6 +1,7 @@
 package com.finance.service;
 
 import com.finance.domain.TradingAccount;
+import com.finance.service.database.TradingAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

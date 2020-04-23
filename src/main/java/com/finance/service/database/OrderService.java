@@ -1,4 +1,4 @@
-package com.finance.service;
+package com.finance.service.database;
 
 import com.finance.domain.TradingAccount;
 import com.finance.domain.CurrencyPair;
@@ -7,8 +7,9 @@ import com.finance.domain.Order;
 import com.finance.domain.dto.OrderModDto;
 import com.finance.domain.dto.OrderOpeningDto;
 import com.finance.repository.OrderRepository;
-import com.finance.service.orderserviceutilities.OrderEvaluatorResponseDto;
-import com.finance.service.orderserviceutilities.OrderOpeningEvaluator;
+import com.finance.service.CalculatingService;
+import com.finance.service.database.orderserviceutilities.OrderEvaluatorResponseDto;
+import com.finance.service.database.orderserviceutilities.OrderOpeningEvaluator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

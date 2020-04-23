@@ -2,6 +2,7 @@ package com.finance.service;
 
 import com.finance.domain.Order;
 import com.finance.domain.enums.LongShort;
+import com.finance.service.database.CurrencyPairService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -4,6 +4,7 @@ import com.finance.clients.WorldTradingClient;
 import com.finance.config.WorldTradingDownloaderServiceConfig;
 import com.finance.domain.CurrencyPair;
 import com.finance.domain.CurrencyPairHistoryPoint;
+import com.finance.service.database.CurrencyPairService;
 import com.finance.service.utilities.CurrencyPairAssembler;
 import com.finance.service.utilities.PairDto;
 import org.json.JSONObject;

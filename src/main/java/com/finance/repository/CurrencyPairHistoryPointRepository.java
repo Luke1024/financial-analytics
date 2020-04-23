@@ -15,4 +15,6 @@ public interface CurrencyPairHistoryPointRepository extends CrudRepository<Curre
     List<CurrencyPairHistoryPoint> retrieveByTimeRangeAndCurrencyName(@Param("TIME_STAMP_START")LocalDateTime time_stamp_start,
                                                                       @Param("TIME_STAMP_STOP")LocalDateTime time_stamp_stop,
                                                                       @Param("CURRENCY_ID")String currencyName);
+    @Override
+    CurrencyPairHistoryPoint save(CurrencyPairHistoryPoint currencyPairHistoryPoint);
 }

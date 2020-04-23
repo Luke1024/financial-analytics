@@ -5,7 +5,7 @@ import com.finance.domain.dto.LoginDto;
 import com.finance.domain.dto.PasswordChangerDto;
 import com.finance.domain.dto.UserRegistrationDto;
 import com.finance.mapper.UserMapper;
-import com.finance.service.UserService;
+import com.finance.service.database.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

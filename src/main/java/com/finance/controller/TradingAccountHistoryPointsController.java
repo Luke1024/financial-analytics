@@ -2,7 +2,7 @@ package com.finance.controller;
 
 import com.finance.domain.dto.TradingAccountHistoryPointDto;
 import com.finance.mapper.TradingAccountHistoryPointMapper;
-import com.finance.service.TradingAccountHistoryPointService;
+import com.finance.service.database.TradingAccountHistoryPointService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

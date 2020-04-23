@@ -3,7 +3,7 @@ package com.finance.controller;
 import com.finance.domain.dto.currencyPair.CurrencyPairDataDto;
 import com.finance.domain.dto.currencyPair.PairRequestDto;
 import com.finance.mapper.CurrencyPairMapper;
-import com.finance.service.CurrencyPairService;
+import com.finance.service.database.CurrencyPairService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

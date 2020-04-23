@@ -1,4 +1,4 @@
-package com.finance.service.orderserviceutilities;
+package com.finance.service.database.orderserviceutilities;
 
 public class OrderEvaluatorResponseDto {
     private boolean open;
