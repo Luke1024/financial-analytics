@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 )
 
 @Entity
-public class CurrencyPairHistoryPoint {
+public class CurrencyPairDataPoint {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long pointId;
@@ -24,10 +24,10 @@ public class CurrencyPairHistoryPoint {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Order order;
 
-    public CurrencyPairHistoryPoint() {
+    public CurrencyPairDataPoint() {
     }
 
-    public CurrencyPairHistoryPoint(LocalDateTime timeStamp, Double value, CurrencyPair currencyPair) {
+    public CurrencyPairDataPoint(LocalDateTime timeStamp, Double value, CurrencyPair currencyPair) {
         this.timeStamp = timeStamp;
         this.value = value;
         this.currencyPair = currencyPair;

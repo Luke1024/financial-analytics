@@ -2,7 +2,7 @@ package com.finance.service.database;
 
 import com.finance.domain.TradingAccount;
 import com.finance.domain.CurrencyPair;
-import com.finance.domain.CurrencyPairHistoryPoint;
+import com.finance.domain.CurrencyPairDataPoint;
 import com.finance.domain.Order;
 import com.finance.domain.dto.OrderModDto;
 import com.finance.domain.dto.OrderOpeningDto;
@@ -103,7 +103,7 @@ public class OrderService {
                 null, null, 0);
     }
 
-    private CurrencyPairHistoryPoint getLastHistoryPoint(String currencyPairName) {
+    private CurrencyPairDataPoint getLastHistoryPoint(String currencyPairName) {
         Optional<CurrencyPair> retrievedCurrencyPair = currencyPairService.getCurrencyPair(currencyPairName);
         if(retrievedCurrencyPair.get() != null){
             return retrievedCurrencyPair.get().getLastPairHistoryPoint();

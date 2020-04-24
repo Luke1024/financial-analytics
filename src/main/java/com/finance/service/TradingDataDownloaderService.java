@@ -3,7 +3,7 @@ package com.finance.service;
 import com.finance.clients.WorldTradingClient;
 import com.finance.config.WorldTradingDownloaderServiceConfig;
 import com.finance.domain.CurrencyPair;
-import com.finance.domain.CurrencyPairHistoryPoint;
+import com.finance.domain.CurrencyPairDataPoint;
 import com.finance.service.database.CurrencyPairService;
 import com.finance.service.utilities.CurrencyPairAssembler;
 import com.finance.service.utilities.PairDto;
@@ -69,7 +69,7 @@ public class TradingDataDownloaderService {
     private void addHistoryPoints(List<PairDto> currencies, Optional<CurrencyPair> currencyPair) {
         if(currencyPair.get() != null) {
             for(PairDto pairDto : currencies) {
-                currencyPair.get().getCurrencyPairHistoryPoints()
+                currencyPair.get().getCurrencyPairDataPoints()
                         .add(mapToCurrencyHistoryPoint(pairDto, currencyPair.get()));
             }
         } else {
@@ -83,8 +83,8 @@ public class TradingDataDownloaderService {
         currencyPairService.saveCurrencyPair(currencyPair);
     }
 
-    private CurrencyPairHistoryPoint mapToCurrencyHistoryPoint(PairDto pairDto, CurrencyPair currencyPair){
-        return new CurrencyPairHistoryPoint(LocalDateTime.now(), pairDto.getValue(), currencyPair);
+    private CurrencyPairDataPoint mapToCurrencyHistoryPoint(PairDto pairDto, CurrencyPair currencyPair){
+        return new CurrencyPairDataPoint(LocalDateTime.now(), pairDto.getValue(), currencyPair);
     }
 
     private CurrencyPair mapToCurrencyPair(String pairName) {

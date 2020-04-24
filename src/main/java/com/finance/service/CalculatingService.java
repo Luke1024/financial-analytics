@@ -22,7 +22,7 @@ public class CalculatingService {
 
         try {
             lot = order.getLot();
-            valueOpen = order.getCurrencyPairHistoryPointOpen().getValue();
+            valueOpen = order.getCurrencyPairDataPointOpen().getValue();
             valueCurrent = getLastValue(order.getCurrencyPair());
             longShort = order.getLongShort();
         } catch (Exception e) { }

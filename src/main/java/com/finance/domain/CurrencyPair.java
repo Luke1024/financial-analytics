@@ -16,20 +16,20 @@ public class CurrencyPair {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String currencyPairName;
-    @OneToMany(targetEntity = CurrencyPairHistoryPoint.class,
+    @OneToMany(targetEntity = CurrencyPairDataPoint.class,
             mappedBy = "currency",
             cascade = CascadeType.ALL,
             fetch = FetchType.EAGER
     )
     @OrderBy
-    private List<CurrencyPairHistoryPoint> currencyPairHistoryPoints;
+    private List<CurrencyPairDataPoint> currencyPairDataPoints;
 
     public CurrencyPair() {
     }
 
     public CurrencyPair(String currencyPairName) {
         this.currencyPairName = currencyPairName;
-        this.currencyPairHistoryPoints = new ArrayList<>();
+        this.currencyPairDataPoints = new ArrayList<>();
     }
 
     public Long getId() {
@@ -40,11 +40,11 @@ public class CurrencyPair {
         return currencyPairName;
     }
 
-    public CurrencyPairHistoryPoint getLastPairHistoryPoint() {
-        return currencyPairHistoryPoints.get(currencyPairHistoryPoints.size()-1);
+    public CurrencyPairDataPoint getLastPairHistoryPoint() {
+        return currencyPairDataPoints.get(currencyPairDataPoints.size()-1);
     }
 
-    public List<CurrencyPairHistoryPoint> getCurrencyPairHistoryPoints() {
-        return currencyPairHistoryPoints;
+    public List<CurrencyPairDataPoint> getCurrencyPairDataPoints() {
+        return currencyPairDataPoints;
     }
 }

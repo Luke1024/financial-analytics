@@ -1,6 +1,6 @@
 package com.finance.preprocessor.utilities;
 
-import com.finance.domain.CurrencyPairHistoryPoint;
+import com.finance.domain.CurrencyPairDataPoint;
 import com.finance.service.database.CurrencyPairService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -24,16 +24,16 @@ public class DataBaseLoader {
         List<DataPoint> dataPointList = pack.getDataPointList();
         Curre
 
-        List<CurrencyPairHistoryPoint> historyPoints = mapDataPointsToHistoryPoints(dataPointList);
+        List<CurrencyPairDataPoint> historyPoints = mapDataPointsToHistoryPoints(dataPointList);
 
 
     }
 
-    private List<CurrencyPairHistoryPoint> mapDataPointsToHistoryPoints(List<DataPoint> dataPoints){
-        List<CurrencyPairHistoryPoint> currencyPairHistoryPoints = new ArrayList<>();
+    private List<CurrencyPairDataPoint> mapDataPointsToHistoryPoints(List<DataPoint> dataPoints){
+        List<CurrencyPairDataPoint> currencyPairDataPoints = new ArrayList<>();
         for(DataPoint dataPoint : dataPoints){
-            currencyPairHistoryPoints.add(new CurrencyPairHistoryPoint());
+            currencyPairDataPoints.add(new CurrencyPairDataPoint());
         }
-        return currencyPairHistoryPoints;
+        return currencyPairDataPoints;
     }
 }

@@ -23,10 +23,10 @@ public class Order {
     private double stopLoss;
     private double takeProfit;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private CurrencyPairHistoryPoint currencyPairHistoryPointOpen;
+    private CurrencyPairDataPoint currencyPairDataPointOpen;
     private LocalDateTime orderOpened;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private CurrencyPairHistoryPoint currencyPairHistoryPointClose;
+    private CurrencyPairDataPoint currencyPairDataPointClose;
     private LocalDateTime orderClosed;
     private double orderBalance;
     @ManyToOne(cascade = CascadeType.ALL)
@@ -40,16 +40,16 @@ public class Order {
     }
 
     public Order(LongShort longShort, double lot, String currencyPair, double stopLoss, double takeProfit,
-                 CurrencyPairHistoryPoint currencyPairHistoryPointOpen, LocalDateTime orderOpened,
-                 CurrencyPairHistoryPoint currencyPairHistoryPointClose, LocalDateTime orderClosed, double orderBalance) {
+                 CurrencyPairDataPoint currencyPairDataPointOpen, LocalDateTime orderOpened,
+                 CurrencyPairDataPoint currencyPairDataPointClose, LocalDateTime orderClosed, double orderBalance) {
         this.longShort = longShort;
         this.lot = lot;
         this.currencyPair = currencyPair;
         this.stopLoss = stopLoss;
         this.takeProfit = takeProfit;
-        this.currencyPairHistoryPointOpen = currencyPairHistoryPointOpen;
+        this.currencyPairDataPointOpen = currencyPairDataPointOpen;
         this.orderOpened = orderOpened;
-        this.currencyPairHistoryPointClose = currencyPairHistoryPointClose;
+        this.currencyPairDataPointClose = currencyPairDataPointClose;
         this.orderClosed = orderClosed;
         this.orderBalance = orderBalance;
     }
@@ -98,16 +98,16 @@ public class Order {
         return takeProfit;
     }
 
-    public CurrencyPairHistoryPoint getCurrencyPairHistoryPointOpen() {
-        return currencyPairHistoryPointOpen;
+    public CurrencyPairDataPoint getCurrencyPairDataPointOpen() {
+        return currencyPairDataPointOpen;
     }
 
     public LocalDateTime getOrderOpened() {
         return orderOpened;
     }
 
-    public CurrencyPairHistoryPoint getCurrencyPairHistoryPointClose() {
-        return currencyPairHistoryPointClose;
+    public CurrencyPairDataPoint getCurrencyPairDataPointClose() {
+        return currencyPairDataPointClose;
     }
 
     public LocalDateTime getOrderClosed() {
