@@ -48,17 +48,20 @@ public class CurrencyPairDataPointServiceTest {
             currencyPairDataPoint4, currencyPairDataPoint5));
 
     @Test
-    public void testRetrievingCurrencyPairHistory(){
+    public void testRetrievingCurrencyPairHistory() {
         currencyPairRepository.save(currencyPair);
 
-        for(CurrencyPairDataPoint point : currencyPairDataPoints){
+        for (CurrencyPairDataPoint point : currencyPairDataPoints) {
             currencyPairHistoryPointRepository.save(point);
         }
-
+/*
         PairHistoryRequestDto pairHistoryRequestDto = new PairHistoryRequestDto(
                 "EUR/USD", true,
         );
 
         currencyPairDataPointService.getCurrencyPairHistory();
+    }
+
+ */
     }
 }

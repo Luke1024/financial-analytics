@@ -17,7 +17,7 @@ public class CurrencyPair {
     private Long id;
     private String currencyPairName;
     @OneToMany(targetEntity = CurrencyPairDataPoint.class,
-            mappedBy = "currency",
+            mappedBy = "currencyPair",
             cascade = CascadeType.ALL,
             fetch = FetchType.EAGER
     )
@@ -40,11 +40,19 @@ public class CurrencyPair {
         return currencyPairName;
     }
 
-    public CurrencyPairDataPoint getLastPairHistoryPoint() {
-        return currencyPairDataPoints.get(currencyPairDataPoints.size()-1);
-    }
-
     public List<CurrencyPairDataPoint> getCurrencyPairDataPoints() {
         return currencyPairDataPoints;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setCurrencyPairName(String currencyPairName) {
+        this.currencyPairName = currencyPairName;
+    }
+
+    public void setCurrencyPairDataPoints(List<CurrencyPairDataPoint> currencyPairDataPoints) {
+        this.currencyPairDataPoints = currencyPairDataPoints;
     }
 }

@@ -22,7 +22,7 @@ public class DataBaseLoader {
     private void loadPackToDatabase(CurrencyPairDataPack pack){
         String currencyPairName = pack.getCurrencyPairName();
         List<DataPoint> dataPointList = pack.getDataPointList();
-        Curre
+        //Curre
 
         List<CurrencyPairDataPoint> historyPoints = mapDataPointsToHistoryPoints(dataPointList);
 

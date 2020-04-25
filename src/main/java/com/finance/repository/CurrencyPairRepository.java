@@ -19,4 +19,6 @@ public interface CurrencyPairRepository extends CrudRepository<CurrencyPair, Lon
 
     @Override
     List<CurrencyPair> findAll();
+
+    CurrencyPair save (CurrencyPair currencyPair);
 }

@@ -3,6 +3,7 @@ package com.finance.domain;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+/*
 @NamedNativeQuery(
         name="CurrencyPairHistoryPoint.retrieveByTimeRangeAndCurrencyName",
         query="SELECT * FROM currency_history_point" +
@@ -10,6 +11,17 @@ import java.time.LocalDateTime;
                 "time_stamp <= :TIME_STAMP_STOP AND currency_pair_name = :CURRENCY_ID;",
         resultClass = CurrencyPair.class
 )
+ */
+
+/*
+@NamedNativeQuery(
+        name="CurrencyPairDataPoint.getLastDataPoint",
+        query = "SELECT * FROM currency_pair_data_point" +
+        " WHERE ";
+        resultClass = CurrencyPair.class
+)
+
+ */
 
 @Entity
 public class CurrencyPairDataPoint {
@@ -18,7 +30,7 @@ public class CurrencyPairDataPoint {
     private Long pointId;
     private LocalDateTime timeStamp;
     private Double value;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "CURRENCY_PAIR_ID")
     private CurrencyPair currencyPair;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -55,5 +67,21 @@ public class CurrencyPairDataPoint {
 
     public void setOrder(Order order) {
         this.order = order;
+    }
+
+    public void setPointId(Long pointId) {
+        this.pointId = pointId;
+    }
+
+    public void setTimeStamp(LocalDateTime timeStamp) {
+        this.timeStamp = timeStamp;
+    }
+
+    public void setValue(Double value) {
+        this.value = value;
+    }
+
+    public void setCurrencyPair(CurrencyPair currencyPair) {
+        this.currencyPair = currencyPair;
     }
 }
