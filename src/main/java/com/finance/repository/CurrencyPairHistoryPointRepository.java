@@ -2,7 +2,10 @@ package com.finance.repository;
 
 import com.finance.domain.CurrencyPairDataPoint;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import java.time.LocalDateTime;
 
 @Repository
 public interface CurrencyPairHistoryPointRepository extends CrudRepository<CurrencyPairDataPoint, Long> {
@@ -11,9 +14,10 @@ public interface CurrencyPairHistoryPointRepository extends CrudRepository<Curre
                                                                    @Param("TIME_STAMP_STOP")LocalDateTime time_stamp_stop,
                                                                    @Param("CURRENCY_ID")String currencyName); */
 
-    //CurrencyPairDataPoint getLastDataPoint();
+    CurrencyPairDataPoint getLastDataPoint();
 
-    //CurrencyPairDataPoint findPointByDate();
+    CurrencyPairDataPoint findPointByDate(@Param("TIME_STAMP")LocalDateTime time_stamp,
+                                          @Param("PAIR_ID") long pair_id);
 
     @Override
     CurrencyPairDataPoint save(CurrencyPairDataPoint currencyPairDataPoint);

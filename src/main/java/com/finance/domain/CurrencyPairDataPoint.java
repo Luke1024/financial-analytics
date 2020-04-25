@@ -13,15 +13,18 @@ import java.time.LocalDateTime;
 )
  */
 
-/*
-@NamedNativeQuery(
-        name="CurrencyPairDataPoint.getLastDataPoint",
-        query = "SELECT * FROM currency_pair_data_point" +
-        " WHERE ";
-        resultClass = CurrencyPair.class
-)
+@NamedNativeQueries({
+        @NamedNativeQuery(
+                name = "CurrencyPairDataPoint.getLastDataPoint",
+                query = "SELECT * FROM trading_data_microservice.currency_pair_data_point ORDER BY time_stamp DESC LIMIT 1;",
+                resultClass = CurrencyPairDataPoint.class),
 
- */
+        @NamedNativeQuery(
+                name = "CurrencyPairDataPoint.findPointByDate",
+                query = "SELECT * FROM trading_data_microservice.currency_pair_data_point " +
+                        "WHERE time_stamp = :TIME_STAMP AND currency_pair_id = :PAIR_ID",
+                resultClass = CurrencyPairDataPoint.class)
+})
 
 @Entity
 public class CurrencyPairDataPoint {
