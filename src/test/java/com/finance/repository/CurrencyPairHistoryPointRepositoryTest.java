@@ -42,7 +42,8 @@ public class CurrencyPairHistoryPointRepositoryTest {
         currencyPairHistoryPointRepository.save(currencyPairDataPoint2);
         currencyPairHistoryPointRepository.save(currencyPairDataPoint3);
 
-        Assert.assertEquals(currencyPairDataPoint3.getPointId(), currencyPairHistoryPointRepository.getLastDataPoint().getPointId());
+        Assert.assertEquals(currencyPairDataPoint3.getPointId(),
+                currencyPairHistoryPointRepository.getLastDataPoint(currencyPair.getId()).getPointId());
 
         currencyPairHistoryPointRepository.delete(currencyPairDataPoint1);
         currencyPairHistoryPointRepository.delete(currencyPairDataPoint2);

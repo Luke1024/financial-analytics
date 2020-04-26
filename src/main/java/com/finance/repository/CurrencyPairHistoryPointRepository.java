@@ -6,6 +6,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Repository
 public interface CurrencyPairHistoryPointRepository extends CrudRepository<CurrencyPairDataPoint, Long> {
@@ -14,9 +15,9 @@ public interface CurrencyPairHistoryPointRepository extends CrudRepository<Curre
                                                                    @Param("TIME_STAMP_STOP")LocalDateTime time_stamp_stop,
                                                                    @Param("CURRENCY_ID")String currencyName); */
 
-    CurrencyPairDataPoint getLastDataPoint();
+    Optional<CurrencyPairDataPoint> getLastDataPoint(long pair_id);
 
-    CurrencyPairDataPoint findPointByDate(@Param("TIME_STAMP")LocalDateTime time_stamp,
+    Optional<CurrencyPairDataPoint> findPointByDate(@Param("TIME_STAMP")LocalDateTime time_stamp,
                                           @Param("PAIR_ID") long pair_id);
 
     @Override
