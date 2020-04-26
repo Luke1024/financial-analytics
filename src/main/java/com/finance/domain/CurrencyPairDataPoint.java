@@ -89,4 +89,15 @@ public class CurrencyPairDataPoint {
     public void setCurrencyPair(CurrencyPair currencyPair) {
         this.currencyPair = currencyPair;
     }
+
+    @Override
+    public String toString() {
+        return "CurrencyPairDataPoint{" +
+                "pointId=" + pointId +
+                ", timeStamp=" + timeStamp +
+                ", value=" + value +
+                ", currencyPair=" + currencyPair +
+                ", order=" + order +
+                '}';
+    }
 }

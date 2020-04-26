@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -72,7 +73,7 @@ public class PairHistoryRetriever {
             //add point backward
             points.add(lastDataPoint);
             LocalDateTime lastTimeStamp = lastDataPoint.getTimeStamp();
-            for (int i = 0; i < dataPointSize; i++) {
+            for (int i = 0; i < dataPointSize-1; i++) {
                 LocalDateTime searchedTime = calculateTimeBackward(timeFrame, i + 1, lastTimeStamp);
                 Optional<CurrencyPairDataPoint> retrievedPoint = repository.findPointByDate(searchedTime, currencyPairId);
                 if(retrievedPoint.isPresent()){
@@ -80,6 +81,8 @@ public class PairHistoryRetriever {
                 }
             }
         }
+        Collections.reverse(points);
+
         return points;
     }
 

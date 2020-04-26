@@ -43,7 +43,7 @@ public class CurrencyPairHistoryPointRepositoryTest {
         currencyPairHistoryPointRepository.save(currencyPairDataPoint3);
 
         Assert.assertEquals(currencyPairDataPoint3.getPointId(),
-                currencyPairHistoryPointRepository.getLastDataPoint(currencyPair.getId()).getPointId());
+                currencyPairHistoryPointRepository.getLastDataPoint(currencyPair.getId()));
 
         currencyPairHistoryPointRepository.delete(currencyPairDataPoint1);
         currencyPairHistoryPointRepository.delete(currencyPairDataPoint2);
@@ -74,8 +74,8 @@ public class CurrencyPairHistoryPointRepositoryTest {
         LocalDateTime searchedDate = LocalDateTime.of(2020,1,2,13,0,0);
 
         Assert.assertEquals(searchedDate.toString(), currencyPairHistoryPointRepository.findPointByDate(
-                LocalDateTime.of(2020,1,2,13,0,0), currencyPair.getId())
-                .getTimeStamp().toString());
+                LocalDateTime.of(2020,1,2,13,0,0),
+                currencyPair.getId()).get().getTimeStamp().toString());
 
         currencyPairHistoryPointRepository.delete(currencyPairDataPoint1);
         currencyPairHistoryPointRepository.delete(currencyPairDataPoint2);

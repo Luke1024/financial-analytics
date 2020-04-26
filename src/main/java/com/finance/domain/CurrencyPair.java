@@ -32,6 +32,12 @@ public class CurrencyPair {
         this.currencyPairDataPoints = new ArrayList<>();
     }
 
+    public CurrencyPair(Long id, String currencyPairName) {
+        this.id = id;
+        this.currencyPairName = currencyPairName;
+        this.currencyPairDataPoints = new ArrayList<>();
+    }
+
     public Long getId() {
         return id;
     }
