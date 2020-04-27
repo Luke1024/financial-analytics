@@ -1,5 +1,7 @@
 package com.finance.domain;
 
+import org.hibernate.validator.constraints.UniqueElements;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,5 +62,14 @@ public class CurrencyPair {
 
     public void setCurrencyPairDataPoints(List<CurrencyPairDataPoint> currencyPairDataPoints) {
         this.currencyPairDataPoints = currencyPairDataPoints;
+    }
+
+    @Override
+    public String toString() {
+        return "CurrencyPair{" +
+                "id=" + id +
+                ", currencyPairName='" + currencyPairName + '\'' +
+                ", currencyPairDataPoints=" + currencyPairDataPoints +
+                '}';
     }
 }

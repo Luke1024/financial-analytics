@@ -33,6 +33,7 @@ public class CurrencyPairDataPoint {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long pointId;
+    @Column(unique = true)
     private LocalDateTime timeStamp;
     private Double value;
     @ManyToOne(cascade = CascadeType.MERGE)
