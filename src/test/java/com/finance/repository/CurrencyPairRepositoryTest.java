@@ -64,7 +64,5 @@ public class CurrencyPairRepositoryTest {
         if(pair.isPresent()){
             currencyPairRepository.deleteById(pair.get().getId());
         }
-
-
     }
 }

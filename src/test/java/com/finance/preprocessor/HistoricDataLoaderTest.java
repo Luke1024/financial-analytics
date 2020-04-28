@@ -6,9 +6,9 @@ public class HistoricDataLoaderTest {
 
     private HistoricDataLoader preprocessor = new HistoricDataLoader();
 
-    @Test
-    public void testPreprocessor(){
-        preprocessor.loadDataIntoDatabase();
-    }
+    //@Test
+    //public void testPreprocessor(){
+      //  preprocessor.loadDataIntoDatabase();
+    //}
 
 }

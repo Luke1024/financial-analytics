@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -28,6 +29,8 @@ public class CurrencyPairHistoryPointRepositoryTest {
     public void testLastDataPoint(){
         CurrencyPair currencyPair = new CurrencyPair("EUR/USD");
 
+        checkerDeleter(currencyPair);
+
         currencyPairRepository.save(currencyPair);
 
         LocalDateTime localDateTime1 = LocalDateTime.of(2020, 1, 1, 13,0);
@@ -43,7 +46,7 @@ public class CurrencyPairHistoryPointRepositoryTest {
         currencyPairHistoryPointRepository.save(currencyPairDataPoint3);
 
         Assert.assertEquals(currencyPairDataPoint3.getPointId(),
-                currencyPairHistoryPointRepository.getLastDataPoint(currencyPair.getId()));
+                currencyPairHistoryPointRepository.getLastDataPoint(currencyPair.getId()).get().getPointId());
 
         currencyPairHistoryPointRepository.delete(currencyPairDataPoint1);
         currencyPairHistoryPointRepository.delete(currencyPairDataPoint2);
@@ -56,6 +59,8 @@ public class CurrencyPairHistoryPointRepositoryTest {
     public void testFindPointByDate(){
 
         CurrencyPair currencyPair = new CurrencyPair("EUR/USD");
+
+        checkerDeleter(currencyPair);
 
         currencyPairRepository.save(currencyPair);
 
@@ -82,5 +87,12 @@ public class CurrencyPairHistoryPointRepositoryTest {
         currencyPairHistoryPointRepository.delete(currencyPairDataPoint3);
 
         currencyPairRepository.deleteById(currencyPair.getId());
+    }
+
+    public void checkerDeleter(CurrencyPair currencyPair){
+        Optional<CurrencyPair> pair = currencyPairRepository.findByCurrencyName(currencyPair.getCurrencyPairName());
+        if(pair.isPresent()){
+            currencyPairRepository.deleteById(pair.get().getId());
+        }
     }
 }

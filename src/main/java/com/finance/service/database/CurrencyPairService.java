@@ -26,6 +26,9 @@ public class CurrencyPairService {
     }
 
     public void saveCurrencyPair(CurrencyPair currencyPair){
-        currencyPairRepository.save(currencyPair);
+        Optional<CurrencyPair> pair = currencyPairRepository.findByCurrencyName(currencyPair.getCurrencyPairName());
+        if( ! pair.isPresent()){
+            currencyPairRepository.save(currencyPair);
+        }
     }
 }
