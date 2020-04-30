@@ -53,7 +53,7 @@ public class CurrencyPairDataPointServiceTest {
 
     @Test
     public void getCurrencyPairHistoryFromLast(){
-        currencyPairDataPointService.addHistoryPoints(Arrays.asList(
+        currencyPairDataPointService.addDataPoints(Arrays.asList(
                 currencyPairDataPoint1,
                 currencyPairDataPoint2,
                 currencyPairDataPoint3,
