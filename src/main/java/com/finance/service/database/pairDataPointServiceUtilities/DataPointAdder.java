@@ -38,11 +38,23 @@ public class DataPointAdder {
     private void checkIfCurrencyPairExistInDatabase(CurrencyPairDataPoint point) {
         String currencyPairName = point.getCurrencyPair().getCurrencyPairName();
         Optional<CurrencyPair> currencyPair = currencyPairRepository.findByCurrencyName(currencyPairName);
-        if(currencyPair.isPresent()) addPointToCurrencyPair(currencyPair.get(), point);
+        if(currencyPair.isPresent()) checkIfPointWithTheSameTimeStampAlreadyExistInDatabase(currencyPair.get(), point);
         else {
             addCurrencyPair(point);
             checkIfCurrencyPairExistInDatabase(point);
         }
+    }
+
+    private void checkIfPointWithTheSameTimeStampAlreadyExistInDatabase(CurrencyPair currencyPair, CurrencyPairDataPoint point){
+        Optional<CurrencyPairDataPoint> dataPoint = repository.findPointByDate(point.getTimeStamp(), currencyPair.getId());
+        if(dataPoint.isPresent()){
+            deleteDataPoint(dataPoint.get());
+            addPointToCurrencyPair(currencyPair, point);
+        }
+    }
+
+    private void deleteDataPoint(CurrencyPairDataPoint dataPoint){
+        repository.deleteById(dataPoint.getPointId());
     }
 
     private void addPointToCurrencyPair(CurrencyPair currencyPair, CurrencyPairDataPoint currencyPairDataPoint) {
