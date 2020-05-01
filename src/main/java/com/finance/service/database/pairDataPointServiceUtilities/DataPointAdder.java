@@ -17,7 +17,10 @@ public class DataPointAdder {
     @Autowired
     private CurrencyPairRepository currencyPairRepository;
 
-    public void addPoint(List<CurrencyPairDataPoint> currencyPairDataPoints){
+    private boolean overwrite;
+
+    public void addPoint(List<CurrencyPairDataPoint> currencyPairDataPoints, boolean overwrite){
+        this.overwrite = overwrite;
         for(CurrencyPairDataPoint point : currencyPairDataPoints){
             saveDataPoint(point);
         }
@@ -48,8 +51,10 @@ public class DataPointAdder {
     private void checkIfPointWithTheSameTimeStampAlreadyExistInDatabase(CurrencyPair currencyPair, CurrencyPairDataPoint point){
         Optional<CurrencyPairDataPoint> dataPoint = repository.findPointByDate(point.getTimeStamp(), currencyPair.getId());
         if(dataPoint.isPresent()){
-            deleteDataPoint(dataPoint.get());
-            addPointToCurrencyPair(currencyPair, point);
+            if(this.overwrite == true) {
+                deleteDataPoint(dataPoint.get());
+                addPointToCurrencyPair(currencyPair, point);
+            }
         }
     }
 

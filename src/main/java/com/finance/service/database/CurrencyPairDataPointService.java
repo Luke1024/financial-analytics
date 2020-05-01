@@ -38,7 +38,7 @@ public class CurrencyPairDataPointService {
         return repository.getLastDataPoint(pair_id);
     }
 
-    public void addDataPoints(List<CurrencyPairDataPoint> currencyPairDataPoints){
-        dataPointAdder.addPoint(currencyPairDataPoints);
+    public void addDataPoints(List<CurrencyPairDataPoint> currencyPairDataPoints, boolean overwrite){
+        dataPointAdder.addPoint(currencyPairDataPoints, overwrite);
     }
 }
