@@ -21,7 +21,7 @@ public class CurrencyPairService {
         List<CurrencyPair> currencyPairs = currencyPairRepository.findAll();
         return new ServiceResponse(
                 currencyPairs.stream().map(pair -> (DatabaseEntity) pair)
-                        .collect(Collectors.toList()), "");
+                        .collect(Collectors.toList()), "", true);
     }
 
     public ServiceResponse getCurrencyPair(String currencyPairName) {
@@ -41,13 +41,13 @@ public class CurrencyPairService {
     //getCurrencyPair methods
     private ServiceResponse checkIfCurrencyPairNotNull(String currencyPairName){
         if(currencyPairName != null) return findByCurrencyPairName(currencyPairName);
-        else return new ServiceResponse(null, "CurrencyPairName is null");
+        else return new ServiceResponse(null, "CurrencyPairName is null", false);
     }
 
     private ServiceResponse findByCurrencyPairName(String currencyPairName){
         Optional<CurrencyPair> currencyPair = currencyPairRepository.findByCurrencyName(currencyPairName);
-        if(currencyPair.isPresent()) return new ServiceResponse(Arrays.asList(currencyPair.get()), "CurrencyPair found.");
-        else return new ServiceResponse(null, "CurrencyPair not found.");
+        if(currencyPair.isPresent()) return new ServiceResponse(Arrays.asList(currencyPair.get()), "CurrencyPair found.", true);
+        else return new ServiceResponse(null, "CurrencyPair not found.", false);
     }
 
     //deleteById methods
@@ -58,20 +58,19 @@ public class CurrencyPairService {
 
     private ServiceResponse checkIfCurrencyStillExists(Long id){
         Optional<CurrencyPair> currencyPair = currencyPairRepository.findById(id);
-        if(currencyPair.isPresent()) return new ServiceResponse(null, "CurrencyPair id: " + id + " deletion issues.");
-        else return new ServiceResponse(null, "CurrencyPair id: " + id + " removed.");
+        if(currencyPair.isPresent()) return new ServiceResponse(null, "CurrencyPair id: " + id + " deletion issues.", true);
+        else return new ServiceResponse(null, "CurrencyPair id: " + id + " removed.", false);
     }
-
 
     //saveCurrencyPair methods
     private ServiceResponse checkIfCurrencyPairNotNull(CurrencyPair currencyPair, boolean overwrite){
         if(currencyPair != null) return checkIfCurrencyPairNameNotNull(currencyPair, overwrite);
-        else return new ServiceResponse(null, "CurrencyPair is null.");
+        else return new ServiceResponse(null, "CurrencyPair is null.", false);
     }
 
     private ServiceResponse checkIfCurrencyPairNameNotNull(CurrencyPair currencyPair, boolean overwrite) {
         if(currencyPair.getCurrencyPairName() != null) return checkIfCurrencyPairExistAlready(currencyPair, overwrite);
-        else return new ServiceResponse(null, "CurrencyPair name is null");
+        else return new ServiceResponse(null, "CurrencyPair name is null", false);
     }
 
     private ServiceResponse checkIfCurrencyPairExistAlready(CurrencyPair currencyPair, boolean overwrite) {
@@ -82,7 +81,7 @@ public class CurrencyPairService {
 
     private ServiceResponse overwriteIfPossible(CurrencyPair newPair, Optional<CurrencyPair> pair, boolean overwrite) {
         if(overwrite == true) return overwriteCurrencyPair(newPair, pair);
-        else return new ServiceResponse(null, "CurrencyPair overwriting is not allowed.");
+        else return new ServiceResponse(null, "CurrencyPair overwriting is not allowed.", false);
     }
 
     private ServiceResponse overwriteCurrencyPair(CurrencyPair newPair, Optional<CurrencyPair> pair) {
@@ -92,6 +91,6 @@ public class CurrencyPairService {
 
     private ServiceResponse addCurrencyPair(CurrencyPair currencyPair){
         currencyPairRepository.save(currencyPair);
-        return new ServiceResponse(null, "CurrencyPair saved");
+        return new ServiceResponse(null, "CurrencyPair saved", true);
     }
 }

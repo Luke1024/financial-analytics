@@ -6,10 +6,12 @@ import java.util.List;
 public class ServiceResponse {
     private List<DatabaseEntity> requestedObjects = new ArrayList<>();
     private String log;
+    private boolean OK;
 
-    public ServiceResponse(List<DatabaseEntity> requestedObjects, String log) {
+    public ServiceResponse(List<DatabaseEntity> requestedObjects, String log, boolean OK) {
         this.requestedObjects = requestedObjects;
         this.log = log;
+        this.OK = OK;
     }
 
     public List<DatabaseEntity> getRequestedObjects() {
@@ -18,5 +20,9 @@ public class ServiceResponse {
 
     public String getLog() {
         return log;
+    }
+
+    public boolean isOK() {
+        return OK;
     }
 }
