@@ -1,4 +1,4 @@
-package com.finance.service.utilities;
+package com.finance.service.tradingDataDownloaderUtilities;
 
 public class PairDto {
     private String pairName;

@@ -1,9 +1,11 @@
-package com.finance.service.utilities;
+package com.finance.service.tradingDataDownloaderUtilities;
 
 import com.finance.config.WorldTradingDownloaderServiceConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -11,7 +13,16 @@ public class CurrencyPairAssembler {
     @Autowired
     private WorldTradingDownloaderServiceConfig config;
 
-    public PairDto assembleCurrencyPair(String pair, Map<String, String> currencyMap){
+    public List<PairDto> assembleCurrencyPair(Map<String, String> currencyMap) {
+        List<PairDto> currencyPairs = new ArrayList<>();
+        for(String pair : config.getCurrencyPairs()){
+            currencyPairs.add(assembleCurrencyPair(pair, currencyMap));
+        }
+        return currencyPairs;
+    }
+
+    private PairDto assembleCurrencyPair(String pair, Map<String, String> currencyMap){
+
         String baseCurrency;
         String currency;
         try {
