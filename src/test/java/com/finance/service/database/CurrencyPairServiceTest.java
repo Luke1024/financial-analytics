@@ -27,12 +27,12 @@ public class CurrencyPairServiceTest {
 
     @Test
     public void getCurrenciesEmpty(){
-        currencyPairDataBaseCleaning();
+        if(authorizeDatabaseCleaning) {
+            currencyPairDataBaseCleaning();
 
-        String currencyName = generateRandomString();
-        DatabaseResponse databaseResponse = currencyPairService.getCurrencies();
+            String currencyName = generateRandomString();
+            DatabaseResponse databaseResponse = currencyPairService.getCurrencies();
 
-        if(authorizeDatabaseCleaning){
             Assert.assertTrue(databaseResponse.getRequestedObjects().size() == 0 && databaseResponse.isOK() == true);
         }
     }

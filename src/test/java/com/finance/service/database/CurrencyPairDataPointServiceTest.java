@@ -23,6 +23,7 @@ import java.util.List;
 @SpringBootTest
 @Transactional
 public class CurrencyPairDataPointServiceTest {
+    /*
 
     @Autowired
     private CurrencyPairDataPointService currencyPairDataPointService;
@@ -110,5 +111,4 @@ public class CurrencyPairDataPointServiceTest {
     }
 
  */
-    }
 }

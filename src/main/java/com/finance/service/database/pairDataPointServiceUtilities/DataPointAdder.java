@@ -5,10 +5,12 @@ import com.finance.domain.CurrencyPairDataPoint;
 import com.finance.repository.CurrencyPairHistoryPointRepository;
 import com.finance.repository.CurrencyPairRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class DataPointAdder {
 
     @Autowired
