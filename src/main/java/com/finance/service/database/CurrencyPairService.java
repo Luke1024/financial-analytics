@@ -41,7 +41,7 @@ public class CurrencyPairService {
     //getCurrencyPair methods
     private DatabaseResponse checkIfCurrencyPairNotNull(String currencyPairName){
         if(currencyPairName != null) return findByCurrencyPairName(currencyPairName);
-        else return new DatabaseResponse(null, "CurrencyPairName is null", false);
+        else return new DatabaseResponse(null, "CurrencyPairName is null.", false);
     }
 
     private DatabaseResponse findByCurrencyPairName(String currencyPairName){
@@ -52,9 +52,17 @@ public class CurrencyPairService {
 
     //deleteById methods
     private DatabaseResponse deleteCurrencyPair(Long id){
-        //check if currencyPair exist
-        currencyPairRepository.deleteById(id);
-        return checkIfCurrencyStillExists(id);
+        return checkIfCurrencyExists(id);
+    }
+
+    private DatabaseResponse checkIfCurrencyExists(long id){
+        Optional<CurrencyPair> currencyPair = currencyPairRepository.findById(id);
+        if( ! currencyPair.isPresent()){
+            return new DatabaseResponse(null,"CurrencyPair not found.",false);
+        } else {
+            currencyPairRepository.deleteById(id);
+            return checkIfCurrencyStillExists(id);
+        }
     }
 
     private DatabaseResponse checkIfCurrencyStillExists(Long id){
@@ -71,27 +79,27 @@ public class CurrencyPairService {
 
     private DatabaseResponse checkIfCurrencyPairNameNotNull(CurrencyPair currencyPair, boolean overwrite) {
         if(currencyPair.getCurrencyPairName() != null) return checkIfCurrencyPairExistAlready(currencyPair, overwrite);
-        else return new DatabaseResponse(null, "CurrencyPair name is null", false);
+        else return new DatabaseResponse(null, "CurrencyPair name is null.", false);
     }
 
     private DatabaseResponse checkIfCurrencyPairExistAlready(CurrencyPair currencyPair, boolean overwrite) {
         Optional<CurrencyPair> pair = currencyPairRepository.findByCurrencyName(currencyPair.getCurrencyPairName());
         if(pair.isPresent()) return overwriteIfPossible(currencyPair, pair, overwrite);
-        else return addCurrencyPair(currencyPair);
+        else return addCurrencyPair(currencyPair, null);
     }
 
     private DatabaseResponse overwriteIfPossible(CurrencyPair newPair, Optional<CurrencyPair> pair, boolean overwrite) {
         if(overwrite == true) return overwriteCurrencyPair(newPair, pair);
-        else return new DatabaseResponse(null, "CurrencyPair overwriting is not allowed.", false);
+        else return new DatabaseResponse(null, "CurrencyPair exists, overwriting is not allowed.", false);
     }
 
     private DatabaseResponse overwriteCurrencyPair(CurrencyPair newPair, Optional<CurrencyPair> pair) {
         currencyPairRepository.deleteById(pair.get().getId());
-        return addCurrencyPair(newPair);
+        return addCurrencyPair(newPair, "CurrencyPair overwritten. ");
     }
 
-    private DatabaseResponse addCurrencyPair(CurrencyPair currencyPair){
+    private DatabaseResponse addCurrencyPair(CurrencyPair currencyPair, String message){
         currencyPairRepository.save(currencyPair);
-        return new DatabaseResponse(null, "CurrencyPair saved", true);
+        return new DatabaseResponse(null, message + "CurrencyPair saved.", true);
     }
 }

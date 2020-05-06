@@ -82,7 +82,7 @@ public class OrderService {
 
     private Order retrieveOrder(TradingAccount tradingAccount, OrderModDto orderModDto){
         return tradingAccount.getOpenOrders().stream()
-                .filter(order -> order.getOrderId()==orderModDto.getOrderId())
+                .filter(order -> order.getOrderId() == orderModDto.getOrderId())
                 .findAny().orElse(null);
     }
 
