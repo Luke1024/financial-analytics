@@ -1,8 +1,11 @@
 package com.finance.service.database;
 
 import com.finance.domain.CurrencyPair;
+import com.finance.domain.CurrencyPairDataPoint;
+import com.finance.preprocessor.utilities.DataPoint;
 import com.finance.repository.CurrencyPairRepository;
 import com.finance.service.database.communicationObjects.DatabaseResponse;
+import org.hibernate.tool.schema.internal.exec.ScriptTargetOutputToFile;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -59,21 +64,6 @@ public class CurrencyPairServiceTest {
         Assert.assertTrue(deletingResponse.getLog().contains("removed"));
         Assert.assertFalse(currencyPairRepository.findById(newPair.getId()).isPresent());
     }
-/*
-    @Test
-    public void getCurrenciesNotUnique(){
-        List<String> randomNames = new ArrayList<>();
-        for(int i = 0; i < 3; i++){
-            String randomName = generateRandomString();
-            if(isPairExist(randomName)){
-                getCurrenciesNotUnique();
-            }
-        }
-        List<CurrencyPair> newPairs = randomNames.stream()
-                .map(name -> new CurrencyPair(name)).collect(Collectors.toList());
-        newPairs.stream().forEach(pair -> currencyPairService.saveCurrencyPair(pair, false));
-    }
- */
 
     @Test
     public void getCurrencyPairNameNull(){
@@ -157,27 +147,28 @@ public class CurrencyPairServiceTest {
     @Test
     public void saveCurrencyPairAlreadyExistsOverwritingAllowed(){
         String randomName = generateRandomString();
-        if(isPairExist(randomName)){
-            saveCurrencyPairAlreadyExistsOverwritingAllowed();
-        }
+        //if(isPairExist(randomName)){
+          //  saveCurrencyPairAlreadyExistsOverwritingAllowed();
+        //}
 
         CurrencyPair firstPair = new CurrencyPair(randomName);
-
         DatabaseResponse response1 = currencyPairService.saveCurrencyPair(firstPair, false);
-
         Assert.assertEquals(true, response1.isOK());
 
-        System.out.println(firstPair.getId());
+        System.out.println("First pair " + firstPair.getId());
 
-        long randomId = 0;
-        while(true){
-            randomId = getRandomId();
-            if(randomId != firstPair.getId()) break;
-        }
 
-        CurrencyPair secondPair = new CurrencyPair(randomId, randomName);
+        CurrencyPair secondPair = new CurrencyPair(randomName);
+
+        //CurrencyPairDataPoint dataPoint = new CurrencyPairDataPoint(LocalDateTime.now(), 1.0, secondPair);
+
+        //secondPair.setCurrencyPairDataPoints(Arrays.asList(dataPoint));
 
         DatabaseResponse response2 = currencyPairService.saveCurrencyPair(secondPair, true);
+
+        System.out.println("Second pair " + secondPair.getId());
+
+        System.out.println(secondPair.getCurrencyPairDataPoints().size());
 
         Assert.assertEquals(true, response2.isOK());
         Assert.assertEquals("CurrencyPair overwritten. CurrencyPair saved.", response2.getLog());
@@ -187,7 +178,7 @@ public class CurrencyPairServiceTest {
         List<CurrencyPair> currencyPairs = response3.getRequestedObjects()
                 .stream().map(entity -> (CurrencyPair) entity).collect(Collectors.toList());
 
-        Assert.assertEquals(secondPair.getId(), currencyPairs.get(0).getId());
+        Assert.assertNotEquals(firstPair.getId(), currencyPairs.get(0).getId());
     }
 
 
@@ -225,7 +216,8 @@ public class CurrencyPairServiceTest {
     }
 
     private long getRandomId(){
-        Random random = new Random(0,10000000);
-        return random.nextLong();
+        long leftLimit = 1L;
+        long rightLimit = 10L;
+        return leftLimit + (long) (Math.random() * (rightLimit - leftLimit));
     }
 }

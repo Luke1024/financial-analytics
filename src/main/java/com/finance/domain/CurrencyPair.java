@@ -40,6 +40,12 @@ public class CurrencyPair implements DatabaseEntity {
         this.currencyPairDataPoints = new ArrayList<>();
     }
 
+    public CurrencyPair(String currencyPairName, List<CurrencyPairDataPoint> pairDataPoints) {
+        this.id = id;
+        this.currencyPairName = currencyPairName;
+        this.currencyPairDataPoints = pairDataPoints;
+    }
+
     public Long getId() {
         return id;
     }
