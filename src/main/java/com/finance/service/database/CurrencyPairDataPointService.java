@@ -4,12 +4,14 @@ import com.finance.domain.CurrencyPairDataPoint;
 import com.finance.domain.dto.currencyPair.PairDataRequestDto;
 import com.finance.repository.CurrencyPairHistoryPointRepository;
 import com.finance.repository.CurrencyPairRepository;
+import com.finance.service.database.communicationObjects.DatabaseResponse;
 import com.finance.service.database.pairDataPointServiceUtilities.DataPointAdder;
 import com.finance.service.database.pairDataPointServiceUtilities.PairHistoryRetriever;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.temporal.ChronoUnit;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,15 +32,22 @@ public class CurrencyPairDataPointService {
     @Autowired
     private DataPointAdder dataPointAdder;
 
-    public List<CurrencyPairDataPoint> getCurrencyPairHistory(PairDataRequestDto pairDataRequestDto){
+    public DatabaseResponse getCurrencyPairHistory(PairDataRequestDto pairDataRequestDto){
         return pairHistoryRetriever.getCurrencyPairHistory(pairDataRequestDto);
     }
 
-    public Optional<CurrencyPairDataPoint> getPairLastDataPoint(long pair_id){
-        return repository.getLastDataPoint(pair_id);
+    public DatabaseResponse getPairLastDataPoint(long pair_id){
+        if(pair_id < 1){
+            return new DatabaseResponse(null, "Id cannot be lower than 1.", false);
+        } else {
+            Optional<CurrencyPairDataPoint> currencyPairDataPoint = repository.getLastDataPoint(pair_id);
+            if(currencyPairDataPoint.isPresent()) {
+                return new DatabaseResponse(Arrays.asList(currencyPairDataPoint.get()), "", true);
+            } else return new DatabaseResponse(null, "Last dataPoint not found", false);
+        }
     }
 
-    public void addDataPoints(List<CurrencyPairDataPoint> currencyPairDataPoints, boolean overwrite){
-        dataPointAdder.addPoint(currencyPairDataPoints, overwrite);
+    public DatabaseResponse addDataPoints(List<CurrencyPairDataPoint> currencyPairDataPoints, boolean overwrite){
+        return dataPointAdder.addPoint(currencyPairDataPoints, overwrite);
     }
 }

@@ -26,7 +26,7 @@ import static org.mockito.Mockito.when;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class PairHistoryRetrieverTest {
-
+/*
     @Autowired
     private PairHistoryRetriever pairHistoryRetriever;
 
@@ -113,4 +113,6 @@ public class PairHistoryRetrieverTest {
                 pairHistoryRetriever.getCurrencyPairHistory(pairDataRequestDto).stream().map(point -> point.toString())
                         .collect(Collectors.joining()));
     }
+
+ */
 }

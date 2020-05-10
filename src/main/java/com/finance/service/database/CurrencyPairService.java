@@ -67,8 +67,8 @@ public class CurrencyPairService {
 
     private DatabaseResponse checkIfCurrencyStillExists(Long id){
         Optional<CurrencyPair> currencyPair = currencyPairRepository.findById(id);
-        if(currencyPair.isPresent()) return new DatabaseResponse(null, "CurrencyPair id: " + id + " deletion issues.", true);
-        else return new DatabaseResponse(null, "CurrencyPair id: " + id + " removed.", false);
+        if(currencyPair.isPresent()) return new DatabaseResponse(null, "CurrencyPair id: " + id + " deletion issues.", false);
+        else return new DatabaseResponse(null, "CurrencyPair id: " + id + " removed.", true);
     }
 
     //saveCurrencyPair methods

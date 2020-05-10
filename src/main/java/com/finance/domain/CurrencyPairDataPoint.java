@@ -35,10 +35,10 @@ public class CurrencyPairDataPoint implements DatabaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long pointId;
-    @Column(unique = true)
+    //@Column(unique = true)
     private LocalDateTime timeStamp;
     private Double value;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "CURRENCY_PAIR_ID")
     private CurrencyPair currencyPair;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

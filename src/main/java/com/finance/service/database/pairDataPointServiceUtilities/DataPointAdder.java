@@ -4,6 +4,7 @@ import com.finance.domain.CurrencyPair;
 import com.finance.domain.CurrencyPairDataPoint;
 import com.finance.repository.CurrencyPairHistoryPointRepository;
 import com.finance.repository.CurrencyPairRepository;
+import com.finance.service.database.communicationObjects.DatabaseResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,55 +22,81 @@ public class DataPointAdder {
 
     private boolean overwrite;
 
-    public void addPoint(List<CurrencyPairDataPoint> currencyPairDataPoints, boolean overwrite){
+    public DatabaseResponse addPoint(List<CurrencyPairDataPoint> currencyPairDataPoints, boolean overwrite){
         this.overwrite = overwrite;
+        String log = "";
         for(CurrencyPairDataPoint point : currencyPairDataPoints){
-            saveDataPoint(point);
+            log += saveDataPoint(point);
+        }
+        if(log.length()==0){
+            return new DatabaseResponse(null, "", true);
+        }
+        return new DatabaseResponse(null, "AddPoint method in DataPointAdder failed. " + log, false);
+    }
+
+    private String saveDataPoint(CurrencyPairDataPoint point) {
+        if(point != null) {
+            return checkIfCurrencyPairNotNull(point);
+        } else {
+            return "CurrencyPairDataPoint is null.";
         }
     }
 
-    private void saveDataPoint(CurrencyPairDataPoint point) {
-        if(point != null) checkIfCurrencyPairExist(point);
+    private String checkIfCurrencyPairNotNull(CurrencyPairDataPoint point) {
+        if(point.getCurrencyPair() != null){
+            return checkIfCurrencyNameNotNull(point);
+        } else {
+            return "CurrencyPair field in CurrencyPairDataPoint is null.";
+        }
     }
 
-    private void checkIfCurrencyPairExist(CurrencyPairDataPoint point) {
-        if(point.getCurrencyPair() != null) checkIfCurrencyNameExist(point);
+    private String checkIfCurrencyNameNotNull(CurrencyPairDataPoint point) {
+        if(point.getCurrencyPair().getCurrencyPairName() != null){
+            return checkIfCurrencyPairExistInDatabase(point);
+        } else {
+            return "CurrencyPairName field in CurrencyPair in CurrencyPairDataPoint is null.";
+        }
     }
 
-    private void checkIfCurrencyNameExist(CurrencyPairDataPoint point) {
-        if(point.getCurrencyPair().getCurrencyPairName() != null) checkIfCurrencyPairExistInDatabase(point);
-    }
-
-    private void checkIfCurrencyPairExistInDatabase(CurrencyPairDataPoint point) {
+    private String checkIfCurrencyPairExistInDatabase(CurrencyPairDataPoint point) {
         String currencyPairName = point.getCurrencyPair().getCurrencyPairName();
         Optional<CurrencyPair> currencyPair = currencyPairRepository.findByCurrencyName(currencyPairName);
-        if(currencyPair.isPresent()) checkIfPointWithTheSameTimeStampAlreadyExistInDatabase(currencyPair.get(), point);
+        if(currencyPair.isPresent()) {
+            return checkIfPointWithTheSameTimeStampAlreadyExistInDatabase(currencyPair.get(), point);
+        }
         else {
-            addCurrencyPair(point);
-            checkIfCurrencyPairExistInDatabase(point);
+            return "CurrencyPair not found.";
         }
     }
 
-    private void checkIfPointWithTheSameTimeStampAlreadyExistInDatabase(CurrencyPair currencyPair, CurrencyPairDataPoint point){
+    private String checkIfPointWithTheSameTimeStampAlreadyExistInDatabase(CurrencyPair currencyPair, CurrencyPairDataPoint point){
         Optional<CurrencyPairDataPoint> dataPoint = repository.findPointByDate(point.getTimeStamp(), currencyPair.getId());
         if(dataPoint.isPresent()){
             if(this.overwrite == true) {
-                deleteDataPoint(dataPoint.get());
-                addPointToCurrencyPair(currencyPair, point);
+                if(deleteDataPoint(dataPoint.get())){
+                    addPointToCurrencyPair(currencyPair, point);
+                } else return "CurrencyPairDataPoint with the same timestamp exist and there is problem with overwriting.";
             }
+        } else {
+            addPointToCurrencyPair(currencyPair, point);
+            if(point.getPointId() != null) return "";
+            else return "CurrencyPair saving execution problem.";
         }
+        return "CheckIfPointWithTheSameTimeStampAlreadyExistsInDatabase in DataPointAdder failed.";
     }
 
-    private void deleteDataPoint(CurrencyPairDataPoint dataPoint){
+    private boolean deleteDataPoint(CurrencyPairDataPoint dataPoint){
         repository.deleteById(dataPoint.getPointId());
+        if(repository.findById(dataPoint.getPointId()).isPresent()) return false;
+        else return true;
     }
 
     private void addPointToCurrencyPair(CurrencyPair currencyPair, CurrencyPairDataPoint currencyPairDataPoint) {
+        List<CurrencyPairDataPoint> pairDataPoints = currencyPair.getCurrencyPairDataPoints();
+        pairDataPoints.add(currencyPairDataPoint);
+        currencyPair.setCurrencyPairDataPoints(pairDataPoints);
+        //currencyPairRepository.save(currencyPair);
         repository.save(new CurrencyPairDataPoint(currencyPairDataPoint.getTimeStamp(), currencyPairDataPoint.getValue(),
                 currencyPair));
-    }
-
-    private void addCurrencyPair(CurrencyPairDataPoint currencyPairDataPoint) {
-        currencyPairRepository.save(currencyPairDataPoint.getCurrencyPair());
     }
 }
