@@ -23,6 +23,7 @@ import java.util.Random;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Transactional
 public class CurrencyPairDataPointServiceTest {
 
     @Autowired
@@ -157,7 +158,7 @@ public class CurrencyPairDataPointServiceTest {
 
         DatabaseResponse savingPointResponse = currencyPairDataPointService.addDataPoints(dataPointsToSave, true);
 
-        Assert.assertEquals("asdasda", savingPointResponse.getLog());
+        Assert.assertEquals("", savingPointResponse.getLog());
         Assert.assertEquals(true, savingPointResponse.isOK());
 
         PairDataRequestDto pairDataRequestDto = new PairDataRequestDto(randomName, 5, PointTimeFrame.H1);
@@ -169,9 +170,6 @@ public class CurrencyPairDataPointServiceTest {
         Assert.assertEquals(true, deletingResponse.isOK());
 
     }
-
-
-
 
 
     private String generateRandomString(){

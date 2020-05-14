@@ -28,75 +28,103 @@ public class DataPointAdder {
         for(CurrencyPairDataPoint point : currencyPairDataPoints){
             log += saveDataPoint(point);
         }
+        System.out.println("Log length " + log.length());
         if(log.length()==0){
             return new DatabaseResponse(null, "", true);
-        }
-        return new DatabaseResponse(null, "AddPoint method in DataPointAdder failed. " + log, false);
+        } else return new DatabaseResponse(null, "AddPoint method in DataPointAdder failed. " + log, false);
     }
 
-    private String saveDataPoint(CurrencyPairDataPoint point) {
-        if(point != null) {
-            return checkIfCurrencyPairNotNull(point);
+    private String saveDataPoint(CurrencyPairDataPoint point){
+        return checkIfCurrencyPairDataPointOrAnySubobjectIsNull(point);
+    }
+
+    private String checkIfCurrencyPairDataPointOrAnySubobjectIsNull(CurrencyPairDataPoint point){
+        String log = "";
+
+        //check main object
+        log = checkIfCurrencyPairDataPointIsNull(point);
+
+        //check subobject
+        if(log.length() == 0) log = checkIfTimeStampIsNull(point);
+        else return log;
+        if(log.length() == 0) log = checkIfCurrencyPairIsNull(point);
+        else return log;
+        if(log.length() == 0) log = checkIfCurrencyPairNameIsNull(point);
+        else return log;
+        if(log.length() == 0) log = processWithSaving(point);
+        else return log;
+
+        return log;
+    }
+
+    private String checkIfCurrencyPairDataPointIsNull(CurrencyPairDataPoint point){
+        if(point == null) return "CurrencyPairDataPoint is null.";
+        else return "";
+    }
+
+    private String checkIfTimeStampIsNull(CurrencyPairDataPoint point){
+        if(point.getTimeStamp() == null) return "LocalDateTime timestamp in CurrencyPairDataPoint is null.";
+        else return "";
+    }
+
+    private String checkIfCurrencyPairIsNull(CurrencyPairDataPoint point){
+        if(point.getCurrencyPair() == null) return "CurrencyPair field in CurrencyPairDataPoint is null.";
+        else return "";
+    }
+
+    private String checkIfCurrencyPairNameIsNull(CurrencyPairDataPoint point){
+        if(point.getCurrencyPair().getCurrencyPairName() == null) return
+                "CurrencyPairName field in CurrencyPair in CurrencyPairDataPoint is null.";
+        else return "";
+    }
+
+
+
+
+    private String processWithSaving(CurrencyPairDataPoint point){
+        String log = "";
+        Optional<CurrencyPair> optionalPair = getCurrencyPair(point);
+        if(optionalPair.isPresent()){
+            return addPointToAlreadyExistingCurrency(point, optionalPair.get());
         } else {
-            return "CurrencyPairDataPoint is null.";
-        }
-    }
-
-    private String checkIfCurrencyPairNotNull(CurrencyPairDataPoint point) {
-        if(point.getCurrencyPair() != null){
-            return checkIfCurrencyNameNotNull(point);
-        } else {
-            return "CurrencyPair field in CurrencyPairDataPoint is null.";
-        }
-    }
-
-    private String checkIfCurrencyNameNotNull(CurrencyPairDataPoint point) {
-        if(point.getCurrencyPair().getCurrencyPairName() != null){
-            return checkIfCurrencyPairExistInDatabase(point);
-        } else {
-            return "CurrencyPairName field in CurrencyPair in CurrencyPairDataPoint is null.";
-        }
-    }
-
-    private String checkIfCurrencyPairExistInDatabase(CurrencyPairDataPoint point) {
-        String currencyPairName = point.getCurrencyPair().getCurrencyPairName();
-        Optional<CurrencyPair> currencyPair = currencyPairRepository.findByCurrencyName(currencyPairName);
-        if(currencyPair.isPresent()) {
-            return checkIfPointWithTheSameTimeStampAlreadyExistInDatabase(currencyPair.get(), point);
-        }
-        else {
             return "CurrencyPair not found.";
         }
     }
 
-    private String checkIfPointWithTheSameTimeStampAlreadyExistInDatabase(CurrencyPair currencyPair, CurrencyPairDataPoint point){
-        Optional<CurrencyPairDataPoint> dataPoint = repository.findPointByDate(point.getTimeStamp(), currencyPair.getId());
-        if(dataPoint.isPresent()){
-            if(this.overwrite == true) {
-                if(deleteDataPoint(dataPoint.get())){
-                    addPointToCurrencyPair(currencyPair, point);
-                } else return "CurrencyPairDataPoint with the same timestamp exist and there is problem with overwriting.";
+    private Optional<CurrencyPair> getCurrencyPair(CurrencyPairDataPoint point) {
+        String currencyPairName = point.getCurrencyPair().getCurrencyPairName();
+        Optional<CurrencyPair> currencyPair = currencyPairRepository.findByCurrencyName(currencyPairName);
+        return currencyPair;
+    }
+
+    private String addPointToAlreadyExistingCurrency(CurrencyPairDataPoint point, CurrencyPair currencyPair){
+        Optional<CurrencyPairDataPoint> currencyPairDataPoint = getDataPointByTimeStamp(point, currencyPair);
+        if(currencyPairDataPoint.isPresent()){
+            if(this.overwrite){
+                overwriteDataPoint(currencyPairDataPoint.get(), point);
+                return "";
+            } else {
+                return "CurrencyPairDataPoint with the same timestamp exist and there is problem with overwriting.";
             }
         } else {
-            addPointToCurrencyPair(currencyPair, point);
-            if(point.getPointId() != null) return "";
-            else return "CurrencyPair saving execution problem.";
+            addDataPointToCurrencyPair(point, currencyPair);
+            return "";
         }
-        return "CheckIfPointWithTheSameTimeStampAlreadyExistsInDatabase in DataPointAdder failed.";
     }
 
-    private boolean deleteDataPoint(CurrencyPairDataPoint dataPoint){
-        repository.deleteById(dataPoint.getPointId());
-        if(repository.findById(dataPoint.getPointId()).isPresent()) return false;
-        else return true;
+    private Optional<CurrencyPairDataPoint> getDataPointByTimeStamp(CurrencyPairDataPoint point, CurrencyPair currencyPair){
+        return repository.findPointByDate(point.getTimeStamp(), currencyPair.getId());
     }
 
-    private void addPointToCurrencyPair(CurrencyPair currencyPair, CurrencyPairDataPoint currencyPairDataPoint) {
-        List<CurrencyPairDataPoint> pairDataPoints = currencyPair.getCurrencyPairDataPoints();
-        pairDataPoints.add(currencyPairDataPoint);
-        currencyPair.setCurrencyPairDataPoints(pairDataPoints);
-        //currencyPairRepository.save(currencyPair);
-        repository.save(new CurrencyPairDataPoint(currencyPairDataPoint.getTimeStamp(), currencyPairDataPoint.getValue(),
-                currencyPair));
+    private void overwriteDataPoint(CurrencyPairDataPoint oldPoint, CurrencyPairDataPoint newPoint){
+        oldPoint.setValue(newPoint.getValue());
+        repository.save(oldPoint);
+    }
+
+    private void addDataPointToCurrencyPair(CurrencyPairDataPoint point, CurrencyPair currencyPair){
+        currencyPair.addDataPoint(point);
+        point.setCurrencyPair(currencyPair);
+        currencyPairRepository.save(currencyPair);
+        //repository.save(point);
     }
 }

@@ -20,7 +20,7 @@ public class CurrencyPair implements DatabaseEntity {
     private String currencyPairName;
     @OneToMany(targetEntity = CurrencyPairDataPoint.class,
             mappedBy = "currencyPair",
-            cascade = CascadeType.ALL,
+            cascade = {CascadeType.ALL},//, CascadeType.REFRESH, CascadeType.REMOVE},
             fetch = FetchType.EAGER
     )
     @OrderBy
@@ -68,6 +68,10 @@ public class CurrencyPair implements DatabaseEntity {
 
     public void setCurrencyPairDataPoints(List<CurrencyPairDataPoint> currencyPairDataPoints) {
         this.currencyPairDataPoints = currencyPairDataPoints;
+    }
+
+    public void addDataPoint(CurrencyPairDataPoint pairDataPoint){
+        pairDataPoint.setCurrencyPair(this);
     }
 
     @Override

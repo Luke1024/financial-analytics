@@ -47,6 +47,11 @@ public class CurrencyPairDataPoint implements DatabaseEntity {
     public CurrencyPairDataPoint() {
     }
 
+    public CurrencyPairDataPoint(LocalDateTime timeStamp, Double value) {
+        this.timeStamp = timeStamp;
+        this.value = value;
+    }
+
     public CurrencyPairDataPoint(LocalDateTime timeStamp, Double value, CurrencyPair currencyPair) {
         this.timeStamp = timeStamp;
         this.value = value;
@@ -90,8 +95,13 @@ public class CurrencyPairDataPoint implements DatabaseEntity {
     }
 
     public void setCurrencyPair(CurrencyPair currencyPair) {
-        this.currencyPair = currencyPair;
+        if(currencyPair != null){
+            currencyPair.getCurrencyPairDataPoints().add(this);
+        } else if (this.currencyPair != null){
+            this.currencyPair.getCurrencyPairDataPoints().remove(this);
+        }
     }
+
 
     @Override
     public String toString() {
