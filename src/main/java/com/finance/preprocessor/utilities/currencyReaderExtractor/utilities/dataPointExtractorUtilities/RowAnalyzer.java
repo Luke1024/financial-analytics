@@ -1,4 +1,4 @@
-package com.finance.preprocessor.utilities.dataPointExtractorUtilities;
+package com.finance.preprocessor.utilities.currencyReaderExtractor.utilities.dataPointExtractorUtilities;
 
 import java.util.Arrays;
 import java.util.List;

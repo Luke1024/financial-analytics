@@ -1,4 +1,4 @@
-package com.finance.preprocessor.utilities;
+package com.finance.preprocessor.utilities.currencyReaderExtractor.utilities;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

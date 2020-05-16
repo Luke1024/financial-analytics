@@ -22,11 +22,11 @@ public class DataPointAdder {
 
     private boolean overwrite;
 
-    public DatabaseResponse addPoint(List<CurrencyPairDataPoint> currencyPairDataPoints, boolean overwrite){
+    public DatabaseResponse addPoint(List<CurrencyPairDataPoint> currencyPairDataPoints, String currencyPairName, boolean overwrite){
         this.overwrite = overwrite;
         String log = "";
         for(CurrencyPairDataPoint point : currencyPairDataPoints){
-            log += saveDataPoint(point);
+            log += saveDataPoint(point, currencyPairName);
         }
         System.out.println("Log length " + log.length());
         if(log.length()==0){
@@ -34,11 +34,11 @@ public class DataPointAdder {
         } else return new DatabaseResponse(null, "AddPoint method in DataPointAdder failed. " + log, false);
     }
 
-    private String saveDataPoint(CurrencyPairDataPoint point){
-        return checkIfCurrencyPairDataPointOrAnySubobjectIsNull(point);
+    private String saveDataPoint(CurrencyPairDataPoint point, String currencyPairName){
+        return checkIfCurrencyPairDataPointOrAnySubobjectIsNull(point, currencyPairName);
     }
 
-    private String checkIfCurrencyPairDataPointOrAnySubobjectIsNull(CurrencyPairDataPoint point){
+    private String checkIfCurrencyPairDataPointOrAnySubobjectIsNull(CurrencyPairDataPoint point, String currencyPairName){
         String log = "";
 
         //check main object
@@ -49,9 +49,9 @@ public class DataPointAdder {
         else return log;
         if(log.length() == 0) log = checkIfCurrencyPairIsNull(point);
         else return log;
-        if(log.length() == 0) log = checkIfCurrencyPairNameIsNull(point);
-        else return log;
-        if(log.length() == 0) log = processWithSaving(point);
+        if(log.length() == 0) log = checkIfCurrencyPairNameIsNull(currencyPairName);
+        else return log;;
+        if(log.length() == 0) log = processWithSaving(point, currencyPairName);
         else return log;
 
         return log;
@@ -72,18 +72,18 @@ public class DataPointAdder {
         else return "";
     }
 
-    private String checkIfCurrencyPairNameIsNull(CurrencyPairDataPoint point){
-        if(point.getCurrencyPair().getCurrencyPairName() == null) return
-                "CurrencyPairName field in CurrencyPair in CurrencyPairDataPoint is null.";
+    private String checkIfCurrencyPairNameIsNull(String currencyPairName){
+        if(currencyPairName == null) return
+                "CurrencyPairName is null.";
         else return "";
     }
 
 
 
 
-    private String processWithSaving(CurrencyPairDataPoint point){
+    private String processWithSaving(CurrencyPairDataPoint point, String currencyPair){
         String log = "";
-        Optional<CurrencyPair> optionalPair = getCurrencyPair(point);
+        Optional<CurrencyPair> optionalPair = getCurrencyPair(currencyPair);
         if(optionalPair.isPresent()){
             return addPointToAlreadyExistingCurrency(point, optionalPair.get());
         } else {
@@ -91,8 +91,7 @@ public class DataPointAdder {
         }
     }
 
-    private Optional<CurrencyPair> getCurrencyPair(CurrencyPairDataPoint point) {
-        String currencyPairName = point.getCurrencyPair().getCurrencyPairName();
+    private Optional<CurrencyPair> getCurrencyPair(String currencyPairName) {
         Optional<CurrencyPair> currencyPair = currencyPairRepository.findByCurrencyName(currencyPairName);
         return currencyPair;
     }

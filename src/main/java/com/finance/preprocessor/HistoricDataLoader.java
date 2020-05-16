@@ -1,12 +1,16 @@
 package com.finance.preprocessor;
 
 import com.finance.preprocessor.utilities.*;
+import com.finance.preprocessor.utilities.currencyReaderExtractor.CurrencyReaderExtractor;
+import com.finance.preprocessor.utilities.DataBaseLoader;
+import org.springframework.stereotype.Service;
 
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@Service
 public class HistoricDataLoader {
 
     private CurrencyReaderExtractor currencyReaderExtractor = new CurrencyReaderExtractor();

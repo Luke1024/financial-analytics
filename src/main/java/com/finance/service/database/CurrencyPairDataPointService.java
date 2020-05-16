@@ -35,7 +35,7 @@ public class CurrencyPairDataPointService {
     public DatabaseResponse getCurrencyPairHistory(PairDataRequestDto pairDataRequestDto){
         return pairHistoryRetriever.getCurrencyPairHistory(pairDataRequestDto);
     }
-
+/*
     public DatabaseResponse getPairLastDataPoint(long pair_id){
         if(pair_id < 1){
             return new DatabaseResponse(null, "Id cannot be lower than 1.", false);
@@ -46,8 +46,12 @@ public class CurrencyPairDataPointService {
             } else return new DatabaseResponse(null, "Last dataPoint not found", false);
         }
     }
+*/
+    public DatabaseResponse addDataPoints(List<CurrencyPairDataPoint> currencyPairDataPoints, String currencyPairName){
+        return dataPointAdder.addPoint(currencyPairDataPoints, currencyPairName, false);
+    }
 
-    public DatabaseResponse addDataPoints(List<CurrencyPairDataPoint> currencyPairDataPoints, boolean overwrite){
-        return dataPointAdder.addPoint(currencyPairDataPoints, overwrite);
+    public DatabaseResponse addDataPoints(List<CurrencyPairDataPoint> currencyPairDataPoints, String currencyPairName, boolean overwrite){
+        return dataPointAdder.addPoint(currencyPairDataPoints, currencyPairName, overwrite);
     }
 }

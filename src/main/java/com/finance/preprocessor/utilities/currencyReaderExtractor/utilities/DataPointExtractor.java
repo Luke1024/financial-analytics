@@ -1,8 +1,10 @@
-package com.finance.preprocessor.utilities;
+package com.finance.preprocessor.utilities.currencyReaderExtractor.utilities;
 
-import com.finance.preprocessor.utilities.dataPointExtractorUtilities.Analysis;
-import com.finance.preprocessor.utilities.dataPointExtractorUtilities.RowAnalyzer;
-import com.finance.preprocessor.utilities.dataPointExtractorUtilities.RowParser;
+import com.finance.preprocessor.utilities.DataPoint;
+import com.finance.preprocessor.utilities.DataPointStatus;
+import com.finance.preprocessor.utilities.currencyReaderExtractor.utilities.dataPointExtractorUtilities.Analysis;
+import com.finance.preprocessor.utilities.currencyReaderExtractor.utilities.dataPointExtractorUtilities.RowAnalyzer;
+import com.finance.preprocessor.utilities.currencyReaderExtractor.utilities.dataPointExtractorUtilities.RowParser;
 
 import java.util.ArrayList;
 import java.util.List;

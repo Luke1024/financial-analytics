@@ -67,7 +67,7 @@ public class TradingDataDownloaderService {
         for(PairDto pairDto : currencies) {
             currencyPairDataPoints.add(mapToCurrencyHistoryPoint(pairDto, currencyPair));
         }
-        currencyPairDataPointService.addDataPoints(currencyPairDataPoints, true);
+        currencyPairDataPointService.addDataPoints(currencyPairDataPoints, currencyPair.getCurrencyPairName());
     }
 
     private CurrencyPairDataPoint mapToCurrencyHistoryPoint(PairDto pairDto, CurrencyPair currencyPair){

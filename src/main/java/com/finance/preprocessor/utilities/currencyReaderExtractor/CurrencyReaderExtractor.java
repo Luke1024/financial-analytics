@@ -1,8 +1,12 @@
-package com.finance.preprocessor.utilities;
+package com.finance.preprocessor.utilities.currencyReaderExtractor;
 
 import com.finance.preprocessor.CurrencyFile;
-import com.finance.preprocessor.utilities.timeFrameDataExtractor.GapFiller;
-import com.finance.preprocessor.utilities.timeFrameDataExtractor.TimeFrameExtractor;
+import com.finance.preprocessor.utilities.currencyReaderExtractor.utilities.CsvReader;
+import com.finance.preprocessor.utilities.CurrencyPairDataPack;
+import com.finance.preprocessor.utilities.DataPoint;
+import com.finance.preprocessor.utilities.currencyReaderExtractor.utilities.DataPointExtractor;
+import com.finance.preprocessor.utilities.currencyReaderExtractor.utilities.GapFiller;
+import com.finance.preprocessor.utilities.currencyReaderExtractor.utilities.TimeFrameExtractor;
 
 import java.io.File;
 import java.time.temporal.ChronoUnit;

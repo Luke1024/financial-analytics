@@ -1,4 +1,4 @@
-package com.finance.preprocessor.utilities.timeFrameDataExtractor;
+package com.finance.preprocessor.utilities.currencyReaderExtractor.utilities;
 
 import com.finance.preprocessor.utilities.DataPoint;
 

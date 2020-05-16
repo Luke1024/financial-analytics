@@ -127,7 +127,7 @@ public class CurrencyPairDataPointServiceTest {
     }
 
     @Test
-    public void getCurrencyPairHistory_CurrencyPairExists(){
+    public void getCurrencyPairHistory_Adding_Deleting(){
         String randomName = generateRandomString();
         if(isPairExist(randomName)){
             getCurrencyPairHistory_CurrencyPairNotExists();
@@ -156,7 +156,7 @@ public class CurrencyPairDataPointServiceTest {
                 currencyPairDataPoint4,
                 currencyPairDataPoint5);
 
-        DatabaseResponse savingPointResponse = currencyPairDataPointService.addDataPoints(dataPointsToSave, true);
+        DatabaseResponse savingPointResponse = currencyPairDataPointService.addDataPoints(dataPointsToSave, randomName);
 
         Assert.assertEquals("", savingPointResponse.getLog());
         Assert.assertEquals(true, savingPointResponse.isOK());
@@ -169,8 +169,10 @@ public class CurrencyPairDataPointServiceTest {
 
         DatabaseResponse deletingResponse = currencyPairService.deleteById(newPair.getId());
         Assert.assertEquals(true, deletingResponse.isOK());
-    }
 
+        DatabaseResponse checkingIfDeletedResponse = currencyPairService.getCurrencyPair(randomName);
+        Assert.assertEquals("CurrencyPair not found.", checkingIfDeletedResponse.getLog());
+    }
 
     private String generateRandomString(){
         int leftLimit = 97; // letter 'a'
