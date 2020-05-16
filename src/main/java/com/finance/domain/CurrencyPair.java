@@ -5,6 +5,7 @@ import com.finance.service.database.communicationObjects.DatabaseEntity;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @NamedNativeQuery(
         name="CurrencyPair.findByCurrencyName",
@@ -72,6 +73,21 @@ public class CurrencyPair implements DatabaseEntity {
 
     public void addDataPoint(CurrencyPairDataPoint pairDataPoint){
         pairDataPoint.setCurrencyPair(this);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CurrencyPair that = (CurrencyPair) o;
+        return id.equals(that.id) &&
+                currencyPairName.equals(that.currencyPairName) &&
+                currencyPairDataPoints.equals(that.currencyPairDataPoints);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, currencyPairName, currencyPairDataPoints);
     }
 
     @Override

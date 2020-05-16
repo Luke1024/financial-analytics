@@ -52,20 +52,24 @@ public class PairHistoryRetriever {
         else return "OK";
     }
 
-    public DatabaseResponse realizeRequest(PairDataRequestDto pairDataRequestDto){
-        long currencyPairId = getCurrencyPairId(pairDataRequestDto);
+    private DatabaseResponse realizeRequest(PairDataRequestDto pairDataRequestDto){
+        Optional<CurrencyPair> currencyPair = getCurrencyPair(pairDataRequestDto);
 
         Optional<CurrencyPairDataPoint> lastDataPoint;
 
-        if(currencyPairId == -1){
-            return new DatabaseResponse(null, "CurrencyPair not found.", false);
+        if(currencyPair.isPresent()){
+            return processWithPointSearching(currencyPair.get(), pairDataRequestDto);
         } else {
-            lastDataPoint = getLastDataPoint(currencyPairId, pairDataRequestDto);
+            return new DatabaseResponse(null, "CurrencyPair not found.", false);
         }
+    }
+
+    private DatabaseResponse processWithPointSearching(CurrencyPair currencyPair, PairDataRequestDto pairDataRequestDto){
+        Optional<CurrencyPairDataPoint> lastDataPoint = getLastDataPoint(currencyPair, pairDataRequestDto);
 
         if(lastDataPoint.isPresent()){
             List<CurrencyPairDataPoint> currencyPairDataPoints =
-                    getDataPoints(lastDataPoint.get(), pairDataRequestDto, currencyPairId);
+                    getDataPoints(lastDataPoint.get(), pairDataRequestDto, currencyPair.getId());
             List<DatabaseEntity> databaseEntities = currencyPairDataPoints.stream()
                     .map(point -> (DatabaseEntity) point).collect(Collectors.toList());
 
@@ -74,22 +78,16 @@ public class PairHistoryRetriever {
         return new DatabaseResponse(null, "Last dataPoint not found", false);
     }
 
-    private long getCurrencyPairId(PairDataRequestDto pairDataRequestDto){
-        if(pairDataRequestDto != null) {
-            String currencyName = pairDataRequestDto.getCurrencyName();
-            Optional<CurrencyPair> currencyPair = currencyPairRepository.findByCurrencyName(currencyName);
-            if (currencyPair.isPresent()) {
-                return currencyPair.get().getId();
-            }
-        }
-        return -1;
+    private Optional<CurrencyPair> getCurrencyPair(PairDataRequestDto pairDataRequestDto){
+        return currencyPairRepository.findByCurrencyName(pairDataRequestDto.getCurrencyName());
     }
 
-    private Optional<CurrencyPairDataPoint> getLastDataPoint(long currencyPairId, PairDataRequestDto pairDataRequestDto){
+    private Optional<CurrencyPairDataPoint> getLastDataPoint(CurrencyPair pair, PairDataRequestDto pairDataRequestDto){
+        long pairId = pair.getId();
         if(pairDataRequestDto.isFromLastPoint()){
-            return repository.getLastDataPoint(currencyPairId);
+            return repository.getLastDataPoint(pairId);
         } else {
-            return repository.findPointByDate(pairDataRequestDto.getAdoptedlastPoint(), currencyPairId);
+            return repository.findPointByDate(pairDataRequestDto.getAdoptedlastPoint(), pairId);
         }
     }
 

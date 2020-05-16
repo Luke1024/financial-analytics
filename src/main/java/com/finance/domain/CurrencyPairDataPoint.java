@@ -4,6 +4,7 @@ import com.finance.service.database.communicationObjects.DatabaseEntity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /*
 @NamedNativeQuery(
@@ -102,6 +103,22 @@ public class CurrencyPairDataPoint implements DatabaseEntity {
         }
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CurrencyPairDataPoint that = (CurrencyPairDataPoint) o;
+        return Objects.equals(pointId, that.pointId) &&
+                Objects.equals(timeStamp, that.timeStamp) &&
+                Objects.equals(value, that.value) &&
+                Objects.equals(currencyPair, that.currencyPair) &&
+                Objects.equals(order, that.order);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(pointId, timeStamp, value, currencyPair, order);
+    }
 
     @Override
     public String toString() {

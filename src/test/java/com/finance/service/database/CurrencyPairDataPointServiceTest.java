@@ -23,7 +23,7 @@ import java.util.Random;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Transactional
+//@Transactional
 public class CurrencyPairDataPointServiceTest {
 
     @Autowired
@@ -164,11 +164,11 @@ public class CurrencyPairDataPointServiceTest {
         PairDataRequestDto pairDataRequestDto = new PairDataRequestDto(randomName, 5, PointTimeFrame.H1);
 
         DatabaseResponse requestingResponse = currencyPairDataPointService.getCurrencyPairHistory(pairDataRequestDto);
+        System.out.println("Requesting response " + requestingResponse.getLog());
         Assert.assertEquals(true, requestingResponse.isOK());
 
         DatabaseResponse deletingResponse = currencyPairService.deleteById(newPair.getId());
         Assert.assertEquals(true, deletingResponse.isOK());
-
     }
 
 
