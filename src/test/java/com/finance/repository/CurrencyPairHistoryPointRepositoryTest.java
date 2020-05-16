@@ -16,7 +16,7 @@ import java.util.Optional;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Transactional
+//@Transactional
 public class CurrencyPairHistoryPointRepositoryTest {
 
     @Autowired
@@ -41,12 +41,16 @@ public class CurrencyPairHistoryPointRepositoryTest {
         CurrencyPairDataPoint currencyPairDataPoint2 = new CurrencyPairDataPoint(localDateTime2,1.5, currencyPair);
         CurrencyPairDataPoint currencyPairDataPoint3 = new CurrencyPairDataPoint(localDateTime3,2.0, currencyPair);
 
-        currencyPairHistoryPointRepository.save(currencyPairDataPoint1);
-        currencyPairHistoryPointRepository.save(currencyPairDataPoint2);
-        currencyPairHistoryPointRepository.save(currencyPairDataPoint3);
+        currencyPair.addDataPoint(currencyPairDataPoint1);
+        currencyPair.addDataPoint(currencyPairDataPoint2);
+        currencyPair.addDataPoint(currencyPairDataPoint3);
 
-        Assert.assertEquals(currencyPairDataPoint3.getPointId(),
-                currencyPairHistoryPointRepository.getLastDataPoint(currencyPair.getId()).get().getPointId());
+        currencyPairRepository.save(currencyPair);
+
+        CurrencyPairDataPoint expectedLastDataPoint = currencyPairDataPoint3;
+        CurrencyPairDataPoint receivedLastDataPoint = currencyPairHistoryPointRepository.getLastDataPoint(currencyPair.getId()).get();
+
+        Assert.assertEquals(expectedLastDataPoint, receivedLastDataPoint);
 
         currencyPairHistoryPointRepository.delete(currencyPairDataPoint1);
         currencyPairHistoryPointRepository.delete(currencyPairDataPoint2);

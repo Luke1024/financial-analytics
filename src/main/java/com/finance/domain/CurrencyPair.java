@@ -95,7 +95,6 @@ public class CurrencyPair implements DatabaseEntity {
         return "CurrencyPair{" +
                 "id=" + id +
                 ", currencyPairName='" + currencyPairName + '\'' +
-                ", currencyPairDataPoints=" + currencyPairDataPoints +
                 '}';
     }
 }

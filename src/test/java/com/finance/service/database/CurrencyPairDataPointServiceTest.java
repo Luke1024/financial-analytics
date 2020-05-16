@@ -23,7 +23,7 @@ import java.util.Random;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-//@Transactional
+@Transactional
 public class CurrencyPairDataPointServiceTest {
 
     @Autowired

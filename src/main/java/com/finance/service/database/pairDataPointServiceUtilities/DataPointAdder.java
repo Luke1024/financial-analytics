@@ -122,9 +122,10 @@ public class DataPointAdder {
     }
 
     private void addDataPointToCurrencyPair(CurrencyPairDataPoint point, CurrencyPair currencyPair){
+        //point.setCurrencyPair(currencyPair);
         currencyPair.addDataPoint(point);
-        point.setCurrencyPair(currencyPair);
-        currencyPairRepository.save(currencyPair);
+
+        //currencyPairRepository.save(currencyPair);
         repository.save(point);
     }
 }

@@ -36,8 +36,6 @@ public class CurrencyPairService {
         return checkIfCurrencyPairNotNull(currencyPair, overwrite);
     }
 
-
-
     //getCurrencyPair methods
     private DatabaseResponse checkIfCurrencyPairNotNull(String currencyPairName){
         if(currencyPairName != null) return findByCurrencyPairName(currencyPairName);

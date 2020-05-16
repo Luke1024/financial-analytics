@@ -123,11 +123,9 @@ public class CurrencyPairDataPoint implements DatabaseEntity {
     @Override
     public String toString() {
         return "CurrencyPairDataPoint{" +
-                "pointId=" + pointId +
-                ", timeStamp=" + timeStamp +
+                "timeStamp=" + timeStamp +
                 ", value=" + value +
                 ", currencyPair=" + currencyPair +
-                ", order=" + order +
                 '}';
     }
 }
