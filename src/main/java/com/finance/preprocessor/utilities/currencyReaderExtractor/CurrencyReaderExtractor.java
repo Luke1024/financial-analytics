@@ -1,25 +1,27 @@
 package com.finance.preprocessor.utilities.currencyReaderExtractor;
 
 import com.finance.preprocessor.CurrencyFile;
-import com.finance.preprocessor.utilities.currencyReaderExtractor.utilities.CsvReader;
+import com.finance.preprocessor.utilities.currencyReaderExtractor.utilities.*;
 import com.finance.preprocessor.utilities.CurrencyPairDataPack;
 import com.finance.preprocessor.utilities.DataPoint;
-import com.finance.preprocessor.utilities.currencyReaderExtractor.utilities.DataPointExtractor;
-import com.finance.preprocessor.utilities.currencyReaderExtractor.utilities.GapFiller;
-import com.finance.preprocessor.utilities.currencyReaderExtractor.utilities.TimeFrameExtractor;
 
 import java.io.File;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class CurrencyReaderExtractor {
+
+    Logger logger = Logger.getLogger(CurrencyReaderExtractor.class.getName());
 
     private CsvReader csvReader = new CsvReader();
     private DataPointExtractor dataPointExtractor = new DataPointExtractor();
     private TimeFrameExtractor timeFrameExtractor = new TimeFrameExtractor();
     private GapFiller gapFiller = new GapFiller();
-
+    private FilePathExtractor pathExtractor = new FilePathExtractor();
 
     public List<CurrencyPairDataPack> readAndProcess(List<CurrencyFile> files, ChronoUnit requiredOutputTimeFrame,
                                                      ChronoUnit inputTimeFrame) {
@@ -36,16 +38,31 @@ public class CurrencyReaderExtractor {
     private CurrencyPairDataPack extractCurrencyPairDataFromFolder(
             CurrencyFile currencyFile, ChronoUnit requiredOutputTimeFrame, ChronoUnit inputTimeFrame){
 
-        File folder = new File(currencyFile.getFolderPath());
+        List<DataPoint> extractedDataPoints = null;
 
-        List<String> pathsToFiles = new ArrayList<>();
-        for(File fileEntry : folder.listFiles()){
-            pathsToFiles.add(fileEntry.getName());
+        List<String> pathsToFiles = pathExtractor.extractPathsToFilesInFolder(currencyFile.getFolderPath());
+        if(pathsToFiles != null)
+            extractedDataPoints = extractAndProcessDataPoints(pathsToFiles, requiredOutputTimeFrame, inputTimeFrame);
+        else {
+            logger.log(Level.SEVERE, "Skipping CurrencyFile.");
         }
 
-        List<DataPoint> extractedDataPoints = extractAndProcessDataPoints(pathsToFiles, requiredOutputTimeFrame, inputTimeFrame);
-
         return new CurrencyPairDataPack(currencyFile.getPairName(), requiredOutputTimeFrame, extractedDataPoints);
+    }
+
+    private List<String> getPathsToFilesInFolder(String folderPath){
+        List<String> pathsToFiles = new ArrayList<>();
+        File folder = new File(folderPath);
+        List<File> files = Arrays.asList(folder.listFiles());
+        if(files.size()>0 && folder.listFiles() == null){
+            for(File fileEntry : files) {
+                pathsToFiles.add(fileEntry.getName());
+            }
+        } else {
+            logger.log(Level.SEVERE, "There is no files in folder!");
+            return null;
+        }
+        return pathsToFiles;
     }
 
     private List<DataPoint> extractAndProcessDataPoints(List<String> pathsToFiles,

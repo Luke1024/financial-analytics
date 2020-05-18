@@ -17,10 +17,10 @@ public class TradingPlatformUpdaterScheduler {
     @Autowired
     private TradingAccountUpdaterService tradingAccountUpdaterService;
 
-    @Scheduled(cron = "0 0/10 * * * *")
-    public void downloadTradingData() throws Exception{
-        LocalDateTime currentDateTime = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
-        downloaderService.downloadCurrentTradingDataForStocks(currentDateTime);
-        tradingAccountUpdaterService.updatePlatformService();
-    }
+    //@Scheduled(cron = "0 0/10 * * * *")
+    //public void downloadTradingData() throws Exception{
+      //  LocalDateTime currentDateTime = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
+        //downloaderService.downloadCurrentTradingDataForStocks(currentDateTime);
+        //tradingAccountUpdaterService.updatePlatformService();
+    //}
 }

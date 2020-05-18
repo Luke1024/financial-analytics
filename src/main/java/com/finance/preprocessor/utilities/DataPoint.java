@@ -18,4 +18,12 @@ public class DataPoint {
     public double getValue() {
         return value;
     }
+
+    @Override
+    public String toString() {
+        return "DataPoint{" +
+                "localDateTime=" + localDateTime +
+                ", value=" + value +
+                '}';
+    }
 }

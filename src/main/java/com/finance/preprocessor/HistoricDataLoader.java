@@ -18,7 +18,7 @@ public class HistoricDataLoader {
 
     public void loadDataIntoDatabase() {
         List<CurrencyFile> files = new ArrayList<>(Arrays.asList(
-                new CurrencyFile("EUR/USD","/home/luke/trading_app_april/src/main/java/com/finance/preprocessor/data/eurusd")
+                new CurrencyFile("EUR/USD","C:\\Users\\Luke\\IdeaProjects\\financial-analytics\\src\\main\\java\\com\\finance\\preprocessor\\data\\eurusd")
         ));
 
         List<CurrencyPairDataPack> pairDataPacks = currencyReaderExtractor.readAndProcess(files, ChronoUnit.HOURS, ChronoUnit.MINUTES);
