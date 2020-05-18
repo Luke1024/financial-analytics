@@ -67,4 +67,14 @@ public class GapFillerTest {
 
         Assert.assertEquals(dataPointsExpected.toString(), dataPointsWithFilledGap.toString());
     }
+
+    @Test
+    public void testGapFillingDatasetEmty(){
+        List<DataPoint> dataPoints = new ArrayList<>();
+
+        List<DataPoint> expectedEmpty = gapFiller.fill(dataPoints, ChronoUnit.HOURS);
+
+
+        Assert.assertEquals(dataPoints, expectedEmpty);
+    }
 }

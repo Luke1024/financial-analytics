@@ -4,6 +4,8 @@ import com.finance.preprocessor.CurrencyFile;
 import com.finance.preprocessor.utilities.currencyReaderExtractor.utilities.*;
 import com.finance.preprocessor.utilities.CurrencyPairDataPack;
 import com.finance.preprocessor.utilities.DataPoint;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.time.temporal.ChronoUnit;
@@ -13,15 +15,21 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+@Service
 public class CurrencyReaderExtractor {
 
-    Logger logger = Logger.getLogger(CurrencyReaderExtractor.class.getName());
+    private Logger logger = Logger.getLogger(CurrencyReaderExtractor.class.getName());
 
-    private CsvReader csvReader = new CsvReader();
-    private DataPointExtractor dataPointExtractor = new DataPointExtractor();
-    private TimeFrameExtractor timeFrameExtractor = new TimeFrameExtractor();
-    private GapFiller gapFiller = new GapFiller();
-    private FilePathExtractor pathExtractor = new FilePathExtractor();
+    @Autowired
+    private CsvReader csvReader;
+    @Autowired
+    private DataPointExtractor dataPointExtractor;
+    @Autowired
+    private TimeFrameExtractor timeFrameExtractor;
+    @Autowired
+    private GapFiller gapFiller;
+    @Autowired
+    private FilePathExtractor pathExtractor;
 
     public List<CurrencyPairDataPack> readAndProcess(List<CurrencyFile> files, ChronoUnit requiredOutputTimeFrame,
                                                      ChronoUnit inputTimeFrame) {

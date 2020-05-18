@@ -98,12 +98,12 @@ public class GapFiller {
 
     private List<DataPoint> skipPointWithTheSameTimeStamp(List<DataPoint> points){
         List<DataPoint> pointsProcessed = new ArrayList<>();
-
-        pointsProcessed.add(points.get(0));
-
-        for(int i=1; i<points.size(); i++){
-            if(points.get(i-1).getLocalDateTime() != points.get(i).getLocalDateTime()){
-                pointsProcessed.add(points.get(i));
+        if(points.size()>0) {
+            pointsProcessed.add(points.get(0));
+            for (int i = 1; i < points.size(); i++) {
+                if (points.get(i - 1).getLocalDateTime() != points.get(i).getLocalDateTime()) {
+                    pointsProcessed.add(points.get(i));
+                }
             }
         }
         return pointsProcessed;

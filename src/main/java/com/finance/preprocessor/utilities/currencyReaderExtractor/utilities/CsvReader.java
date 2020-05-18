@@ -1,5 +1,7 @@
 package com.finance.preprocessor.utilities.currencyReaderExtractor.utilities;
 
+import org.springframework.stereotype.Component;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -7,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@Component
 public class CsvReader {
     public List<List<String>> read(String filename){
         List<List<String>> records = new ArrayList<>();
