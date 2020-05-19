@@ -5,16 +5,21 @@ import com.finance.preprocessor.utilities.DataPointStatus;
 import com.finance.preprocessor.utilities.currencyReaderExtractor.utilities.dataPointExtractorUtilities.Analysis;
 import com.finance.preprocessor.utilities.currencyReaderExtractor.utilities.dataPointExtractorUtilities.RowAnalyzer;
 import com.finance.preprocessor.utilities.currencyReaderExtractor.utilities.dataPointExtractorUtilities.RowParser;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class DataPointExtractor {
 
     private List<DataPointStatus> dataPointStatusList = new ArrayList<>();
 
-    private RowAnalyzer rowAnalyzer = new RowAnalyzer();
-    private RowParser rowParser = new RowParser();
+    @Autowired
+    private RowAnalyzer rowAnalyzer;
+    @Autowired
+    private RowParser rowParser;
 
     public List<DataPoint> extract(List<List<String>> input){
         List<DataPoint> dataPoints = new ArrayList<>();

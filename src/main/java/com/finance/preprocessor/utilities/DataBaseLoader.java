@@ -6,10 +6,12 @@ import com.finance.service.database.CurrencyPairDataPointService;
 import com.finance.service.database.CurrencyPairService;
 import com.finance.service.database.communicationObjects.DatabaseResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class DataBaseLoader {
 
     @Autowired

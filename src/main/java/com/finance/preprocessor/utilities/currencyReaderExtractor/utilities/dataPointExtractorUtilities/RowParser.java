@@ -1,6 +1,7 @@
 package com.finance.preprocessor.utilities.currencyReaderExtractor.utilities.dataPointExtractorUtilities;
 
 import com.finance.preprocessor.utilities.DataPoint;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -8,6 +9,7 @@ import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;
 
+@Component
 public class RowParser {
     public DataPoint parse(List<String> row){
         LocalDate date = parseDate(row);

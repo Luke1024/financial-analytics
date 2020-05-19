@@ -25,4 +25,13 @@ public class CurrencyPairDataPack {
     public List<DataPoint> getDataPointList() {
         return dataPointList;
     }
+
+    @Override
+    public String toString() {
+        return "CurrencyPairDataPack{" +
+                "currencyPairName='" + currencyPairName + '\'' +
+                ", timeFrame=" + timeFrame +
+                ", dataPointList=" + dataPointList +
+                '}';
+    }
 }

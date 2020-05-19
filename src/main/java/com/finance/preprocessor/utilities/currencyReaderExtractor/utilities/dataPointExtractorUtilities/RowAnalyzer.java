@@ -1,8 +1,11 @@
 package com.finance.preprocessor.utilities.currencyReaderExtractor.utilities.dataPointExtractorUtilities;
 
+import org.springframework.stereotype.Component;
+
 import java.util.Arrays;
 import java.util.List;
 
+@Component
 public class RowAnalyzer {
 
     public Analysis analyze(List<String> row){
