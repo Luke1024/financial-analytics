@@ -42,7 +42,7 @@ public class RowAnalyzerTest {
         List<String> row = new ArrayList<>();
 
         row.add("2000.05.30");
-        row.add("17:27");
+        row.add("03:27");
         row.add("0.930200");
         row.add("0.930200");
         row.add("0.930200");
@@ -57,4 +57,45 @@ public class RowAnalyzerTest {
         Assert.assertEquals(true, analysis.isValue());
     }
 
+    @Test
+    public void testRowWithWrongDayTime(){
+        List<String> row = new ArrayList<>();
+
+        row.add("2000.05.30");
+        row.add("z7:27");
+        row.add("0.930200");
+        row.add("0.930200");
+        row.add("0.930200");
+        row.add("0.930200");
+        row.add("0");
+
+        Analysis analysis = rowAnalyzer.analyze(row);
+
+        Assert.assertEquals(false, analysis.isRowCorrect());
+        Assert.assertEquals(true, analysis.isColumnNumber());
+        Assert.assertEquals(true, analysis.isDate());
+        Assert.assertEquals(false, analysis.isTime());
+        Assert.assertEquals(true, analysis.isValue());
+    }
+
+    @Test
+    public void testRowWithWrongDayTime2(){
+        List<String> row = new ArrayList<>();
+
+        row.add("2000.05.30");
+        row.add("7:27");
+        row.add("0.930200");
+        row.add("0.930200");
+        row.add("0.930200");
+        row.add("0.930200");
+        row.add("0");
+
+        Analysis analysis = rowAnalyzer.analyze(row);
+
+        Assert.assertEquals(false, analysis.isRowCorrect());
+        Assert.assertEquals(true, analysis.isColumnNumber());
+        Assert.assertEquals(true, analysis.isDate());
+        Assert.assertEquals(false, analysis.isTime());
+        Assert.assertEquals(true, analysis.isValue());
+    }
 }
