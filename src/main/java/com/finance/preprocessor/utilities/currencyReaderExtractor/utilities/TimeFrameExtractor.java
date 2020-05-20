@@ -27,7 +27,9 @@ public class TimeFrameExtractor {
         List<DataPoint> dataPointsInRequiredTimeFrame = new ArrayList<>();
         for(DataPoint dataPoint : dataPoints){
             LocalDateTime pointTime = dataPoint.getLocalDateTime();
-            if(checkIfRequiredChronoUnitZero(pointTime, outputTimeFrame)) dataPointsInRequiredTimeFrame.add(dataPoint);
+            if(checkIfRequiredChronoUnitZero(pointTime, outputTimeFrame)) {
+                dataPointsInRequiredTimeFrame.add(dataPoint);
+            }
         }
         return dataPointsInRequiredTimeFrame;
     }

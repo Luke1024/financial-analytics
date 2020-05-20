@@ -52,25 +52,10 @@ public class CurrencyReaderExtractor {
         if(pathsToFiles != null)
             extractedDataPoints = extractAndProcessDataPoints(pathsToFiles, requiredOutputTimeFrame, inputTimeFrame);
         else {
-            logger.log(Level.SEVERE, "Skipping CurrencyFile.");
+            logger.log(Level.SEVERE, "Skipping CurrencyFile: " + currencyFile.getPairName());
         }
 
         return new CurrencyPairDataPack(currencyFile.getPairName(), requiredOutputTimeFrame, extractedDataPoints);
-    }
-
-    private List<String> getPathsToFilesInFolder(String folderPath){
-        List<String> pathsToFiles = new ArrayList<>();
-        File folder = new File(folderPath);
-        List<File> files = Arrays.asList(folder.listFiles());
-        if(files.size()>0 && folder.listFiles() == null){
-            for(File fileEntry : files) {
-                pathsToFiles.add(fileEntry.getName());
-            }
-        } else {
-            logger.log(Level.SEVERE, "There is no files in folder!");
-            return null;
-        }
-        return pathsToFiles;
     }
 
     private List<DataPoint> extractAndProcessDataPoints(List<String> pathsToFiles,
