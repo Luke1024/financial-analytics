@@ -98,4 +98,25 @@ public class RowAnalyzerTest {
         Assert.assertEquals(false, analysis.isTime());
         Assert.assertEquals(true, analysis.isValue());
     }
+
+    @Test
+    public void testRowWithWrongDate(){
+        List<String> row = new ArrayList<>();
+
+        row.add("200.05.30");
+        row.add("17:27");
+        row.add("0.930200");
+        row.add("0.930200");
+        row.add("0.930200");
+        row.add("0.930200");
+        row.add("0");
+
+        Analysis analysis = rowAnalyzer.analyze(row);
+
+        Assert.assertEquals(false, analysis.isRowCorrect());
+        Assert.assertEquals(true, analysis.isColumnNumber());
+        Assert.assertEquals(false, analysis.isDate());
+        Assert.assertEquals(true, analysis.isTime());
+        Assert.assertEquals(true, analysis.isValue());
+    }
 }

@@ -8,29 +8,41 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Component
 public class RowParser {
+
+    private Logger logger = Logger.getLogger(RowParser.class.getName());
+
     public DataPoint parse(List<String> row){
         LocalDate date = parseDate(row);
         LocalTime time = parseTime(row);
         double value = parseValue(row);
-        LocalDateTime timeStamp = LocalDateTime.of(
-                date.getYear(), date.getMonth(), date.getDayOfMonth(),
-                time.getHour(), time.getMinute());
 
-        return new DataPoint(timeStamp, value);
+        if(date == null || time == null || value == -1.0){
+            return null;
+        }
+
+        try {
+            LocalDateTime timeStamp = LocalDateTime.of(
+                    date.getYear(), date.getMonth(), date.getDayOfMonth(),
+                    time.getHour(), time.getMinute());
+            return new DataPoint(timeStamp, value);
+        } catch (Exception e){}
+
+        return null;
     }
 
     private LocalDate parseDate(List<String> row){
         try {
-            List<String> dateNumbers = Arrays.asList(row.get(0).split("."));
+            List<String> dateNumbers = Arrays.asList(row.get(0).split("\\."));
             return LocalDate.of(
                     Integer.parseInt(dateNumbers.get(0)),
                     Integer.parseInt(dateNumbers.get(1)),
                     Integer.parseInt(dateNumbers.get(2)));
         } catch (Exception e) {
-            return LocalDate.of(1950,1,1);
+            return null;
         }
     }
 
@@ -41,7 +53,7 @@ public class RowParser {
                     Integer.parseInt(timeNumbers.get(0)),
                     Integer.parseInt(timeNumbers.get(1)));
         } catch (Exception e) {
-            return LocalTime.of(0,0);
+            return null;
         }
     }
 
@@ -49,7 +61,7 @@ public class RowParser {
         try {
             return Double.parseDouble(row.get(2));
         } catch (Exception e){
-            return 0.0;
+            return -1.0;
         }
     }
 }

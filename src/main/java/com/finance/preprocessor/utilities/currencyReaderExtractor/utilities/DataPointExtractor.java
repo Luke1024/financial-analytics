@@ -10,11 +10,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Service
 public class DataPointExtractor {
 
-    private List<DataPointStatus> dataPointStatusList = new ArrayList<>();
+    private Logger logger = Logger.getLogger(DataPointExtractor.class.getName());
 
     @Autowired
     private RowAnalyzer rowAnalyzer;
@@ -24,13 +26,24 @@ public class DataPointExtractor {
     public List<DataPoint> extract(List<List<String>> input){
         List<DataPoint> dataPoints = new ArrayList<>();
 
+        int problematicRowCounter = 0;
+
         for(List row : input){
             Analysis analysis = rowAnalyzer.analyze(row);
             if(analysis.isRowCorrect()) {
-                dataPoints.add(rowParser.parse(row));
+                DataPoint dataPoint = rowParser.parse(row);
+                if(dataPoint != null){
+                    dataPoints.add(dataPoint);
+                } else {
+                    problematicRowCounter += 1;
+                }
             }
-            dataPointStatusList.add(analysis.getRaport());
         }
+
+        if(problematicRowCounter > 0){
+            logger.log(Level.INFO, "Parsing problem detected in " + problematicRowCounter + " rows.");
+        }
+
         return dataPoints;
     }
 }
