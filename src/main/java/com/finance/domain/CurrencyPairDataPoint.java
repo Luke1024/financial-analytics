@@ -101,6 +101,7 @@ public class CurrencyPairDataPoint implements DatabaseEntity {
         } else if (this.currencyPair != null){
             this.currencyPair.getCurrencyPairDataPoints().remove(this);
         }
+        this.currencyPair = currencyPair;
     }
 
     @Override
@@ -125,7 +126,7 @@ public class CurrencyPairDataPoint implements DatabaseEntity {
         return "CurrencyPairDataPoint{" +
                 "timeStamp=" + timeStamp +
                 ", value=" + value +
-                ", currencyPair=" + currencyPair +
+                ", currencyPair=" + currencyPair.getCurrencyPairName() +
                 '}';
     }
 }

@@ -47,10 +47,6 @@ public class DataPointAdder {
         //check subobject
         if(log.length() == 0) log = checkIfTimeStampIsNull(point);
         else return log;
-        if(log.length() == 0) log = checkIfCurrencyPairIsNull(point);
-        else return log;
-        if(log.length() == 0) log = checkIfCurrencyPairNameIsNull(currencyPairName);
-        else return log;;
         if(log.length() == 0) log = processWithSaving(point, currencyPairName);
         else return log;
 
@@ -121,10 +117,8 @@ public class DataPointAdder {
     }
 
     private void addDataPointToCurrencyPair(CurrencyPairDataPoint point, CurrencyPair currencyPair){
-        //point.setCurrencyPair(currencyPair);
         currencyPair.addDataPoint(point);
-
-        //currencyPairRepository.save(currencyPair);
-        repository.save(point);
+        point.setCurrencyPair(currencyPair);
+        currencyPairRepository.save(currencyPair);
     }
 }

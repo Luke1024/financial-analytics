@@ -83,7 +83,7 @@ public class CurrencyPairService {
     private DatabaseResponse checkIfCurrencyPairExistAlready(CurrencyPair currencyPair, boolean overwrite) {
         Optional<CurrencyPair> pair = currencyPairRepository.findByCurrencyName(currencyPair.getCurrencyPairName());
         if(pair.isPresent()) return overwriteIfPossible(currencyPair, pair, overwrite);
-        else return addCurrencyPair(currencyPair, null);
+        else return addCurrencyPair(currencyPair, "");
     }
 
     private DatabaseResponse overwriteIfPossible(CurrencyPair newPair, Optional<CurrencyPair> pair, boolean overwrite) {

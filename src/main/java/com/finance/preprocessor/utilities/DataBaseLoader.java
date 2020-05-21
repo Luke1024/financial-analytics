@@ -10,9 +10,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Service
 public class DataBaseLoader {
+
+    private Logger logger = Logger.getLogger(DataBaseLoader.class.getName());
 
     @Autowired
     private CurrencyPairService currencyPairService;
@@ -22,8 +26,12 @@ public class DataBaseLoader {
 
     public void load(List<CurrencyPairDataPack> currencyPairDataPacks){
 
-        for(CurrencyPairDataPack pack : currencyPairDataPacks){
-            loadPackToDatabase(pack);
+        if(currencyPairDataPacks != null) {
+            for (CurrencyPairDataPack pack : currencyPairDataPacks) {
+                loadPackToDatabase(pack);
+            }
+        } else {
+            logger.log(Level.WARNING, "CurrencyPairDataPack is null.");
         }
     }
 
@@ -33,7 +41,8 @@ public class DataBaseLoader {
         List<CurrencyPairDataPoint> currencyPairDataPoints = mapDataPointsToCurrencyPairDataPoints(dataPointList);
 
         if(isCurrencyAlreadyExistInDatabase(currencyPairName)){
-            System.out.println("CurrencyPair with name: " + currencyPairName + " already exist in database.");
+            logger.log(Level.SEVERE,"CurrencyPair with name: " + currencyPairName +
+                    " already exist in database. Stopping DataBaseLoader.");
         } else {
             if(createCurrencyPair(currencyPairName)) {
                 loadDataPoints(currencyPairDataPoints, currencyPairName);
@@ -56,13 +65,30 @@ public class DataBaseLoader {
     }
 
     private boolean createCurrencyPair(String currencyPairName){
-        CurrencyPair newCurrencyPair = new CurrencyPair(currencyPairName);
-        DatabaseResponse response = currencyPairService.saveCurrencyPair(newCurrencyPair, false);
-        if(response.isOK()) return true;
-        else return false;
+        if(currencyPairName != null) {
+            CurrencyPair newCurrencyPair = new CurrencyPair(currencyPairName);
+            DatabaseResponse response = currencyPairService.saveCurrencyPair(newCurrencyPair, false);
+            if (response.isOK()) {
+                logger.log(Level.INFO, currencyPairName + " saved.");
+                return true;
+            } else {
+                logger.log(Level.SEVERE, "Problem with saving " + currencyPairName + ". Stopping DataBaseLoader.");
+            }
+        } else {
+            logger.log(Level.SEVERE, "CurrencyPair name is null. Stopping DataBaseLoader.");
+        }
+        return false;
     }
 
     private void loadDataPoints(List<CurrencyPairDataPoint> dataPoints, String currencyPairName){
-        dataPointService.addDataPoints(dataPoints, currencyPairName);
+        if(dataPoints != null){
+            if(dataPoints.size() > 0){
+                dataPointService.addDataPoints(dataPoints, currencyPairName);
+            } else {
+                logger.log(Level.SEVERE, "There is no datapoints to be saved.");
+            }
+        } else {
+            logger.log(Level.SEVERE, "CurrencyPairDataPoint list is null. Stopping DataBase loader.");
+        }
     }
 }
