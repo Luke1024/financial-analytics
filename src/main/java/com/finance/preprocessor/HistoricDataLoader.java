@@ -21,6 +21,7 @@ public class HistoricDataLoader {
 
     public void loadDataIntoDatabase() {
         List<CurrencyFile> files = new ArrayList<>(Arrays.asList(
+                //new CurrencyFile("EUR/GBP", "C:\\Users\\Luke\\IdeaProjects\\financial-analytics\\src\\main\\java\\com\\finance\\preprocessor\\data\\eurgbp"),
                 new CurrencyFile("EUR/USD","C:\\Users\\Luke\\IdeaProjects\\financial-analytics\\src\\main\\java\\com\\finance\\preprocessor\\data\\eurusd")
         ));
 

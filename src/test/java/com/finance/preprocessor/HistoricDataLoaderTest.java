@@ -1,14 +1,21 @@
 package com.finance.preprocessor;
 
+import org.graalvm.compiler.lir.LIRInstruction;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
+@RunWith(SpringRunner.class)
+@SpringBootTest
 public class HistoricDataLoaderTest {
 
-    private HistoricDataLoader preprocessor = new HistoricDataLoader();
+    @Autowired
+    private HistoricDataLoader historicDataLoader;
 
-    //@Test
-    //public void testPreprocessor(){
-      //  preprocessor.loadDataIntoDatabase();
-    //}
-
+    @Test
+    public void testPreprocessor(){
+        //historicDataLoader.loadDataIntoDatabase();
+    }
 }

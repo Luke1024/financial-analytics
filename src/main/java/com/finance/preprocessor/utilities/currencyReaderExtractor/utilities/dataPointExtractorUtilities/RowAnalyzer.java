@@ -22,9 +22,9 @@ public class RowAnalyzer {
 
         Analysis analysis = new Analysis(columnNumber, date, time, value);
 
-        if( ! analysis.isRowCorrect()){
-            logger.log(Level.INFO, "Row skipped due to inconsistencies in data.");
-        }
+        //if( ! analysis.isRowCorrect()){
+          //  logger.log(Level.INFO, "Row skipped due to inconsistencies in data.");
+        //}
 
         return new Analysis(columnNumber, date, time, value);
     }

@@ -22,17 +22,18 @@ public class CurrencyPairController {
 
     @GetMapping(value = "/currency/pairs")
     public List<String> getAvailablePairs(){
-        DatabaseResponse databaseResponse = currencyPairService.getCurrencies();
-
-        List<DatabaseEntity> entities = null;
-        if(databaseResponse.isOK()){
-            entities = databaseResponse.getRequestedObjects();
-        }
         List<CurrencyPair> currencyPairs = new ArrayList<>();
-        for(DatabaseEntity entity : entities){
-            if(entity instanceof CurrencyPair)
-            currencyPairs.add((CurrencyPair) entity);
-        }
+        try {
+            DatabaseResponse databaseResponse = currencyPairService.getCurrencies();
+            List<DatabaseEntity> entities = null;
+            if (databaseResponse.isOK()) {
+                entities = databaseResponse.getRequestedObjects();
+            }
+            for (DatabaseEntity entity : entities) {
+                if (entity instanceof CurrencyPair)
+                    currencyPairs.add((CurrencyPair) entity);
+            }
+        } catch (Exception e){}
 
         return currencyPairMapper.mapToPairsStringList(currencyPairs);
     }
