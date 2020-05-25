@@ -1,10 +1,9 @@
 package com.finance.service.database.communicationObjects;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseResponse {
-    private List<DatabaseEntity> requestedObjects = new ArrayList<>();
+    private List<DatabaseEntity> requestedObjects;
     private String log;
     private boolean OK;
 
