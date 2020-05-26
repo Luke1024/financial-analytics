@@ -1,7 +1,7 @@
 package com.finance.service.database;
 
 import com.finance.domain.CurrencyPairDataPoint;
-import com.finance.domain.dto.currencyPair.PairDataRequestDto;
+import com.finance.domain.dto.PairDataRequest;
 import com.finance.repository.CurrencyPairHistoryPointRepository;
 import com.finance.repository.CurrencyPairRepository;
 import com.finance.service.database.communicationObjects.DatabaseResponse;
@@ -11,9 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.temporal.ChronoUnit;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CurrencyPairDataPointService {
@@ -32,8 +30,8 @@ public class CurrencyPairDataPointService {
     @Autowired
     private DataPointAdder dataPointAdder;
 
-    public DatabaseResponse getCurrencyPairHistory(PairDataRequestDto pairDataRequestDto){
-        return pairHistoryRetriever.getCurrencyPairHistory(pairDataRequestDto);
+    public DatabaseResponse getCurrencyPairHistory(PairDataRequest pairDataRequest){
+        return pairHistoryRetriever.getCurrencyPairHistory(pairDataRequest);
     }
 /*
     public DatabaseResponse getPairLastDataPoint(long pair_id){

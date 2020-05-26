@@ -2,10 +2,10 @@ package com.finance.controller;
 
 import com.finance.domain.CurrencyPairDataPoint;
 import com.finance.domain.dto.currencyPair.DataPointDto;
+import com.finance.domain.dto.PairDataRequest;
 import com.finance.domain.dto.currencyPair.PairDataRequestDto;
 import com.finance.mapper.CurrencyPairDataPointMapper;
 import com.finance.preprocessor.utilities.DataBaseLoader;
-import com.finance.preprocessor.utilities.DataPoint;
 import com.finance.service.database.CurrencyPairDataPointService;
 import com.finance.service.database.communicationObjects.DatabaseResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +31,14 @@ public class CurrencyPairPointDataController {
     private CurrencyPairDataPointMapper mapper;
 
     @GetMapping(value = "/currency/pairs/data")
-    public List<DataPointDto> getCurrencyPairDataPoints(@RequestBody PairDataRequestDto pairDataRequestDto){
-        DatabaseResponse databaseResponse = service.getCurrencyPairHistory(pairDataRequestDto);
+    public List<DataPointDto> getCurrencyPairDataPoints(@RequestBody PairDataRequestDto pairDataRequestdto){
+        PairDataRequest pairDataRequest = mapper.mapToPairDataRequest(pairDataRequestdto);
+        DatabaseResponse databaseResponse;
+        if(pairDataRequest == null) {
+            return new ArrayList<>();
+        } else {
+            databaseResponse = service.getCurrencyPairHistory(pairDataRequest);
+        }
         try {
             if (databaseResponse.isOK()) {
                 List<CurrencyPairDataPoint> dataPoints = databaseResponse.getRequestedObjects()

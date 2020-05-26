@@ -1,30 +1,18 @@
 package com.finance.domain.dto.currencyPair;
 
-import java.time.LocalDateTime;
-
 public class PairDataRequestDto {
     private String currencyName;
     private int numberOfDataPoints;
-    private PointTimeFrame pointTimeFrame;
+    private String pointTimeFrame;
     private boolean fromLastPoint;
-    private LocalDateTime adoptedlastPoint;
+    private String adoptedLastPoint;
 
-    public PairDataRequestDto() {
-    }
-
-    public PairDataRequestDto(String currencyName, int numberOfDataPoints, PointTimeFrame pointTimeFrame) {
+    public PairDataRequestDto(String currencyName, int numberOfDataPoints, String pointTimeFrame, boolean fromLastPoint, String adoptedLastPoint) {
         this.currencyName = currencyName;
         this.numberOfDataPoints = numberOfDataPoints;
         this.pointTimeFrame = pointTimeFrame;
-        this.fromLastPoint = true;
-    }
-
-    public PairDataRequestDto(String currencyName, int numberOfDataPoints, PointTimeFrame pointTimeFrame, LocalDateTime adoptedlastPoint) {
-        this.currencyName = currencyName;
-        this.numberOfDataPoints = numberOfDataPoints;
-        this.pointTimeFrame = pointTimeFrame;
-        this.fromLastPoint = false;
-        this.adoptedlastPoint = adoptedlastPoint;
+        this.fromLastPoint = fromLastPoint;
+        this.adoptedLastPoint = adoptedLastPoint;
     }
 
     public String getCurrencyName() {
@@ -35,7 +23,7 @@ public class PairDataRequestDto {
         return numberOfDataPoints;
     }
 
-    public PointTimeFrame getPointTimeFrame() {
+    public String getPointTimeFrame() {
         return pointTimeFrame;
     }
 
@@ -43,7 +31,7 @@ public class PairDataRequestDto {
         return fromLastPoint;
     }
 
-    public LocalDateTime getAdoptedlastPoint() {
-        return adoptedlastPoint;
+    public String getAdoptedLastPoint() {
+        return adoptedLastPoint;
     }
 }

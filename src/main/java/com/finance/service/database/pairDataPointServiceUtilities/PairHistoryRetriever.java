@@ -2,7 +2,7 @@ package com.finance.service.database.pairDataPointServiceUtilities;
 
 import com.finance.domain.CurrencyPair;
 import com.finance.domain.CurrencyPairDataPoint;
-import com.finance.domain.dto.currencyPair.PairDataRequestDto;
+import com.finance.domain.dto.PairDataRequest;
 import com.finance.domain.dto.currencyPair.PointTimeFrame;
 import com.finance.repository.CurrencyPairHistoryPointRepository;
 import com.finance.repository.CurrencyPairRepository;
@@ -31,45 +31,45 @@ public class PairHistoryRetriever {
     @Autowired
     private CurrencyPairRepository currencyPairRepository;
 
-    public DatabaseResponse getCurrencyPairHistory(PairDataRequestDto pairDataRequestDto){
-        String log = requestDtoFullCheck(pairDataRequestDto);
+    public DatabaseResponse getCurrencyPairHistory(PairDataRequest pairDataRequest){
+        String log = requestDtoFullCheck(pairDataRequest);
         if(log.contains("OK")){
-            return realizeRequest(pairDataRequestDto);
+            return realizeRequest(pairDataRequest);
         } else {
             return new DatabaseResponse(null, log, false);
         }
     }
 
-    private String requestDtoFullCheck(PairDataRequestDto pairDataRequestDto){
+    private String requestDtoFullCheck(PairDataRequest pairDataRequest){
         String log = "";
-        if(pairDataRequestDto.getCurrencyName() == null) log += "CurrencyName is null.";
-        if(pairDataRequestDto.getNumberOfDataPoints() == 0) log += "Number of data points requested is 0.";
-        if(pairDataRequestDto.getPointTimeFrame() == null) log += "PointTimeFrame is null.";
-        if(pairDataRequestDto.isFromLastPoint() == false){
-            if(pairDataRequestDto.getAdoptedlastPoint() == null) log += "LocalDateTime adoptedLastPoint is null.";
+        if(pairDataRequest.getCurrencyName() == null) log += "CurrencyName is null.";
+        if(pairDataRequest.getNumberOfDataPoints() == 0) log += "Number of data points requested is 0.";
+        if(pairDataRequest.getPointTimeFrame() == null) log += "PointTimeFrame is null.";
+        if(pairDataRequest.isFromLastPoint() == false){
+            if(pairDataRequest.getAdoptedlastPoint() == null) log += "LocalDateTime adoptedLastPoint is null.";
         }
         if(log.length() > 0) return log;
         else return "OK";
     }
 
-    private DatabaseResponse realizeRequest(PairDataRequestDto pairDataRequestDto){
-        Optional<CurrencyPair> currencyPair = getCurrencyPair(pairDataRequestDto);
+    private DatabaseResponse realizeRequest(PairDataRequest pairDataRequest){
+        Optional<CurrencyPair> currencyPair = getCurrencyPair(pairDataRequest);
 
         Optional<CurrencyPairDataPoint> lastDataPoint;
 
         if(currencyPair.isPresent()){
-            return processWithPointSearching(currencyPair.get(), pairDataRequestDto);
+            return processWithPointSearching(currencyPair.get(), pairDataRequest);
         } else {
             return new DatabaseResponse(null, "CurrencyPair not found.", false);
         }
     }
 
-    private DatabaseResponse processWithPointSearching(CurrencyPair currencyPair, PairDataRequestDto pairDataRequestDto){
-        Optional<CurrencyPairDataPoint> lastDataPoint = getLastDataPoint(currencyPair, pairDataRequestDto);
+    private DatabaseResponse processWithPointSearching(CurrencyPair currencyPair, PairDataRequest pairDataRequest){
+        Optional<CurrencyPairDataPoint> lastDataPoint = getLastDataPoint(currencyPair, pairDataRequest);
 
         if(lastDataPoint.isPresent()){
             List<CurrencyPairDataPoint> currencyPairDataPoints =
-                    getDataPoints(lastDataPoint.get(), pairDataRequestDto, currencyPair.getId());
+                    getDataPoints(lastDataPoint.get(), pairDataRequest, currencyPair.getId());
             List<DatabaseEntity> databaseEntities = currencyPairDataPoints.stream()
                     .map(point -> (DatabaseEntity) point).collect(Collectors.toList());
 
@@ -78,26 +78,26 @@ public class PairHistoryRetriever {
         return new DatabaseResponse(null, "Last dataPoint not found", false);
     }
 
-    private Optional<CurrencyPair> getCurrencyPair(PairDataRequestDto pairDataRequestDto){
-        return currencyPairRepository.findByCurrencyName(pairDataRequestDto.getCurrencyName());
+    private Optional<CurrencyPair> getCurrencyPair(PairDataRequest pairDataRequest){
+        return currencyPairRepository.findByCurrencyName(pairDataRequest.getCurrencyName());
     }
 
-    private Optional<CurrencyPairDataPoint> getLastDataPoint(CurrencyPair pair, PairDataRequestDto pairDataRequestDto){
+    private Optional<CurrencyPairDataPoint> getLastDataPoint(CurrencyPair pair, PairDataRequest pairDataRequest){
         long pairId = pair.getId();
-        if(pairDataRequestDto.isFromLastPoint()){
+        if(pairDataRequest.isFromLastPoint()){
             return repository.getLastDataPoint(pairId);
         } else {
-            return repository.findPointByDate(pairDataRequestDto.getAdoptedlastPoint(), pairId);
+            return repository.findPointByDate(pairDataRequest.getAdoptedlastPoint(), pairId);
         }
     }
 
     private List<CurrencyPairDataPoint> getDataPoints(CurrencyPairDataPoint lastDataPoint,
-                                                      PairDataRequestDto pairDataRequestDto,
+                                                      PairDataRequest pairDataRequest,
                                                       long currencyPairId){
         List<CurrencyPairDataPoint> points = new ArrayList<>();
 
-        int dataPointSize = limitToLargeRequest(pairDataRequestDto.getNumberOfDataPoints());
-        PointTimeFrame timeFrame = pairDataRequestDto.getPointTimeFrame();
+        int dataPointSize = limitToLargeRequest(pairDataRequest.getNumberOfDataPoints());
+        PointTimeFrame timeFrame = pairDataRequest.getPointTimeFrame();
 
         //add point backward
         points.add(lastDataPoint);

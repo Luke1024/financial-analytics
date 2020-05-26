@@ -2,10 +2,8 @@ package com.finance.service.database;
 
 import com.finance.domain.CurrencyPair;
 import com.finance.domain.CurrencyPairDataPoint;
-import com.finance.domain.dto.currencyPair.PairDataRequestDto;
+import com.finance.domain.dto.PairDataRequest;
 import com.finance.domain.dto.currencyPair.PointTimeFrame;
-import com.finance.repository.CurrencyPairHistoryPointRepository;
-import com.finance.repository.CurrencyPairRepository;
 import com.finance.service.database.communicationObjects.DatabaseResponse;
 import org.junit.Assert;
 import org.junit.Test;
@@ -52,9 +50,9 @@ public class CurrencyPairDataPointServiceTest {
 
     @Test
     public void getCurrencyPairHistory_CurrencyNameNull(){
-        PairDataRequestDto pairDataRequestDto = new PairDataRequestDto(null, 5,PointTimeFrame.D1, LocalDateTime.now());
+        PairDataRequest pairDataRequest = new PairDataRequest(null, 5,PointTimeFrame.D1, LocalDateTime.now());
 
-        DatabaseResponse response = currencyPairDataPointService.getCurrencyPairHistory(pairDataRequestDto);
+        DatabaseResponse response = currencyPairDataPointService.getCurrencyPairHistory(pairDataRequest);
 
         Assert.assertEquals(null, response.getRequestedObjects());
         Assert.assertEquals("CurrencyName is null.", response.getLog());
@@ -63,9 +61,9 @@ public class CurrencyPairDataPointServiceTest {
 
     @Test
     public void getCurrencyPairHistory_requestedNumberOfDataPointsIsZero(){
-        PairDataRequestDto pairDataRequestDto = new PairDataRequestDto("sdasd", 0, PointTimeFrame.D1, LocalDateTime.now());
+        PairDataRequest pairDataRequest = new PairDataRequest("sdasd", 0, PointTimeFrame.D1, LocalDateTime.now());
 
-        DatabaseResponse response = currencyPairDataPointService.getCurrencyPairHistory(pairDataRequestDto);
+        DatabaseResponse response = currencyPairDataPointService.getCurrencyPairHistory(pairDataRequest);
 
         Assert.assertEquals(null, response.getRequestedObjects());
         Assert.assertEquals("Number of data points requested is 0.", response.getLog());
@@ -79,9 +77,9 @@ public class CurrencyPairDataPointServiceTest {
             getCurrencyPairHistory_requestedNumberOfDataPointsIsLargerThanZero();
         }
 
-        PairDataRequestDto pairDataRequestDto = new PairDataRequestDto(randomName,1,PointTimeFrame.D1, LocalDateTime.now());
+        PairDataRequest pairDataRequest = new PairDataRequest(randomName,1,PointTimeFrame.D1, LocalDateTime.now());
 
-        DatabaseResponse response = currencyPairDataPointService.getCurrencyPairHistory(pairDataRequestDto);
+        DatabaseResponse response = currencyPairDataPointService.getCurrencyPairHistory(pairDataRequest);
 
         Assert.assertEquals(null, response.getRequestedObjects());
         Assert.assertEquals("CurrencyPair not found.", response.getLog());
@@ -90,9 +88,9 @@ public class CurrencyPairDataPointServiceTest {
 
     @Test
     public void getCurrencyPairHistory_PointTimeFrameIsNull(){
-        PairDataRequestDto pairDataRequestDto = new PairDataRequestDto("asfadfaf", 2, null, LocalDateTime.now());
+        PairDataRequest pairDataRequest = new PairDataRequest("asfadfaf", 2, null, LocalDateTime.now());
 
-        DatabaseResponse response = currencyPairDataPointService.getCurrencyPairHistory(pairDataRequestDto);
+        DatabaseResponse response = currencyPairDataPointService.getCurrencyPairHistory(pairDataRequest);
 
         Assert.assertEquals(null, response.getRequestedObjects());
         Assert.assertEquals("PointTimeFrame is null.", response.getLog());
@@ -101,9 +99,9 @@ public class CurrencyPairDataPointServiceTest {
 
     @Test
     public void getCurrencyPairHistory_fromLastPointFalse_adoptedLastPointIsNull(){
-        PairDataRequestDto pairDataRequestDto = new PairDataRequestDto("asdasdad", 3, PointTimeFrame.D1,null);
+        PairDataRequest pairDataRequest = new PairDataRequest("asdasdad", 3, PointTimeFrame.D1,null);
 
-        DatabaseResponse response = currencyPairDataPointService.getCurrencyPairHistory(pairDataRequestDto);
+        DatabaseResponse response = currencyPairDataPointService.getCurrencyPairHistory(pairDataRequest);
 
         Assert.assertEquals(null, response.getRequestedObjects());
         Assert.assertEquals("LocalDateTime adoptedLastPoint is null.", response.getLog());
@@ -117,9 +115,9 @@ public class CurrencyPairDataPointServiceTest {
             getCurrencyPairHistory_CurrencyPairNotExists();
         }
 
-        PairDataRequestDto pairDataRequestDto = new PairDataRequestDto(randomName, 3, PointTimeFrame.D1);
+        PairDataRequest pairDataRequest = new PairDataRequest(randomName, 3, PointTimeFrame.D1);
 
-        DatabaseResponse response = currencyPairDataPointService.getCurrencyPairHistory(pairDataRequestDto);
+        DatabaseResponse response = currencyPairDataPointService.getCurrencyPairHistory(pairDataRequest);
 
         Assert.assertEquals(null, response.getRequestedObjects());
         Assert.assertEquals("CurrencyPair not found.", response.getLog());
@@ -161,9 +159,9 @@ public class CurrencyPairDataPointServiceTest {
         Assert.assertEquals("", savingPointResponse.getLog());
         Assert.assertEquals(true, savingPointResponse.isOK());
 
-        PairDataRequestDto pairDataRequestDto = new PairDataRequestDto(randomName, 5, PointTimeFrame.H1);
+        PairDataRequest pairDataRequest = new PairDataRequest(randomName, 5, PointTimeFrame.H1);
 
-        DatabaseResponse requestingResponse = currencyPairDataPointService.getCurrencyPairHistory(pairDataRequestDto);
+        DatabaseResponse requestingResponse = currencyPairDataPointService.getCurrencyPairHistory(pairDataRequest);
         System.out.println("Requesting response " + requestingResponse.getLog());
         Assert.assertEquals(true, requestingResponse.isOK());
 

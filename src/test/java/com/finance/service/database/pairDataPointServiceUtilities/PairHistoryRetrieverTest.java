@@ -1,28 +1,5 @@
 package com.finance.service.database.pairDataPointServiceUtilities;
 
-import com.finance.domain.CurrencyPair;
-import com.finance.domain.CurrencyPairDataPoint;
-import com.finance.domain.dto.currencyPair.PairDataRequestDto;
-import com.finance.domain.dto.currencyPair.PointTimeFrame;
-import com.finance.repository.CurrencyPairHistoryPointRepository;
-import com.finance.repository.CurrencyPairRepository;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import static org.mockito.Mockito.when;
-
 //@RunWith(SpringRunner.class)
 //@SpringBootTest
 public class PairHistoryRetrieverTest {

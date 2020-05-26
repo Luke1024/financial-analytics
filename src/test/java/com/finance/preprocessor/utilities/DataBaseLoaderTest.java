@@ -2,7 +2,7 @@ package com.finance.preprocessor.utilities;
 
 import com.finance.domain.CurrencyPair;
 import com.finance.domain.CurrencyPairDataPoint;
-import com.finance.domain.dto.currencyPair.PairDataRequestDto;
+import com.finance.domain.dto.PairDataRequest;
 import com.finance.domain.dto.currencyPair.PointTimeFrame;
 import com.finance.service.database.CurrencyPairDataPointService;
 import com.finance.service.database.CurrencyPairService;
@@ -74,9 +74,9 @@ public class DataBaseLoaderTest {
 
         Assert.assertEquals(true, response.isOK());
 
-        PairDataRequestDto pairDataRequestDto = new PairDataRequestDto(randomName,3, PointTimeFrame.H1);
+        PairDataRequest pairDataRequest = new PairDataRequest(randomName,3, PointTimeFrame.H1);
 
-        DatabaseResponse databaseResponse = currencyPairDataPointService.getCurrencyPairHistory(pairDataRequestDto);
+        DatabaseResponse databaseResponse = currencyPairDataPointService.getCurrencyPairHistory(pairDataRequest);
 
         List<DatabaseEntity> receivedDataPoints = databaseResponse.getRequestedObjects().stream()
                 .map(point -> (CurrencyPairDataPoint) point).collect(Collectors.toList());
