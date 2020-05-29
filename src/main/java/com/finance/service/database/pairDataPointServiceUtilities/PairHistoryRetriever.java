@@ -46,7 +46,7 @@ public class PairHistoryRetriever {
         if(pairDataRequest.getNumberOfDataPoints() == 0) log += "Number of data points requested is 0.";
         if(pairDataRequest.getPointTimeFrame() == null) log += "PointTimeFrame is null.";
         if(pairDataRequest.isFromLastPoint() == false){
-            if(pairDataRequest.getAdoptedlastPoint() == null) log += "LocalDateTime adoptedLastPoint is null.";
+            if(pairDataRequest.getAdoptedLastPoint() == null) log += "LocalDateTime adoptedLastPoint is null.";
         }
         if(log.length() > 0) return log;
         else return "OK";
@@ -87,7 +87,7 @@ public class PairHistoryRetriever {
         if(pairDataRequest.isFromLastPoint()){
             return repository.getLastDataPoint(pairId);
         } else {
-            return repository.findPointByDate(pairDataRequest.getAdoptedlastPoint(), pairId);
+            return repository.findPointByDate(pairDataRequest.getAdoptedLastPoint(), pairId);
         }
     }
 
