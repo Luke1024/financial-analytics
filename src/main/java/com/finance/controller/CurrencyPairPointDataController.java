@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/finance")
 public class CurrencyPairPointDataController {
 
-    private Logger logger = Logger.getLogger(CurrencyPairDataPointService.class.getName());
+    private Logger logger = Logger.getLogger(CurrencyPairPointDataController.class.getName());
 
     @Autowired
     private CurrencyPairDataPointService service;
