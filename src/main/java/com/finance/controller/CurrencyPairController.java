@@ -2,8 +2,6 @@ package com.finance.controller;
 import com.finance.domain.CurrencyPair;
 import com.finance.mapper.CurrencyPairMapper;
 import com.finance.service.database.CurrencyPairService;
-import com.finance.service.database.communicationObjects.DatabaseEntity;
-import com.finance.service.database.communicationObjects.DatabaseResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,24 +20,12 @@ public class CurrencyPairController {
 
     @GetMapping(value = "/currency/pairs")
     public List<String> getAvailablePairs(){
-        List<CurrencyPair> currencyPairs = new ArrayList<>();
-        try {
-            DatabaseResponse databaseResponse = currencyPairService.getCurrencies();
-            List<DatabaseEntity> entities = null;
-            if (databaseResponse.isOK()) {
-                entities = databaseResponse.getRequestedObjects();
-            }
-            for (DatabaseEntity entity : entities) {
-                if (entity instanceof CurrencyPair)
-                    currencyPairs.add((CurrencyPair) entity);
-            }
-        } catch (Exception e){}
 
-        return currencyPairMapper.mapToPairsStringList(currencyPairs);
+        List<CurrencyPair> currencyPairs = currencyPairService.getCurrencies();
+
+        if(currencyPairs != null) {
+            return currencyPairMapper.mapToPairsStringList(currencyPairs);
+        }
+        return null;
     }
-
-    //@GetMapping(value = "/currency/pair")
-    //public CurrencyPairDataDto getCurrency(@RequestBody PairDataRequestDto pairDataRequestDto){
-      //  return currencyPairMapper.mapToPairDataDto(currencyPairService.getCurrencyPair(pairDataRequestDto.getCurrencyName()));
-    //}
 }
