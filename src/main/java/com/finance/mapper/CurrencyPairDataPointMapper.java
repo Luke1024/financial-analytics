@@ -21,17 +21,12 @@ public class CurrencyPairDataPointMapper {
 
     public PairDataRequest mapToPairDataRequest(PairDataRequestDto pairDataRequestDto){
         try {
-
             String currencyName = pairDataRequestDto.getCurrencyName();
             int numberOfDataPoints = pairDataRequestDto.getNumberOfDataPoints();
             PointTimeFrame pointTimeFrame = mapPointTimeFrame(pairDataRequestDto.getPointTimeFrame());
+            int pointsBeforeLast = pairDataRequestDto.getPointsBeforeLast();
 
-            if (pairDataRequestDto.isFromLastPoint() == true) {
-                return new PairDataRequest(currencyName, numberOfDataPoints, pointTimeFrame);
-            } else {
-                return new PairDataRequest(currencyName, numberOfDataPoints, pointTimeFrame,
-                        LocalDateTime.parse(pairDataRequestDto.getAdoptedLastPoint()));
-            }
+            return new PairDataRequest(currencyName, numberOfDataPoints, pointTimeFrame, pointsBeforeLast);
         } catch (Exception e){
             return null;
         }
