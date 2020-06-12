@@ -34,12 +34,11 @@ public class CurrencyPairPointDataController {
     @PostMapping(value = "/currency/pairs/data")
     public DataPointDtoPack getCurrencyPairDataPoints(@RequestBody PairDataRequestDto pairDataRequestdto){
         PairDataRequest pairDataRequest = mapper.mapToPairDataRequest(pairDataRequestdto);
-        DatabaseResponse databaseResponse;
         if(pairDataRequest == null) {
-            return new DataPointDtoPack(new ArrayList<>());
-        } else {
-            databaseResponse = service.getCurrencyPairHistory(pairDataRequest);
+            return null;
         }
+        List<CurrencyPairDataPoint> currencyPairDataPoints = service.;
+
         try {
             if (databaseResponse.isOK()) {
                 List<CurrencyPairDataPoint> dataPoints = databaseResponse.getRequestedObjects()

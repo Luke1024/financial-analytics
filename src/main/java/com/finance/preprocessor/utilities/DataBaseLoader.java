@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -58,16 +59,16 @@ public class DataBaseLoader {
     }
 
     private boolean isCurrencyAlreadyExistInDatabase(String currencyPairName){
-        DatabaseResponse databaseResponse = currencyPairService.getCurrencyPair(currencyPairName);
-        if(databaseResponse.getLog().contains("not found")) return false;
+        CurrencyPair currencyPair = currencyPairService.getCurrencyPair(currencyPairName);
+        if(currencyPair == null) return false;
         else return true;
     }
 
     private boolean createCurrencyPair(String currencyPairName){
         if(currencyPairName != null) {
             CurrencyPair newCurrencyPair = new CurrencyPair(currencyPairName);
-            DatabaseResponse response = currencyPairService.saveCurrencyPair(newCurrencyPair, false);
-            if (response.isOK()) {
+            currencyPairService.saveCurrencyPair(newCurrencyPair, false);
+            if (checkIfCurrencyPairExist(currencyPairName)) {
                 logger.log(Level.INFO, currencyPairName + " saved.");
                 return true;
             } else {
@@ -77,6 +78,12 @@ public class DataBaseLoader {
             logger.log(Level.SEVERE, "CurrencyPair name is null. Stopping DataBaseLoader.");
         }
         return false;
+    }
+
+    private boolean checkIfCurrencyPairExist(String currencyPairName){
+        CurrencyPair currencyPair = currencyPairService.getCurrencyPair(currencyPairName);
+        if(currencyPair != null) return true;
+        else return false;
     }
 
     private void loadDataPoints(List<CurrencyPairDataPoint> dataPoints, String currencyPairName){

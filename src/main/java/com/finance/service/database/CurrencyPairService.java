@@ -46,7 +46,7 @@ public class CurrencyPairService {
             if( ! pair.isPresent()) {
                 currencyPairRepository.save(currencyPair);
             } else {
-                logger.log(Level.INFO, "CurrencyPair " + name + " already exist.");
+                logger.log(Level.INFO, "CurrencyPair " + name + " already exist and overwriting not allowed.");
             }
         }
     }
