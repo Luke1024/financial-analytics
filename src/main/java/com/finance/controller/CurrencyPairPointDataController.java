@@ -8,7 +8,6 @@ import com.finance.domain.dto.currencyPair.PairDataRequestDto;
 import com.finance.mapper.CurrencyPairDataPointMapper;
 import com.finance.preprocessor.utilities.DataBaseLoader;
 import com.finance.service.database.CurrencyPairDataPointService;
-import com.finance.service.database.communicationObjects.DatabaseResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

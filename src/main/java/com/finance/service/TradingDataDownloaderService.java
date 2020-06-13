@@ -6,8 +6,6 @@ import com.finance.domain.CurrencyPair;
 import com.finance.domain.CurrencyPairDataPoint;
 import com.finance.service.database.CurrencyPairDataPointService;
 import com.finance.service.database.CurrencyPairService;
-import com.finance.service.database.communicationObjects.DatabaseEntity;
-import com.finance.service.database.communicationObjects.DatabaseResponse;
 import com.finance.service.tradingDataDownloaderUtilities.CurrencyPairAssembler;
 import com.finance.service.tradingDataDownloaderUtilities.PairDto;
 import com.finance.service.tradingDataDownloaderUtilities.TradingApiProcessor;
@@ -58,7 +56,6 @@ public class TradingDataDownloaderService {
                 }
             }
         }
-
         addHistoryPoints(currencies, currencyPair);
     }
 

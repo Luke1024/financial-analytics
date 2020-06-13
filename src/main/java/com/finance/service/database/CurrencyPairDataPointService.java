@@ -33,11 +33,11 @@ public class CurrencyPairDataPointService {
         return pairHistoryRetriever.getCurrencyPairHistory(pairDataRequest);
     }
 
-    public DatabaseResponse addDataPoints(List<CurrencyPairDataPoint> currencyPairDataPoints, String currencyPairName){
-        return dataPointAdder.addPoint(currencyPairDataPoints, currencyPairName, false);
+    public void addDataPoints(List<CurrencyPairDataPoint> currencyPairDataPoints, String currencyPairName){
+        dataPointAdder.addPoint(currencyPairDataPoints, currencyPairName, false);
     }
 
-    public DatabaseResponse addDataPoints(List<CurrencyPairDataPoint> currencyPairDataPoints, String currencyPairName, boolean overwrite){
-        return dataPointAdder.addPoint(currencyPairDataPoints, currencyPairName, overwrite);
+    public void addDataPoints(List<CurrencyPairDataPoint> currencyPairDataPoints, String currencyPairName, boolean overwrite){
+        dataPointAdder.addPoint(currencyPairDataPoints, currencyPairName, overwrite);
     }
 }
