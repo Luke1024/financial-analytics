@@ -1,7 +1,5 @@
 package com.finance.domain;
 
-import com.finance.service.database.communicationObjects.DatabaseEntity;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -32,7 +30,7 @@ import java.util.Objects;
 })
 
 @Entity
-public class CurrencyPairDataPoint implements DatabaseEntity {
+public class CurrencyPairDataPoint {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long pointId;

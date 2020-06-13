@@ -37,17 +37,10 @@ public class CurrencyPairPointDataController {
         if(pairDataRequest == null) {
             return null;
         }
-        List<CurrencyPairDataPoint> currencyPairDataPoints = service.;
+        List<CurrencyPairDataPoint> currencyPairDataPoints = service.getCurrencyPairHistory(pairDataRequest);
 
-        try {
-            if (databaseResponse.isOK()) {
-                List<CurrencyPairDataPoint> dataPoints = databaseResponse.getRequestedObjects()
-                        .stream().map(databaseEntity -> (CurrencyPairDataPoint) databaseEntity).collect(Collectors.toList());
-                return new DataPointDtoPack(mapper.mapToDataPoints(dataPoints));
-            }
-        } catch (Exception e){
-            logger.log(Level.WARNING, e.toString());
-        }
-        return new DataPointDtoPack(new ArrayList<>());
+        List<DataPointDto> dataPointDtos = mapper.mapToDataPoints(currencyPairDataPoints);
+
+        return new DataPointDtoPack(dataPointDtos);
     }
 }

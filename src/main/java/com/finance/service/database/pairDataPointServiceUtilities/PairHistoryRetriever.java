@@ -127,6 +127,4 @@ public class PairHistoryRetriever {
         if(timeFrame == PointTimeFrame.M1) return lastTimeStamp.minus(stepBackward, ChronoUnit.MONTHS);
         return lastTimeStamp.minus(stepBackward, ChronoUnit.HOURS);
     }
-
-
 }

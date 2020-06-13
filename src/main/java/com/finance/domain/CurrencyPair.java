@@ -1,7 +1,5 @@
 package com.finance.domain;
 
-import com.finance.service.database.communicationObjects.DatabaseEntity;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +12,7 @@ import java.util.Objects;
 )
 
 @Entity
-public class CurrencyPair implements DatabaseEntity {
+public class CurrencyPair {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

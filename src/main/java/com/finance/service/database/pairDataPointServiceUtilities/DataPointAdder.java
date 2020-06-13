@@ -4,7 +4,6 @@ import com.finance.domain.CurrencyPair;
 import com.finance.domain.CurrencyPairDataPoint;
 import com.finance.repository.CurrencyPairHistoryPointRepository;
 import com.finance.repository.CurrencyPairRepository;
-import com.finance.service.database.communicationObjects.DatabaseResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,69 +21,29 @@ public class DataPointAdder {
 
     private boolean overwrite;
 
-    public DatabaseResponse addPoint(List<CurrencyPairDataPoint> currencyPairDataPoints, String currencyPairName, boolean overwrite){
+    public void addPoint(List<CurrencyPairDataPoint> currencyPairDataPoints, String currencyPairName, boolean overwrite){
+        if(currencyPairDataPoints == null) return;
+        if(currencyPairName == null) return;
+
         this.overwrite = overwrite;
-        String log = "";
+
         for(CurrencyPairDataPoint point : currencyPairDataPoints){
-            log += saveDataPoint(point, currencyPairName);
+            saveDataPoint(point, currencyPairName);
         }
-        System.out.println("Log length " + log.length());
-        if(log.length()==0){
-            return new DatabaseResponse(null, "", true);
-        } else return new DatabaseResponse(null, "AddPoint method in DataPointAdder failed. " + log, false);
     }
 
-    private String saveDataPoint(CurrencyPairDataPoint point, String currencyPairName){
-        return checkIfCurrencyPairDataPointOrAnySubobjectIsNull(point, currencyPairName);
-    }
-
-    private String checkIfCurrencyPairDataPointOrAnySubobjectIsNull(CurrencyPairDataPoint point, String currencyPairName){
-        String log = "";
-
-        //check main object
-        log = checkIfCurrencyPairDataPointIsNull(point);
-
-        //check subobject
-        if(log.length() == 0) log = checkIfTimeStampIsNull(point);
-        else return log;
-        if(log.length() == 0) log = processWithSaving(point, currencyPairName);
-        else return log;
-
-        return log;
-    }
-
-    private String checkIfCurrencyPairDataPointIsNull(CurrencyPairDataPoint point){
-        if(point == null) return "CurrencyPairDataPoint is null.";
-        else return "";
-    }
-
-    private String checkIfTimeStampIsNull(CurrencyPairDataPoint point){
-        if(point.getTimeStamp() == null) return "LocalDateTime timestamp in CurrencyPairDataPoint is null.";
-        else return "";
-    }
-
-    private String checkIfCurrencyPairIsNull(CurrencyPairDataPoint point){
-        if(point.getCurrencyPair() == null) return "CurrencyPair field in CurrencyPairDataPoint is null.";
-        else return "";
-    }
-
-    private String checkIfCurrencyPairNameIsNull(String currencyPairName){
-        if(currencyPairName == null) return
-                "CurrencyPairName is null.";
-        else return "";
-    }
-
-
-
-
-    private String processWithSaving(CurrencyPairDataPoint point, String currencyPair){
-        String log = "";
-        Optional<CurrencyPair> optionalPair = getCurrencyPair(currencyPair);
-        if(optionalPair.isPresent()){
-            return addPointToAlreadyExistingCurrency(point, optionalPair.get());
-        } else {
-            return "CurrencyPair not found.";
+    private void saveDataPoint(CurrencyPairDataPoint point, String currencyPairName){
+        if(checkCurrencyPairDataPoint(point)) {
+            Optional<CurrencyPair> optionalPair = getCurrencyPair(currencyPairName);
+            if (optionalPair.isPresent()) {
+                addPointToAlreadyExistingCurrency(point, optionalPair.get());
+            }
         }
+    }
+
+    private boolean checkCurrencyPairDataPoint(CurrencyPairDataPoint point){
+        if(point.getTimeStamp() == null) return false;
+        else return true;
     }
 
     private Optional<CurrencyPair> getCurrencyPair(String currencyPairName) {
