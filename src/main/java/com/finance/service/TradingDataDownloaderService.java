@@ -43,20 +43,17 @@ public class TradingDataDownloaderService {
     }
 
     private void addCurrencyPairHistoryPoints(List<PairDto> currencies) {
+        if(currencies == null) return;
+        if(currencies.size() == 0) return;
+        if(currencies.get(0).getPairName() == null) return;
+
         String pairName = currencies.get(0).getPairName();
 
-        DatabaseResponse databaseResponse = currencyPairService.getCurrencyPair(currencies.get(0).getPairName());
+        CurrencyPair currencyPair = currencyPairService.getCurrencyPair(pairName);
 
-        CurrencyPair currencyPair = null;
-        if(databaseResponse.isOK()){
-            if(databaseResponse.getRequestedObjects().size()==1){
-                DatabaseEntity databaseEntity = databaseResponse.getRequestedObjects().get(0);
-                if(databaseEntity instanceof CurrencyPair){
-                    currencyPair = (CurrencyPair) databaseEntity;
-                }
-            }
+        if(currencyPair != null) {
+            addHistoryPoints(currencies, currencyPair);
         }
-        addHistoryPoints(currencies, currencyPair);
     }
 
     private void addHistoryPoints(List<PairDto> currencies, CurrencyPair currencyPair) {
