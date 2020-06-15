@@ -6,9 +6,9 @@ import com.finance.domain.CurrencyPair;
 import com.finance.domain.CurrencyPairDataPoint;
 import com.finance.service.database.CurrencyPairDataPointService;
 import com.finance.service.database.CurrencyPairService;
-import com.finance.service.tradingDataDownloaderUtilities.CurrencyPairAssembler;
-import com.finance.service.tradingDataDownloaderUtilities.PairDto;
-import com.finance.service.tradingDataDownloaderUtilities.TradingApiProcessor;
+import com.finance.service.tradingdatadownloaderutilities.CurrencyPairAssembler;
+import com.finance.service.tradingdatadownloaderutilities.PairDto;
+import com.finance.service.tradingdatadownloaderutilities.TradingApiProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -44,7 +44,7 @@ public class TradingDataDownloaderService {
 
     private void addCurrencyPairHistoryPoints(List<PairDto> currencies) {
         if(currencies == null) return;
-        if(currencies.size() == 0) return;
+        if(currencies.isEmpty()) return;
         if(currencies.get(0).getPairName() == null) return;
 
         String pairName = currencies.get(0).getPairName();

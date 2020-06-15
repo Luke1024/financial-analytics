@@ -40,7 +40,6 @@ public class CurrencyPair {
     }
 
     public CurrencyPair(String currencyPairName, List<CurrencyPairDataPoint> pairDataPoints) {
-        this.id = id;
         this.currencyPairName = currencyPairName;
         this.currencyPairDataPoints = pairDataPoints;
     }

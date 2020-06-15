@@ -27,7 +27,7 @@ public class PersonalDataService {
         if(retrievedUser.isPresent()) {
             return retrievedUser.get().getUserData();
         } else {
-            System.out.println("returning empty personalData");
+            //System.out.println("returning empty personalData");
             return new UserData();
         }
     }
@@ -36,12 +36,12 @@ public class PersonalDataService {
         Optional<User> retrievedUser = userRepository.findById(personalDataDto.getUserId());
         if(retrievedUser.isPresent()){
             User user = retrievedUser.get();
-            UserData userData = personalDataMapper.mapToPersonalDataWithUser(personalDataDto, user);
+            UserData userData = personalDataMapper.mapToPersonalDataWithUser(personalDataDto);
             user.setUserData(userData);
             user = userRepository.save(retrievedUser.get());
             return user.getUserData();
         } else {
-            System.out.println("user not found");
+            //System.out.println("user not found");
             return new UserData();
         }
     }

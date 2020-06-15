@@ -4,18 +4,15 @@ import com.finance.domain.CurrencyPairDataPoint;
 import com.finance.domain.dto.PairDataRequest;
 import com.finance.repository.CurrencyPairHistoryPointRepository;
 import com.finance.repository.CurrencyPairRepository;
-import com.finance.service.database.pairDataPointServiceUtilities.DataPointAdder;
-import com.finance.service.database.pairDataPointServiceUtilities.PairHistoryRetriever;
+import com.finance.service.database.pairdatapointserviceutilities.DataPointAdder;
+import com.finance.service.database.pairdatapointserviceutilities.PairHistoryRetriever;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service
 public class CurrencyPairDataPointService {
-
-    private static final ChronoUnit defaultChronoUnitUsedForTimeStampCalculation = ChronoUnit.HOURS;
 
     @Autowired
     private CurrencyPairHistoryPointRepository repository;

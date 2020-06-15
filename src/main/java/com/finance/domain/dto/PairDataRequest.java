@@ -1,8 +1,6 @@
 package com.finance.domain.dto;
 
-import com.finance.domain.dto.currencyPair.PointTimeFrame;
-
-import java.time.LocalDateTime;
+import com.finance.domain.dto.currencypair.PointTimeFrame;
 
 public class PairDataRequest {
     private String currencyName;

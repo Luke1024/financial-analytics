@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @Service
@@ -19,6 +21,8 @@ public class TradingAccountService {
 
     @Autowired
     private UserService userService;
+
+    private Logger logger = Logger.getLogger(TradingAccountService.class.getName());
 
     public List<TradingAccount> getAllTradingAccounts() {
         return tradingAccountRepository.findAll();
@@ -45,14 +49,14 @@ public class TradingAccountService {
             TradingAccountLeverageModDto tradingAccountLeverageModDto) {
         User retrievedUser = userService.getUserById(tradingAccountLeverageModDto.getUserId());
         List<TradingAccount> retrievedAccount = retrievedUser.getTradingAccounts()
-                .stream().filter(account -> account.getId()==tradingAccountLeverageModDto.getAccountId())
+                .stream().filter(account -> account.getId().equals(tradingAccountLeverageModDto.getAccountId()))
                 .collect(Collectors.toList());
         if(! retrievedAccount.isEmpty()){
             TradingAccount tradingAccount = retrievedAccount.get(0);
             tradingAccount.setLeverage(tradingAccountLeverageModDto.getLeverage());
             return tradingAccountRepository.save(tradingAccount);
         } else {
-            System.out.println("trading account not found");
+            logger.log(Level.WARNING,"trading account not found");
             return new TradingAccount();
         }
     }
@@ -63,7 +67,7 @@ public class TradingAccountService {
             retrievedUser.getTradingAccounts().add(tradingAccount);
             userService.saveUser(retrievedUser);
         } else {
-            System.out.println("User not found");
+            logger.log(Level.WARNING,"User not found");
         }
     }
 
@@ -73,7 +77,7 @@ public class TradingAccountService {
             retrievedTradingAccount.get().setArchiveTime(LocalDateTime.now());
             tradingAccountRepository.save(retrievedTradingAccount.get());
         } else {
-            System.out.println("Trading account not found.");
+            logger.log(Level.WARNING,"Trading account not found.");
         }
     }
 }

@@ -25,7 +25,7 @@ public class CalculatingService {
             valueOpen = order.getCurrencyPairDataPointOpen().getValue();
             valueCurrent = getLastValue(order.getCurrencyPair());
             longShort = order.getLongShort();
-        } catch (Exception e) { }
+        } catch (Exception e){}
 
         if(longShort==LongShort.LONG) {
             computedValue = lot * 100000 * (valueCurrent - valueOpen);

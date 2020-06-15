@@ -32,7 +32,7 @@ public class UserController {
     }
 
     @PutMapping(value = "/users/logout/{userId}")
-    public User logOutUser(@PathVariable Long userId) throws Exception {
+    public User logOutUser(@PathVariable Long userId) {
         return userService.logOutUser(userId);
     }
 

@@ -8,18 +8,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Service
 public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    private Logger logger = Logger.getLogger(UserService.class.getName());
+
     public User getUserById(Long userId){
         Optional<User> retrievedUser = userRepository.findById(userId);
         if(retrievedUser.isPresent()){
             return retrievedUser.get();
         } else {
-            System.out.println("user not found");
+            logger.log(Level.INFO,"user not found");
             return new User();
         }
     }
@@ -39,7 +43,7 @@ public class UserService {
         if(userRetrieved.isPresent()){
             return userRetrieved.get();
         } else {
-            System.out.println("User not found");
+            logger.log(Level.INFO,"User not found");
             return new User();
         }
     }
@@ -52,11 +56,11 @@ public class UserService {
                 userRepository.save(retrievedUser.get());
                 return userRepository.findUserByEmail(loginDto.getEmail()).get();
             } else {
-                System.out.println("password incorrect");
+                logger.log(Level.INFO,"password incorrect");
                 return new User();
             }
         } else {
-            System.out.println("user not found");
+            logger.log(Level.INFO,"user not found");
             return new User();
         }
     }
@@ -67,7 +71,7 @@ public class UserService {
             retrievedUser.get().setUserLoggedIn(false);
             return userRepository.save(retrievedUser.get());
         } else {
-            System.out.println("user not found");
+            logger.log(Level.INFO, "user not found");
             return new User();
         }
     }
@@ -79,11 +83,11 @@ public class UserService {
                 retrievedUser.get().setPassword(passwordChangerDto.getNewPassword());
                 return userRepository.save(retrievedUser.get());
             } else {
-                System.out.println("password is incorrect");
+                logger.log(Level.INFO,"password is incorrect");
                 return new User();
             }
         } else {
-            System.out.println("user not found");
+            logger.log(Level.INFO,"user not found");
             return new User();
         }
     }

@@ -5,7 +5,7 @@ import com.finance.service.database.CurrencyPairService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @CrossOrigin("*")
@@ -26,6 +26,6 @@ public class CurrencyPairController {
         if(currencyPairs != null) {
             return currencyPairMapper.mapToPairsStringList(currencyPairs);
         }
-        return null;
+        return Collections.emptyList();
     }
 }

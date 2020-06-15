@@ -1,7 +1,6 @@
 package com.finance.mapper;
 
 import com.finance.domain.UserData;
-import com.finance.domain.User;
 import com.finance.domain.dto.PersonalDataDto;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +16,7 @@ public class PersonalDataMapper {
                 userData.getHomeNumber(),
                 userData.getPhoneNumber());
     }
-    public UserData mapToPersonalDataWithUser(PersonalDataDto personalDataDto, User user) {
+    public UserData mapToPersonalDataWithUser(PersonalDataDto personalDataDto) {
         return new UserData(personalDataDto.getFirstName(),
                 personalDataDto.getLastName(),
                 personalDataDto.getVoivodeship(),

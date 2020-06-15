@@ -3,7 +3,7 @@ package com.finance.service.database;
 import com.finance.domain.CurrencyPair;
 import com.finance.domain.CurrencyPairDataPoint;
 import com.finance.domain.dto.PairDataRequest;
-import com.finance.domain.dto.currencyPair.PointTimeFrame;
+import com.finance.domain.dto.currencypair.PointTimeFrame;
 import com.finance.service.database.communicationObjects.DatabaseResponse;
 import org.junit.Assert;
 import org.junit.Test;

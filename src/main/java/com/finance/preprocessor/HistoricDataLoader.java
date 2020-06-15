@@ -1,7 +1,7 @@
 package com.finance.preprocessor;
 
 import com.finance.preprocessor.utilities.*;
-import com.finance.preprocessor.utilities.currencyReaderExtractor.CurrencyReaderExtractor;
+import com.finance.preprocessor.utilities.currencyreaderextractor.CurrencyReaderExtractor;
 import com.finance.preprocessor.utilities.DataBaseLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

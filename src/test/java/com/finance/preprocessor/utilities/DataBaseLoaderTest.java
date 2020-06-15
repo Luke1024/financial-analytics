@@ -3,7 +3,7 @@ package com.finance.preprocessor.utilities;
 import com.finance.domain.CurrencyPair;
 import com.finance.domain.CurrencyPairDataPoint;
 import com.finance.domain.dto.PairDataRequest;
-import com.finance.domain.dto.currencyPair.PointTimeFrame;
+import com.finance.domain.dto.currencypair.PointTimeFrame;
 import com.finance.service.database.CurrencyPairDataPointService;
 import com.finance.service.database.CurrencyPairService;
 import com.finance.service.database.communicationObjects.DatabaseEntity;

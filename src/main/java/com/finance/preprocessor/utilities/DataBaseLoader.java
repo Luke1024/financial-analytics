@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -60,8 +59,7 @@ public class DataBaseLoader {
 
     private boolean isCurrencyAlreadyExistInDatabase(String currencyPairName){
         CurrencyPair currencyPair = currencyPairService.getCurrencyPair(currencyPairName);
-        if(currencyPair == null) return false;
-        else return true;
+        return currencyPair == null;
     }
 
     private boolean createCurrencyPair(String currencyPairName){
@@ -82,8 +80,7 @@ public class DataBaseLoader {
 
     private boolean checkIfCurrencyPairExist(String currencyPairName){
         CurrencyPair currencyPair = currencyPairService.getCurrencyPair(currencyPairName);
-        if(currencyPair != null) return true;
-        else return false;
+        return currencyPair != null;
     }
 
     private void loadDataPoints(List<CurrencyPairDataPoint> dataPoints, String currencyPairName){
