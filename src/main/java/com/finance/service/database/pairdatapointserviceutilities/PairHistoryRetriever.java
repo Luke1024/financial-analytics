@@ -37,12 +37,15 @@ public class PairHistoryRetriever {
         }
 
         CurrencyPair currencyPair = getCurrencyPair(pairDataRequest);
-        if(currencyPair == null) return Collections.emptyList();
+        if(currencyPair == null) {
+            logger.log(Level.WARNING, "CurrencyPair " + pairDataRequest.getCurrencyName() + "not found.");
+            return Collections.emptyList();
+        }
 
-        Optional<CurrencyPairDataPoint> lastDataPoint = getLastDataPoint(currencyPair);
-        if( ! lastDataPoint.isPresent()) return Collections.emptyList();
+        CurrencyPairDataPoint lastDataPoint = getLastDataPoint(currencyPair);
+        if(lastDataPoint == null) return Collections.emptyList();
 
-        CurrencyPairDataPoint lastStartingPoint = getLastStartingPoint(lastDataPoint.get().getTimeStamp(), pairDataRequest, currencyPair.getId());
+        CurrencyPairDataPoint lastStartingPoint = getLastStartingPoint(lastDataPoint.getTimeStamp(), pairDataRequest, currencyPair.getId());
         int dataPointSize = limitTooLargeRequest(pairDataRequest.getNumberOfDataPoints());
         PointTimeFrame timeFrame = pairDataRequest.getPointTimeFrame();
         long currencyPairId = currencyPair.getId();
@@ -74,8 +77,14 @@ public class PairHistoryRetriever {
         }
     }
 
-    private Optional<CurrencyPairDataPoint> getLastDataPoint(CurrencyPair pair){
-        return repository.getLastDataPoint(pair.getId());
+    private CurrencyPairDataPoint getLastDataPoint(CurrencyPair pair){
+        Optional<CurrencyPairDataPoint> currencyPairDataPoint = repository.getLastDataPoint(pair.getId());
+        if(currencyPairDataPoint.isPresent()){
+            return currencyPairDataPoint.get();
+        } else {
+            logger.log(Level.WARNING, "Last datapoint in CurrencyPair " + pair.getCurrencyPairName() + " not found.");
+            return null;
+        }
     }
 
     private CurrencyPairDataPoint getLastStartingPoint(LocalDateTime lastPointInDataset,

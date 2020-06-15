@@ -4,7 +4,6 @@ import com.finance.domain.CurrencyPair;
 import com.finance.domain.CurrencyPairDataPoint;
 import com.finance.domain.dto.PairDataRequest;
 import com.finance.domain.dto.currencypair.PointTimeFrame;
-import com.finance.service.database.communicationObjects.DatabaseResponse;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,10 +13,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -50,90 +47,49 @@ public class CurrencyPairDataPointServiceTest {
 
     @Test
     public void getCurrencyPairHistory_CurrencyNameNull(){
-        PairDataRequest pairDataRequest = new PairDataRequest(null, 5,PointTimeFrame.D1, LocalDateTime.now());
+        PairDataRequest pairDataRequest = new PairDataRequest(null, 5,PointTimeFrame.D1, 0);
 
-        DatabaseResponse response = currencyPairDataPointService.getCurrencyPairHistory(pairDataRequest);
+        List<CurrencyPairDataPoint> receivedCurrencyPairHistory = currencyPairDataPointService.getCurrencyPairHistory(pairDataRequest);
 
-        Assert.assertEquals(null, response.getRequestedObjects());
-        Assert.assertEquals("CurrencyName is null.", response.getLog());
-        Assert.assertEquals(false, response.isOK());
+        Assert.assertEquals(Collections.emptyList(),receivedCurrencyPairHistory);
     }
 
     @Test
     public void getCurrencyPairHistory_requestedNumberOfDataPointsIsZero(){
-        PairDataRequest pairDataRequest = new PairDataRequest("sdasd", 0, PointTimeFrame.D1, LocalDateTime.now());
+        PairDataRequest pairDataRequest = new PairDataRequest("sdasd", 0, PointTimeFrame.D1, 0);
 
-        DatabaseResponse response = currencyPairDataPointService.getCurrencyPairHistory(pairDataRequest);
+        List<CurrencyPairDataPoint> receivedCurrencyPairHistory = currencyPairDataPointService.getCurrencyPairHistory(pairDataRequest);
 
-        Assert.assertEquals(null, response.getRequestedObjects());
-        Assert.assertEquals("Number of data points requested is 0.", response.getLog());
-        Assert.assertEquals(false, response.isOK());
-    }
-
-    @Test
-    public void getCurrencyPairHistory_requestedNumberOfDataPointsIsLargerThanZero(){
-        String randomName = generateRandomString();
-        if(isPairExist(randomName)){
-            getCurrencyPairHistory_requestedNumberOfDataPointsIsLargerThanZero();
-        }
-
-        PairDataRequest pairDataRequest = new PairDataRequest(randomName,1,PointTimeFrame.D1, LocalDateTime.now());
-
-        DatabaseResponse response = currencyPairDataPointService.getCurrencyPairHistory(pairDataRequest);
-
-        Assert.assertEquals(null, response.getRequestedObjects());
-        Assert.assertEquals("CurrencyPair not found.", response.getLog());
-        Assert.assertEquals(false, response.isOK());
+        Assert.assertEquals(Collections.emptyList(), receivedCurrencyPairHistory);
     }
 
     @Test
     public void getCurrencyPairHistory_PointTimeFrameIsNull(){
-        PairDataRequest pairDataRequest = new PairDataRequest("asfadfaf", 2, null, LocalDateTime.now());
+        PairDataRequest pairDataRequest = new PairDataRequest("asfadfaf", 2, null, 0);
 
-        DatabaseResponse response = currencyPairDataPointService.getCurrencyPairHistory(pairDataRequest);
+        List<CurrencyPairDataPoint> receivedCurrencyPairHistory = currencyPairDataPointService.getCurrencyPairHistory(pairDataRequest);
 
-        Assert.assertEquals(null, response.getRequestedObjects());
-        Assert.assertEquals("PointTimeFrame is null.", response.getLog());
-        Assert.assertEquals(false, response.isOK());
-    }
-
-    @Test
-    public void getCurrencyPairHistory_fromLastPointFalse_adoptedLastPointIsNull(){
-        PairDataRequest pairDataRequest = new PairDataRequest("asdasdad", 3, PointTimeFrame.D1,null);
-
-        DatabaseResponse response = currencyPairDataPointService.getCurrencyPairHistory(pairDataRequest);
-
-        Assert.assertEquals(null, response.getRequestedObjects());
-        Assert.assertEquals("LocalDateTime adoptedLastPoint is null.", response.getLog());
-        Assert.assertEquals(false, response.isOK());
+        Assert.assertEquals(Collections.emptyList(),receivedCurrencyPairHistory);
     }
 
     @Test
     public void getCurrencyPairHistory_CurrencyPairNotExists(){
         String randomName = generateRandomString();
-        if(isPairExist(randomName)){
-            getCurrencyPairHistory_CurrencyPairNotExists();
-        }
 
-        PairDataRequest pairDataRequest = new PairDataRequest(randomName, 3, PointTimeFrame.D1);
+        PairDataRequest pairDataRequest = new PairDataRequest(randomName, 3, PointTimeFrame.D1,0);
 
-        DatabaseResponse response = currencyPairDataPointService.getCurrencyPairHistory(pairDataRequest);
+        List<CurrencyPairDataPoint> receivedCurrencyPairHistory = currencyPairDataPointService.getCurrencyPairHistory(pairDataRequest);
 
-        Assert.assertEquals(null, response.getRequestedObjects());
-        Assert.assertEquals("CurrencyPair not found.", response.getLog());
-        Assert.assertEquals(false, response.isOK());
+        Assert.assertEquals(Collections.emptyList(),receivedCurrencyPairHistory);
     }
 
     @Test
     public void getCurrencyPairHistory_Adding_Deleting(){
         String randomName = generateRandomString();
-        if(isPairExist(randomName)){
-            getCurrencyPairHistory_CurrencyPairNotExists();
-        }
 
         CurrencyPair newPair = new CurrencyPair(randomName);
 
-        DatabaseResponse savingResponse = currencyPairService.saveCurrencyPair(newPair, false);
+        currencyPairService.saveCurrencyPair(newPair, false);
 
         LocalDateTime localDateTime1 = LocalDateTime.of(2020,1,1,12,0);
         LocalDateTime localDateTime2 = LocalDateTime.of(2020,1,1,13,0);
@@ -154,22 +110,14 @@ public class CurrencyPairDataPointServiceTest {
                 currencyPairDataPoint4,
                 currencyPairDataPoint5);
 
-        DatabaseResponse savingPointResponse = currencyPairDataPointService.addDataPoints(dataPointsToSave, randomName);
+        currencyPairDataPointService.addDataPoints(dataPointsToSave, randomName);
 
-        Assert.assertEquals("", savingPointResponse.getLog());
-        Assert.assertEquals(true, savingPointResponse.isOK());
+        PairDataRequest pairDataRequest = new PairDataRequest(randomName, 5, PointTimeFrame.H1, 0);
 
-        PairDataRequest pairDataRequest = new PairDataRequest(randomName, 5, PointTimeFrame.H1);
-
-        DatabaseResponse requestingResponse = currencyPairDataPointService.getCurrencyPairHistory(pairDataRequest);
-        System.out.println("Requesting response " + requestingResponse.getLog());
-        Assert.assertEquals(true, requestingResponse.isOK());
-
-        DatabaseResponse deletingResponse = currencyPairService.deleteById(newPair.getId());
-        Assert.assertEquals(true, deletingResponse.isOK());
-
-        DatabaseResponse checkingIfDeletedResponse = currencyPairService.getCurrencyPair(randomName);
-        Assert.assertEquals("CurrencyPair not found.", checkingIfDeletedResponse.getLog());
+        List<CurrencyPairDataPoint> receivedPairDataPoints =
+                currencyPairDataPointService.getCurrencyPairHistory(pairDataRequest);
+        Assert.assertEquals(dataPointsToSave.stream().map(point -> point.toString()).collect(Collectors.joining()),
+                receivedPairDataPoints.stream().map(point -> point.toString()).collect(Collectors.joining()));
     }
 
     private String generateRandomString(){
@@ -183,78 +131,4 @@ public class CurrencyPairDataPointServiceTest {
                 .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
                 .toString();
     }
-
-    private boolean isPairExist(String name){
-        DatabaseResponse response = currencyPairService.getCurrencyPair(name);
-        try {
-            if(response.getRequestedObjects().size()>0){
-                return true;
-            }
-        } catch (Exception e){
-            return false;
-        }
-        return false;
-    }
-
-
-/*
-    @Test
-    public void getCurrencyPairHistoryFromLast(){
-        currencyPairDataPointService.addDataPoints((Arrays.asList(
-                currencyPairDataPoint1,
-                currencyPairDataPoint2,
-                currencyPairDataPoint3,
-                currencyPairDataPoint4,
-                currencyPairDataPoint5)), true);
-
-        PairDataRequestDto pairDataRequestDto = new PairDataRequestDto("EUR/USD", 3, PointTimeFrame.H1);
-
-        List<CurrencyPairDataPoint> currencyPairDataPoints = currencyPairDataPointService.getCurrencyPairHistory(pairDataRequestDto);
-
-        List<CurrencyPairDataPoint> expectedPoints = Arrays.asList(
-                currencyPairDataPoint3,
-                currencyPairDataPoint4,
-                currencyPairDataPoint5
-        );
-
-        Assert.assertEquals(expectedPoints,currencyPairDataPoints);
-
-        currencyPairRepository.deleteById(currencyPairDataPoint1.getPointId());
-        currencyPairRepository.deleteById(currencyPairDataPoint2.getPointId());
-        currencyPairRepository.deleteById(currencyPairDataPoint3.getPointId());
-        currencyPairRepository.deleteById(currencyPairDataPoint4.getPointId());
-        currencyPairRepository.deleteById(currencyPairDataPoint5.getPointId());
-    }
-
-    @Test
-    public void testAddHistoryPoint() {
-        /*
-        CurrencyPair currencyPair = new CurrencyPair(42L,"EUR/USD");
-        LocalDateTime localDateTime1 = LocalDateTime.of(2020,1,1,12,0);
-        CurrencyPairDataPoint currencyPairDataPoint1 = new CurrencyPairDataPoint(localDateTime1, 2.0, currencyPair);
-
-        when(currencyPairRepository.findByCurrencyName("EUR/USD"))
-                .thenReturn(java.util.Optional.ofNullable(currencyPair));
-
-        when(currencyPairHistoryPointRepository.findPointByDate(localDateTime1,42))
-                .thenReturn(java.util.Optional.of(currencyPairDataPoint1));
-
-        List<CurrencyPairDataPoint> inputPoints = new ArrayList<>(Arrays.asList(currencyPairDataPoint1, currencyPairDataPoint1));
-
-        currencyPairDataPointService.addHistoryPoints(inputPoints);
-
-        currencyPairRepository.save(currencyPair);
-
-        for (CurrencyPairDataPoint point : currencyPairDataPoints) {
-            currencyPairHistoryPointRepository.save(point);
-        }
-/*
-        PairHistoryRequestDto pairHistoryRequestDto = new PairHistoryRequestDto(
-                "EUR/USD", true,
-        );
-
-        currencyPairDataPointService.getCurrencyPairHistory();
-    }
-
- */
 }

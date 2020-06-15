@@ -28,6 +28,6 @@ public class CurrencyReaderExtractorTest {
         List<CurrencyPairDataPack> currencyPairDataPack = currencyReaderExtractor.readAndProcess(Arrays.asList(currencyFile), ChronoUnit.HOURS, ChronoUnit.MINUTES);
 
         Assert.assertEquals(1, currencyPairDataPack.size());
-        Assert.assertEquals(100,currencyPairDataPack.get(0).getDataPointList().size());
+        Assert.assertEquals(2085,currencyPairDataPack.get(0).getDataPointList().size());
     }
 }

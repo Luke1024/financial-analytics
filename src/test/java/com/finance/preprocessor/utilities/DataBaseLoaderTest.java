@@ -6,14 +6,13 @@ import com.finance.domain.dto.PairDataRequest;
 import com.finance.domain.dto.currencypair.PointTimeFrame;
 import com.finance.service.database.CurrencyPairDataPointService;
 import com.finance.service.database.CurrencyPairService;
-import com.finance.service.database.communicationObjects.DatabaseEntity;
-import com.finance.service.database.communicationObjects.DatabaseResponse;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -44,9 +43,6 @@ public class DataBaseLoaderTest {
 
 
         String randomName = generateRandomString();
-        if(isPairExist(randomName)){
-            loadingTest();
-        }
 
         List<DataPoint> dataPoints = new ArrayList<>(
                 Arrays.asList(
@@ -70,18 +66,18 @@ public class DataBaseLoaderTest {
 
         dataBaseLoader.load(new ArrayList<>(Arrays.asList(currencyPairDataPack)));
 
-        DatabaseResponse response = currencyPairService.getCurrencyPair(randomName);
+        CurrencyPair receivedCurrencyPair = currencyPairService.getCurrencyPair(randomName);
 
-        Assert.assertEquals(true, response.isOK());
+        System.out.println("info " + receivedCurrencyPair);
 
-        PairDataRequest pairDataRequest = new PairDataRequest(randomName,3, PointTimeFrame.H1);
+        Assert.assertNotNull(receivedCurrencyPair);
 
-        DatabaseResponse databaseResponse = currencyPairDataPointService.getCurrencyPairHistory(pairDataRequest);
+        PairDataRequest pairDataRequest = new PairDataRequest(randomName,3, PointTimeFrame.H1,0);
 
-        List<DatabaseEntity> receivedDataPoints = databaseResponse.getRequestedObjects().stream()
-                .map(point -> (CurrencyPairDataPoint) point).collect(Collectors.toList());
+        List<CurrencyPairDataPoint> currencyPairHistory = currencyPairDataPointService.getCurrencyPairHistory(pairDataRequest);
 
-        Assert.assertEquals(currencyPairDataPointExpected.toString(), receivedDataPoints.toString());
+        Assert.assertEquals(currencyPairDataPointExpected.stream().map(point -> point.toString()).collect(Collectors.joining()),
+                currencyPairHistory.stream().map(point -> point.toString()).collect(Collectors.joining()));
     }
 
     private String generateRandomString(){
@@ -97,14 +93,7 @@ public class DataBaseLoaderTest {
     }
 
     private boolean isPairExist(String name){
-        DatabaseResponse response = currencyPairService.getCurrencyPair(name);
-        try {
-            if(response.getRequestedObjects().size()>0){
-                return true;
-            }
-        } catch (Exception e){
-            return false;
-        }
-        return false;
+        CurrencyPair receivedCurrencyPair = currencyPairService.getCurrencyPair(name);
+        return receivedCurrencyPair != null;
     }
 }

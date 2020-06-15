@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Service
 public class DataPointAdder {
@@ -18,6 +20,8 @@ public class DataPointAdder {
 
     @Autowired
     private CurrencyPairRepository currencyPairRepository;
+
+    private Logger logger = Logger.getLogger(DataPointAdder.class.getName());
 
     private boolean overwrite;
 
@@ -37,12 +41,14 @@ public class DataPointAdder {
             Optional<CurrencyPair> optionalPair = getCurrencyPair(currencyPairName);
             if (optionalPair.isPresent()) {
                 addPointToAlreadyExistingCurrency(point, optionalPair.get());
+            } else {
+                logger.log(Level.WARNING, "CurrencyPair " + currencyPairName + " not found.");
             }
         }
     }
 
     private boolean checkCurrencyPairDataPoint(CurrencyPairDataPoint point){
-        return point.getTimeStamp() == null;
+        return point.getTimeStamp() != null;
     }
 
     private Optional<CurrencyPair> getCurrencyPair(String currencyPairName) {

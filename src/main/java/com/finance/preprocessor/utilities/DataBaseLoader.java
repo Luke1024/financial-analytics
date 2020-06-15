@@ -35,8 +35,20 @@ public class DataBaseLoader {
     }
 
     private void loadPackToDatabase(CurrencyPairDataPack pack){
+        if(pack == null){
+            logger.log(Level.WARNING, "CurrencyPairDataPack is null.");
+            return;
+        }
+        if(pack.getCurrencyPairName() == null){
+            logger.log(Level.WARNING, "CurrencyPairName in DataPack is null.");
+            return;
+        }
         String currencyPairName = pack.getCurrencyPairName();
+        if(pack.getDataPointList() == null){
+            logger.log(Level.WARNING, "DataPointList in DataPack is null.");
+        }
         List<DataPoint> dataPointList = pack.getDataPointList();
+
         List<CurrencyPairDataPoint> currencyPairDataPoints = mapDataPointsToCurrencyPairDataPoints(dataPointList);
 
         if(isCurrencyAlreadyExistInDatabase(currencyPairName)){
@@ -59,7 +71,7 @@ public class DataBaseLoader {
 
     private boolean isCurrencyAlreadyExistInDatabase(String currencyPairName){
         CurrencyPair currencyPair = currencyPairService.getCurrencyPair(currencyPairName);
-        return currencyPair == null;
+        return currencyPair != null;
     }
 
     private boolean createCurrencyPair(String currencyPairName){
