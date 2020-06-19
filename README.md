@@ -12,15 +12,18 @@ Trading and analytics application using Spring Boot and Vaadin.
 * [Contact](#contact)
 
 ## General info
-Add more general information about project. What the purpose of the project is? Motivation?
+
+The purpose of this application is to enable forex and stock market trading training and to present analyzes and predictions.
+I program this application to learn full-stack development. I was a trader before, so the idea came to me naturally.
 
 ## Screenshots
 ![Example screenshot](./img/screenshot.png)
 
 ## Technologies
-* Tech 1 - version 1.0
-* Tech 2 - version 2.0
-* Tech 3 - version 3.0
+-java 8 
+-spring boot
+-Vaadin
+-Mysql
 
 ## Setup
 Describe how to install / setup your local environement / add link to demo version.
@@ -30,20 +33,30 @@ Show examples of usage:
 `put-your-code-here`
 
 ## Features
-List of features ready and TODOs for future development
-* Awesome feature 1
-* Awesome feature 2
-* Awesome feature 3
+Features working:
+-drawing currency pair charts on main page
+-parsing csv files compatible with metatrader4
+
+Planned features:
+-trading on forex and stock market
+-simple analysis with basic indicators
+-analysis with neural network trained in keras
+-chat between users
+-order tracking between user
 
 To-do list:
 * Wow improvement to be done 1
 * Wow improvement to be done 2
 
 ## Status
-Project is: _in progress_, _finished_, _no longer continue_ and why?
-
-## Inspiration
-Add here credits. Project inspired by..., based on...
+Working:
+-main page drawing charts
+To do soon:
+-optimize chart drawing
+-implement caching of data for faster retrieving
+-add login and sign with sending email 
+-build user dashboard enabling trading
+-build email notifier when order hit stoploss or takeprofit
 
 ## Contact
 Created by [@flynerdpl](https://www.flynerd.pl/) - feel free to contact me!
