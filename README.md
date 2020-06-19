@@ -20,10 +20,10 @@ I program this application to learn full-stack development. I was a trader befor
 ![Example screenshot](./img/screenshot.png)
 
 ## Technologies
--java 8 
--spring boot
--Vaadin
--Mysql
+* -java 8 
+* -spring boot
+* -Vaadin
+* -Mysql
 
 ## Setup
 Describe how to install / setup your local environement / add link to demo version.
