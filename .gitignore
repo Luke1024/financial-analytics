@@ -32,3 +32,4 @@ out/
 .vscode/
 /src/main/java/com/finance/preprocessor/data/eurgbp/
 /src/main/java/com/finance/preprocessor/data/eurusd/
+/src/main/resources/data/
