@@ -1,6 +1,7 @@
 package com.finance.preprocessor.utilities.currencyreaderextractor.utilities;
 
 import com.finance.preprocessor.utilities.DataPoint;
+import com.finance.preprocessor.utilities.DataPointPack;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,15 @@ public class TimeFrameExtractor {
         List<DataPoint> dataPointsWithoutGaps = gapFiller.fill(dataPointList, inputTimeFrame);
 
         return getRequiredTimeFrame(dataPointsWithoutGaps, outputTimeFrame);
+    }
+
+    private List<DataPoint> packsSerialized(List<DataPointPack> dataPointPacks){
+        List<DataPoint> packsSerialized = new ArrayList<>();
+
+        for(DataPointPack dataPointPack : dataPointPacks){
+            packsSerialized.addAll(dataPointPack.getDataPointList());
+        }
+        return packsSerialized;
     }
 
     private List<DataPoint> getRequiredTimeFrame(List<DataPoint> dataPoints, ChronoUnit outputTimeFrame){

@@ -3,6 +3,7 @@ package com.finance.preprocessor.utilities.currencyreaderextractor.utilities;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,9 +16,9 @@ public class CsvReader {
 
     private Logger logger = Logger.getLogger(CsvReader.class.getName());
 
-    public List<List<String>> read(String filename){
+    public List<List<String>> read(File file){
         List<List<String>> records = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(",");

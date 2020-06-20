@@ -38,6 +38,7 @@ public class GapFillerTest {
     private DataPoint dataPoint7 = new DataPoint(date7, 5.5);
 
 
+    /*
     @Test
     public void testGapFillingSingleGap(){
         List<DataPoint> dataPointsWithGap = new ArrayList<>(Arrays.asList(dataPoint1, dataPoint7));
@@ -68,6 +69,7 @@ public class GapFillerTest {
         Assert.assertEquals(dataPointsExpected.toString(), dataPointsWithFilledGap.toString());
     }
 
+    */
     @Test
     public void testGapFillingDatasetEmty(){
         List<DataPoint> dataPoints = new ArrayList<>();

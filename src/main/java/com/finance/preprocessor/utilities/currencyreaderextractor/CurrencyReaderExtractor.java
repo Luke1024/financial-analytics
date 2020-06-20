@@ -1,12 +1,15 @@
 package com.finance.preprocessor.utilities.currencyreaderextractor;
 
+import com.finance.domain.CurrencyPairDataPoint;
 import com.finance.preprocessor.CurrencyFile;
+import com.finance.preprocessor.utilities.DataPointPack;
 import com.finance.preprocessor.utilities.currencyreaderextractor.utilities.*;
 import com.finance.preprocessor.utilities.CurrencyPairDataPack;
 import com.finance.preprocessor.utilities.DataPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,45 +29,17 @@ public class CurrencyReaderExtractor {
     private TimeFrameExtractor timeFrameExtractor;
     @Autowired
     private GapFiller gapFiller;
-    @Autowired
-    private FilePathExtractor pathExtractor;
 
-    public List<CurrencyPairDataPack> readAndProcess(List<CurrencyFile> files, ChronoUnit requiredOutputTimeFrame,
-                                                     ChronoUnit inputTimeFrame) {
+    public List<DataPoint> readAndProcess(File file, ChronoUnit requiredOutputTimeFrame, ChronoUnit inputTimeFrame) {
 
-        List<CurrencyPairDataPack> currencyPairDataPacks = new ArrayList<>();
+        logger.log(Level.INFO, "Reading file : " + file.getName());
+        List<List<String>> output = csvReader.read(file);
+        List<DataPoint> dataPoints = dataPointExtractor.extract(output);
 
-        for (CurrencyFile currencyFile : files) {
-            currencyPairDataPacks.add(extractCurrencyPairDataFromFolder(currencyFile, requiredOutputTimeFrame, inputTimeFrame));
-        }
+        List<DataPoint> dataPointsWithoutGaps = gapFiller.fill(dataPoints,inputTimeFrame);
 
-        return currencyPairDataPacks;
+        return timeFrameExtractor.extract(dataPointsWithoutGaps, requiredOutputTimeFrame, inputTimeFrame);
     }
 
-    private CurrencyPairDataPack extractCurrencyPairDataFromFolder(
-            CurrencyFile currencyFile, ChronoUnit requiredOutputTimeFrame, ChronoUnit inputTimeFrame){
 
-        List<DataPoint> extractedDataPoints = null;
-
-        List<String> pathsToFiles = pathExtractor.extractPathsToFilesInFolder(currencyFile.getFolderPath());
-        if(pathsToFiles != null)
-            extractedDataPoints = extractAndProcessDataPoints(pathsToFiles, requiredOutputTimeFrame, inputTimeFrame);
-        else {
-            logger.log(Level.SEVERE, "Skipping CurrencyFile: " + currencyFile.getPairName());
-        }
-
-        return new CurrencyPairDataPack(currencyFile.getPairName(), requiredOutputTimeFrame, extractedDataPoints);
-    }
-
-    private List<DataPoint> extractAndProcessDataPoints(List<String> pathsToFiles,
-                                                        ChronoUnit requiredOutputTimeFrame, ChronoUnit inputTimeFrame) {
-        List<DataPoint> dataPoints = new ArrayList<>();
-        for(String path : pathsToFiles){
-            List<List<String>> output = csvReader.read(path);
-            dataPoints.addAll(dataPointExtractor.extract(output));
-        }
-        dataPoints = gapFiller.fill(dataPoints,inputTimeFrame);
-
-        return timeFrameExtractor.extract(dataPoints, requiredOutputTimeFrame, inputTimeFrame);
-    }
 }

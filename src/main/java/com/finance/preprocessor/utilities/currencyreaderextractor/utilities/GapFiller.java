@@ -2,7 +2,6 @@ package com.finance.preprocessor.utilities.currencyreaderextractor.utilities;
 
 import com.finance.preprocessor.utilities.DataPoint;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -19,18 +18,23 @@ public class GapFiller {
     private ChronoUnit inputTimeFrame = ChronoUnit.HOURS;
 
     public List<DataPoint> fill(List<DataPoint> dataPoints, ChronoUnit inputTimeFrame){
-        if(isNull(dataPoints)){
+        if(dataPoints == null) {
+            logger.log(Level.WARNING, "DataPoints list is null.");
             return Collections.emptyList();
         }
+        if(dataPoints.isEmpty()) {
+            logger.log(Level.WARNING, "DataPoints list is empty.");
+            return Collections.emptyList();
+        }
+
         setInputTimeFrame(inputTimeFrame);
-        dataPoints = skipNullInDataPoints(dataPoints);
+        List<DataPoint> dataPointsWithoutNulls = skipNullInDataPoints(dataPoints);
 
         List<DataPoint> dataPointsWithoutGaps = new ArrayList<>();
-
-        for(int i=0; i<dataPoints.size()-1; i++){
-            DataPoint start = dataPoints.get(i);
-            DataPoint stop = dataPoints.get(i+1);
-            if(detectGap(start, stop)) {
+        for(int i=0; i<dataPointsWithoutNulls.size()-1; i++) {
+            DataPoint start = dataPointsWithoutNulls.get(i);
+            DataPoint stop = dataPointsWithoutNulls.get(i + 1);
+            if (detectGap(start, stop)) {
                 dataPointsWithoutGaps.addAll(fillSingleGap(start, stop));
             }
         }
@@ -54,11 +58,11 @@ public class GapFiller {
         }
     }
 
-    private List<DataPoint> skipNullInDataPoints(List<DataPoint> dataPoints){
+    private List<DataPoint> skipNullInDataPoints(List<DataPoint> dataPoints) {
         List<DataPoint> dataPointListWithoutNulls = new ArrayList<>();
 
-        for(DataPoint point : dataPoints){
-            if(point != null && point.getLocalDateTime() != null){
+        for (DataPoint point : dataPoints) {
+            if (point != null && point.getLocalDateTime() != null) {
                 dataPointListWithoutNulls.add(point);
             }
         }
@@ -97,15 +101,12 @@ public class GapFiller {
     }
 
     private List<DataPoint> skipPointWithTheSameTimeStamp(List<DataPoint> points){
-        List<DataPoint> pointsProcessed = new ArrayList<>();
-        if(points.size()>0) {
-            pointsProcessed.add(points.get(0));
-            for (int i = 1; i < points.size(); i++) {
-                if (points.get(i - 1).getLocalDateTime() != points.get(i).getLocalDateTime()) {
-                    pointsProcessed.add(points.get(i));
-                }
+        List<DataPoint> dataPoints = new ArrayList<>();
+        for (int i = 1; i < points.size(); i++) {
+            if (points.get(i - 1).getLocalDateTime() != points.get(i).getLocalDateTime()) {
+                dataPoints.add(points.get(i));
             }
         }
-        return pointsProcessed;
+        return dataPoints;
     }
 }

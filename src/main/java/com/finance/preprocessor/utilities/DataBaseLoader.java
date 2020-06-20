@@ -51,9 +51,10 @@ public class DataBaseLoader {
 
         List<CurrencyPairDataPoint> currencyPairDataPoints = mapDataPointsToCurrencyPairDataPoints(dataPointList);
 
-        if(isCurrencyAlreadyExistInDatabase(currencyPairName)){
-            logger.log(Level.SEVERE,"CurrencyPair with name: " + currencyPairName +
-                    " already exist in database. Stopping DataBaseLoader.");
+        CurrencyPair currencyPair = getCurrencyPair(currencyPairName);
+
+        if(currencyPair != null){
+            loadDataPoints(currencyPairDataPoints, currencyPairName);
         } else {
             if(createCurrencyPair(currencyPairName)) {
                 loadDataPoints(currencyPairDataPoints, currencyPairName);
@@ -69,9 +70,9 @@ public class DataBaseLoader {
         return currencyPairDataPoints;
     }
 
-    private boolean isCurrencyAlreadyExistInDatabase(String currencyPairName){
+    private CurrencyPair getCurrencyPair(String currencyPairName){
         CurrencyPair currencyPair = currencyPairService.getCurrencyPair(currencyPairName);
-        return currencyPair != null;
+        return currencyPair;
     }
 
     private boolean createCurrencyPair(String currencyPairName){

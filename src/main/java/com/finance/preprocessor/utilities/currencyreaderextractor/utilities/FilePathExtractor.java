@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
@@ -28,5 +29,19 @@ public class FilePathExtractor {
             return Collections.emptyList();
         }
         return pathsToFiles;
+    }
+
+    public List<File> alternative(String folderPath){
+        List<String> pathsToFiles = new ArrayList<>();
+        ClassLoader classLoader = new FilePathExtractor().getClass().getClassLoader();
+        File folder = new File(classLoader.getResource(folderPath).getFile());
+
+        File[] files = folder.listFiles();
+        if(files.length>0){
+            return Arrays.asList(files);
+        } else {
+            logger.log(Level.SEVERE, "There is no files in folder!");
+            return Collections.emptyList();
+        }
     }
 }

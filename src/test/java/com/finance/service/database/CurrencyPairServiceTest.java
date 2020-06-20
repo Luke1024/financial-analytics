@@ -23,7 +23,7 @@ public class CurrencyPairServiceTest {
     @Autowired
     private CurrencyPairRepository currencyPairRepository;
 
-    private final boolean authorizeDatabaseCleaning = true;
+    private final boolean authorizeDatabaseCleaning = false;
 
     @Test
     public void getCurrenciesEmpty(){
