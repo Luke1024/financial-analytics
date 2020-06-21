@@ -21,15 +21,16 @@ I program this application to learn full-stack development. I was a trader befor
 Here is a working live demo : 
 
 ## Screenshots
-![Example screenshot](./img/screenshot.png)
+![Example screenshot](./img/img1.png)
 
 ## Built with
 * Java 8 
 * Spring Boot
 * Vaadin
+* Gradle
 
 ## Setup
-Describe how to install / setup your local environement / add link to demo version.
+1.Clone this repository and build it with gradle
 
 ## Features
 #### Features working:
@@ -49,6 +50,7 @@ Describe how to install / setup your local environement / add link to demo versi
 #### To do soon:
 * optimize chart drawing
 * implement caching of data for faster retrieving
+* enable real time data update
 * add login and sign with sending email 
 * build user dashboard enabling trading
 * build email notifier when order hit stoploss or takeprofit
