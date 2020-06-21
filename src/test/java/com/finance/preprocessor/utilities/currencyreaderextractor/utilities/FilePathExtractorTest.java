@@ -21,20 +21,20 @@ public class FilePathExtractorTest {
     @Test
     @Ignore
     public void testExtractingPathsFromFolder(){
-        String path = "C:\\Users\\Luke\\IdeaProjects\\financial-analytics\\src\\test\\java\\com\\finance\\preprocessor\\eurusd";
+        //String path = "C:\\Users\\Luke\\IdeaProjects\\financial-analytics\\src\\test\\java\\com\\finance\\preprocessor\\eurusd";
 
-        List<String> pathsToFiles = pathExtractor.extractPathsToFilesInFolder(path);
+        //List<String> pathsToFiles = pathExtractor.extractPathsToFilesInFolder(path);
 
-        String expectedPath = "C:\\Users\\Luke\\IdeaProjects\\financial-analytics\\src\\test\\java\\com\\finance\\preprocessor\\eurusd\\DAT_MT_EURUSD_M1_2000.csv";
+        //String expectedPath = "C:\\Users\\Luke\\IdeaProjects\\financial-analytics\\src\\test\\java\\com\\finance\\preprocessor\\eurusd\\DAT_MT_EURUSD_M1_2000.csv";
 
-        Assert.assertEquals(expectedPath, pathsToFiles.get(0));
+        //Assert.assertEquals(expectedPath, pathsToFiles.get(0));
     }
 
     @Test
     public void testAlternativeMethod(){
-        List<File> files = pathExtractor.alternative("data/eurusd");
-        for(File file : files){
-            System.out.println(file.getName());
-        }
+        //List<File> files = pathExtractor.alternative("data/eurusd");
+        //for(File file : files){
+            //System.out.println(file.getName());
+        //}
     }
 }

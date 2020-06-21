@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Transactional
 public class CurrencyPairDataPointServiceTest {
 
     @Autowired
@@ -33,7 +32,7 @@ public class CurrencyPairDataPointServiceTest {
     private LocalDateTime localDateTime4 = LocalDateTime.of(2020,1,1,15,0);
     private LocalDateTime localDateTime5 = LocalDateTime.of(2020,1,1,16,0);
 
-    private CurrencyPair currencyPair = new CurrencyPair("EUR/USD");
+    private CurrencyPair currencyPair = new CurrencyPair(generateRandomString());
 
     private CurrencyPairDataPoint currencyPairDataPoint1 = new CurrencyPairDataPoint(localDateTime1, 2.0, currencyPair);
     private CurrencyPairDataPoint currencyPairDataPoint2 = new CurrencyPairDataPoint(localDateTime2, 2.5, currencyPair);
