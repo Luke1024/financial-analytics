@@ -31,6 +31,8 @@ public class PairHistoryRetriever {
     @Autowired
     private CurrencyPairRepository currencyPairRepository;
 
+    private int tryFindLastStartingPointCounter = 0;
+
     public List<CurrencyPairDataPoint> getCurrencyPairHistory(PairDataRequest pairDataRequest){
         if( ! dtoCheck(pairDataRequest)){
             return Collections.emptyList();
@@ -46,6 +48,7 @@ public class PairHistoryRetriever {
         if(lastDataPoint == null) return Collections.emptyList();
 
         CurrencyPairDataPoint lastStartingPoint = getLastStartingPoint(lastDataPoint.getTimeStamp(), pairDataRequest, currencyPair.getId());
+
         int dataPointSize = limitTooLargeRequest(pairDataRequest.getNumberOfDataPoints());
         PointTimeFrame timeFrame = pairDataRequest.getPointTimeFrame();
         long currencyPairId = currencyPair.getId();

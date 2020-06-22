@@ -3,22 +3,17 @@ Trading and analytics application using Spring Boot and Vaadin.
 
 ## Table of contents
 * [General info](#general-info)
-* [Demo](#demo)
 * [Screenshots](#screenshots)
 * [Built with](#built-with)
 * [Setup](#setup)
 * [Features](#features)
 * [Status](#status)
-* [Inspiration](#inspiration)
 * [Contact](#contact)
 
 ## General info
 
 The purpose of this application is to enable forex and stock market trading training and to present analyzes and predictions.
 I program this application to learn full-stack development. I was a trader before, so the idea came to me naturally.
-
-## Demo
-Here is a working live demo : 
 
 ## Screenshots
 ![Example screenshot](./img/img1.png)
@@ -30,7 +25,23 @@ Here is a working live demo :
 * Gradle
 
 ## Setup
-1.Clone this repository and build it with gradle
+#### Basic setup:
+* Clone this repository 
+* Check financial-analytics\src\main\resources\application.properties and create database and user with logging details specified in the file.
+* Build with gradle
+* load database/database.sql
+* Clone this repository https://github.com/Luke1024/tradingAppFrontEnd and build it with gradle.
+* Run financial-analytics\src\main\java\com\finance\FintechApplication.java
+* Run tradingAppFrontEnd\src\main\java\frontend\VaadinApplication.java
+* Open http://localhost:8080/ in a browser.
+
+#### How to run data parser:
+* Download csv files compatible with MetaTrader 4 for example here: https://www.histdata.com/download-free-forex-data/
+* Save files in financial-analytics\src\main\resources\data
+* Set path in financial-analytics\src\main\java\com\finance\preprocessor\HistoricDataLoader.java
+* Set name of currencypair in CurrencyFile
+* extractCurrencyPairs method in HistoricDataLoader.java is set to extract H1 datapoints from M1 csv file.
+* Run application and open link http://localhost:8081/finance/admin/load
 
 ## Features
 #### Features working:
@@ -56,3 +67,4 @@ Here is a working live demo :
 * build email notifier when order hit stoploss or takeprofit
 
 ## Contact
+chajdas.lukasz@gmail.com
