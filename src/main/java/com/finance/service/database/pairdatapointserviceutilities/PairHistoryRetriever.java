@@ -44,16 +44,13 @@ public class PairHistoryRetriever {
             return Collections.emptyList();
         }
 
-        CurrencyPairDataPoint lastDataPoint = getLastDataPoint(currencyPair);
-        if(lastDataPoint == null) return Collections.emptyList();
-
-        CurrencyPairDataPoint lastStartingPoint = getLastStartingPoint(lastDataPoint.getTimeStamp(), pairDataRequest, currencyPair.getId());
+        LocalDateTime lastDateTime = getLastDataPointDateTime();
 
         int dataPointSize = limitTooLargeRequest(pairDataRequest.getNumberOfDataPoints());
         PointTimeFrame timeFrame = pairDataRequest.getPointTimeFrame();
         long currencyPairId = currencyPair.getId();
 
-        return getCurrencyPairDataPoints(lastStartingPoint, dataPointSize, timeFrame, currencyPairId);
+        return getCurrencyPairDataPoints(lastDateTime, dataPointSize, timeFrame, currencyPairId);
     }
 
     private boolean dtoCheck(PairDataRequest pairDataRequest){
@@ -80,30 +77,8 @@ public class PairHistoryRetriever {
         }
     }
 
-    private CurrencyPairDataPoint getLastDataPoint(CurrencyPair pair){
-        Optional<CurrencyPairDataPoint> currencyPairDataPoint = repository.getLastDataPoint(pair.getId());
-        if(currencyPairDataPoint.isPresent()){
-            return currencyPairDataPoint.get();
-        } else {
-            logger.log(Level.WARNING, "Last datapoint in CurrencyPair " + pair.getCurrencyPairName() + " not found.");
-            return null;
-        }
-    }
-
-    private CurrencyPairDataPoint getLastStartingPoint(LocalDateTime lastPointInDataset,
-                                                       PairDataRequest pairDataRequest, long currencyPairId){
-        PointTimeFrame pointTimeFrame = pairDataRequest.getPointTimeFrame();
-        int pointCountBeforeLast = pairDataRequest.getPointsBeforeLast();
-
-        LocalDateTime lastStartingPointDateTime = calculateTimeBackward(pointTimeFrame, pointCountBeforeLast, lastPointInDataset);
-
-        Optional<CurrencyPairDataPoint> pairDataPoint = repository.findPointByDate(lastStartingPointDateTime, currencyPairId);
-
-        if(pairDataPoint.isPresent()){
-            return pairDataPoint.get();
-        } else {
-            return null;
-        }
+    private LocalDateTime getLastDataPointDateTime(){
+        return LocalDateTime.now().withMinute(0).withSecond(0).withNano(0);
     }
 
     private int limitTooLargeRequest(int numberOfDataPoints){
@@ -111,22 +86,40 @@ public class PairHistoryRetriever {
         return numberOfDataPoints;
     }
 
-    private List<CurrencyPairDataPoint> getCurrencyPairDataPoints(CurrencyPairDataPoint lastStartingPoint, int dataPointSize,
+    private List<CurrencyPairDataPoint> getCurrencyPairDataPoints(LocalDateTime lastDateTime, int dataPointSize,
                                                                   PointTimeFrame timeFrame, long currencyPairId) {
         List<CurrencyPairDataPoint> points = new ArrayList<>();
 
-        //add point backward
-        points.add(lastStartingPoint);
-        LocalDateTime lastTimeStamp = lastStartingPoint.getTimeStamp();
-        for (int i = 0; i < dataPointSize-1; i++) {
-            LocalDateTime searchedTime = calculateTimeBackward(timeFrame, i + 1, lastTimeStamp);
-            Optional<CurrencyPairDataPoint> retrievedPoint = repository.findPointByDate(searchedTime, currencyPairId);
+        List<LocalDateTime> dates = calculatePointDates(lastDateTime, dataPointSize, timeFrame);
+
+        List<CurrencyPairDataPoint> dataPoints = retrieveDataPoints(dates, timeFrame, currencyPairId);
+
+        return dataPoints;
+    }
+
+    private List<CurrencyPairDataPoint> retrieveDataPoints(List<LocalDateTime> dates,
+                                                           PointTimeFrame timeFrame, long currencyPairId){
+        List<CurrencyPairDataPoint> points = new ArrayList<>();
+
+        for (int i = 0; i < dates.size(); i++) {
+            Optional<CurrencyPairDataPoint> retrievedPoint = repository.findPointByDate(dates.get(i), currencyPairId);
             if (retrievedPoint.isPresent()) {
                 points.add(retrievedPoint.get());
+            } else {
+                points.add(null);
             }
         }
         Collections.reverse(points);
         return points;
+    }
+
+    private List<LocalDateTime> calculatePointDates(LocalDateTime lastDateTime, int dataPointSize,
+                                                    PointTimeFrame timeFrame){
+        List<LocalDateTime> dates = new ArrayList<>();
+        for(int i=0; i<dataPointSize; i++){
+            dates.add(calculateTimeBackward(timeFrame, dataPointSize, lastDateTime));
+        }
+        return dates;
     }
 
     private LocalDateTime calculateTimeBackward(PointTimeFrame timeFrame, int stepBackward,
