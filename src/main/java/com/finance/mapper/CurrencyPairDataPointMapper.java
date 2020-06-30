@@ -7,15 +7,22 @@ import com.finance.domain.dto.currencypair.PairDataRequestDto;
 import com.finance.domain.dto.currencypair.PointTimeFrame;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class CurrencyPairDataPointMapper {
 
     public List<DataPointDto> mapToDataPoints(List<CurrencyPairDataPoint> currencyPairDataPoints) {
-        return currencyPairDataPoints.stream().map(point -> new DataPointDto(point.getTimeStamp(), point.getValue()))
-                .collect(Collectors.toList());
+        List<DataPointDto> dataPointDtos = new ArrayList<>();
+        for(CurrencyPairDataPoint point : currencyPairDataPoints){
+            if(point == null){
+                dataPointDtos.add(null);
+            } else {
+                dataPointDtos.add(new DataPointDto(point.getTimeStamp(), point.getValue()));
+            }
+        }
+        return dataPointDtos;
     }
 
     public PairDataRequest mapToPairDataRequest(PairDataRequestDto pairDataRequestDto){

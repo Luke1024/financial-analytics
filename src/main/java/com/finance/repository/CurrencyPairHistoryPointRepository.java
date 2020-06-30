@@ -15,8 +15,6 @@ public interface CurrencyPairHistoryPointRepository extends CrudRepository<Curre
                                                                    @Param("TIME_STAMP_STOP")LocalDateTime time_stamp_stop,
                                                                    @Param("CURRENCY_ID")String currencyName); */
 
-    Optional<CurrencyPairDataPoint> getLastDataPoint(@Param("PAIR_ID")long pair_id);
-
     Optional<CurrencyPairDataPoint> findPointByDate(@Param("TIME_STAMP")LocalDateTime time_stamp,
                                           @Param("PAIR_ID") long pair_id);
 
