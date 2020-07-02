@@ -4,6 +4,7 @@ import com.finance.domain.CurrencyPair;
 import com.finance.domain.CurrencyPairDataPoint;
 import com.finance.domain.dto.PairDataRequest;
 import com.finance.domain.dto.currencypair.PointTimeFrame;
+import com.finance.preprocessor.utilities.DataPoint;
 import com.finance.repository.CurrencyPairHistoryPointRepository;
 import com.finance.repository.CurrencyPairRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,6 @@ import java.util.logging.Logger;
 @Service
 public class PairHistoryRetriever {
 
-    private static final int maxPointsRetrieved = 1000;
-
     private Logger logger = Logger.getLogger(PairHistoryRetriever.class.getName());
 
     @Autowired
@@ -30,8 +29,6 @@ public class PairHistoryRetriever {
 
     @Autowired
     private CurrencyPairRepository currencyPairRepository;
-
-    private int tryFindLastStartingPointCounter = 0;
 
     public List<CurrencyPairDataPoint> getCurrencyPairHistory(PairDataRequest pairDataRequest){
         if( ! dtoCheck(pairDataRequest)){
@@ -46,7 +43,7 @@ public class PairHistoryRetriever {
 
         LocalDateTime lastDateTime = getLastDataPointDateTime();
 
-        int dataPointSize = limitTooLargeRequest(pairDataRequest.getNumberOfDataPoints());
+        int dataPointSize = pairDataRequest.getNumberOfDataPoints();
         PointTimeFrame timeFrame = pairDataRequest.getPointTimeFrame();
         long currencyPairId = currencyPair.getId();
 
@@ -81,11 +78,6 @@ public class PairHistoryRetriever {
         return LocalDateTime.now().withMinute(0).withSecond(0).withNano(0);
     }
 
-    private int limitTooLargeRequest(int numberOfDataPoints){
-        if(numberOfDataPoints > maxPointsRetrieved) return maxPointsRetrieved;
-        return numberOfDataPoints;
-    }
-
     private List<CurrencyPairDataPoint> getCurrencyPairDataPoints(LocalDateTime lastDateTime, int dataPointSize,
                                                                   PointTimeFrame timeFrame, long currencyPairId) {
         List<CurrencyPairDataPoint> points = new ArrayList<>();
@@ -106,7 +98,7 @@ public class PairHistoryRetriever {
             if (retrievedPoint.isPresent()) {
                 points.add(retrievedPoint.get());
             } else {
-                points.add(null);
+                points.add(new CurrencyPairDataPoint(dates.get(i), 0.0));
             }
         }
         Collections.reverse(points);
