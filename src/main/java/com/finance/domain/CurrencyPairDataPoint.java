@@ -12,6 +12,12 @@ import java.util.Objects;
                         "WHERE time_stamp = :TIME_STAMP AND currency_pair_id = :PAIR_ID",
                 resultClass = CurrencyPairDataPoint.class
 )
+@NamedNativeQuery(
+        name = "CurrencyPairDataPoint.getLastDataPoint",
+        query = "SELECT * FROM trading_data_microservice.currency_pair_data_point " +
+                "WHERE currency_pair_id = :PAIR_ID" +
+                " ORDER BY time_stamp DESC LIMIT 1;",
+        resultClass = CurrencyPairDataPoint.class)
 
 @Entity
 public class CurrencyPairDataPoint {

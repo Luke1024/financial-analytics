@@ -41,7 +41,7 @@ public class PairHistoryRetriever {
             return Collections.emptyList();
         }
 
-        LocalDateTime lastDateTime = getLastDataPointDateTime();
+        LocalDateTime lastDateTime = getLastDataPointDateTime(currencyPair.getId());
 
         int dataPointSize = pairDataRequest.getNumberOfDataPoints();
         PointTimeFrame timeFrame = pairDataRequest.getPointTimeFrame();
@@ -74,8 +74,13 @@ public class PairHistoryRetriever {
         }
     }
 
-    private LocalDateTime getLastDataPointDateTime(){
-        return LocalDateTime.now().withMinute(0).withSecond(0).withNano(0);
+    private LocalDateTime getLastDataPointDateTime(long currencyPairId){
+        Optional<CurrencyPairDataPoint> currencyPairDataPoint = repository.getLastDataPoint(currencyPairId);
+        if(currencyPairDataPoint.isPresent()){
+            return currencyPairDataPoint.get().getTimeStamp();
+        } else {
+            return null;
+        }
     }
 
     private List<CurrencyPairDataPoint> getCurrencyPairDataPoints(LocalDateTime lastDateTime, int dataPointSize,
@@ -109,7 +114,7 @@ public class PairHistoryRetriever {
                                                     PointTimeFrame timeFrame){
         List<LocalDateTime> dates = new ArrayList<>();
         for(int i=0; i<dataPointSize; i++){
-            dates.add(calculateTimeBackward(timeFrame, dataPointSize, lastDateTime));
+            dates.add(calculateTimeBackward(timeFrame, i, lastDateTime));
         }
         return dates;
     }
