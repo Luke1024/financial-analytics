@@ -1,10 +1,9 @@
 package com.finance.preprocessor.utilities.currencyreaderextractor.utilities;
 
 import com.finance.preprocessor.utilities.DataPoint;
-import com.finance.preprocessor.utilities.DataPointPack;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -13,47 +12,125 @@ import java.util.List;
 @Service
 public class TimeFrameExtractor {
 
-    @Autowired
-    private GapFiller gapFiller;
+    private List<DataPoint> extractedDataPoints;
+    private List<DataPoint> dataPointsListToExtract;
+    private ChronoUnit outputTimeFrame;
+    private ChronoUnit inputTimeFrame;
+    private LocalDateTime searchedTimeStamp;
+    private DataPoint substituteDataPoint;
+    private long searchedDistance;
+    private long substituteDataPointDistance;
 
     public List<DataPoint> extract(List<DataPoint> dataPointList,
-                                   ChronoUnit outputTimeFrame, ChronoUnit inputTimeFrame){
+                                   ChronoUnit outputTimeFrame,
+                                   ChronoUnit inputTimeFrame,
+                                   int searchSubstitutePointInDistanceOfInputTimeFrames){
 
-        List<DataPoint> dataPointsWithoutGaps = gapFiller.fill(dataPointList, inputTimeFrame);
+        this.outputTimeFrame = outputTimeFrame;
+        this.inputTimeFrame = inputTimeFrame;
+        this.extractedDataPoints = new ArrayList<>();
+        this.dataPointsListToExtract = dataPointList;
+        this.searchedTimeStamp = null;
+        this.substituteDataPoint = null;
+        this.searchedDistance = searchSubstitutePointInDistanceOfInputTimeFrames;
+        this.substituteDataPointDistance = searchSubstitutePointInDistanceOfInputTimeFrames + 1;
 
-        return getRequiredTimeFrame(dataPointsWithoutGaps, outputTimeFrame);
-    }
-
-    private List<DataPoint> packsSerialized(List<DataPointPack> dataPointPacks){
-        List<DataPoint> packsSerialized = new ArrayList<>();
-
-        for(DataPointPack dataPointPack : dataPointPacks){
-            packsSerialized.addAll(dataPointPack.getDataPointList());
+        for(int i=0; i<dataPointList.size()-1; i++){
+            extractPoint(dataPointList.get(i));
         }
-        return packsSerialized;
+        return this.extractedDataPoints;
     }
 
-    private List<DataPoint> getRequiredTimeFrame(List<DataPoint> dataPoints, ChronoUnit outputTimeFrame){
-        List<DataPoint> dataPointsInRequiredTimeFrame = new ArrayList<>();
-        for(DataPoint dataPoint : dataPoints){
-            LocalDateTime pointTime = dataPoint.getLocalDateTime();
-            if(checkIfRequiredChronoUnitZero(pointTime, outputTimeFrame)) {
-                dataPointsInRequiredTimeFrame.add(dataPoint);
+    private void extractPoint(DataPoint dataPoint){
+        if(dataPoint != null) {
+            if (dataPoint.getLocalDateTime() != null) {
+                continueExtraction(dataPoint);
             }
         }
-        return dataPointsInRequiredTimeFrame;
     }
 
-    private boolean checkIfRequiredChronoUnitZero(LocalDateTime localDateTime, ChronoUnit outputTimeFrame){
-        if(outputTimeFrame == ChronoUnit.DAYS && localDateTime.getHour()==0){
-            return true;
+    private void continueExtraction(DataPoint dataPoint){
+        loadSearchedTimeStamp(dataPoint);
+        loadSubstituteDataPoint(dataPoint);
+        loadDataPointIfExactMatch(dataPoint);
+        loadSubstituteIfNecessary(dataPoint);
+    }
+
+    private void loadSubstituteIfNecessary(DataPoint dataPoint){
+        long duration = getDuration(dataPoint.getLocalDateTime());
+        if(duration > this.searchedDistance){
+            this.extractedDataPoints.add(this.substituteDataPoint);
+            resetSearcher();
         }
-        if(outputTimeFrame == ChronoUnit.HOURS && localDateTime.getMinute()==0){
-            return true;
+    }
+
+    private long getDuration(LocalDateTime timeStamp){
+        Duration duration = Duration.between(this.searchedTimeStamp, timeStamp);
+        if(this.inputTimeFrame == ChronoUnit.HOURS){
+            return duration.toHours();
         }
-        if(outputTimeFrame == ChronoUnit.MINUTES && localDateTime.getSecond()==0){
-            return true;
+        if(this.inputTimeFrame == ChronoUnit.MINUTES){
+            return duration.toMinutes();
         }
-        return false;
+        //default behavior
+        return duration.toMinutes();
+    }
+
+    private void loadDataPointIfExactMatch(DataPoint dataPoint){
+        if(this.searchedTimeStamp == dataPoint.getLocalDateTime()){
+            this.extractedDataPoints.add(dataPoint);
+            resetSearcher();
+        }
+    }
+
+    private void resetSearcher(){
+
+        this.searchedTimeStamp = null;
+        this.substituteDataPoint = null;
+        this.substituteDataPointDistance = this.searchedDistance + 1;
+    }
+
+    private void loadSubstituteDataPoint(DataPoint dataPoint){
+        long distance;
+        if(this.searchedTimeStamp != null){
+             distance = measureDistance(dataPoint.getLocalDateTime());
+             if(distance < this.substituteDataPointDistance){
+                 this.substituteDataPointDistance = distance;
+                 this.substituteDataPoint = dataPoint;
+             }
+        }
+    }
+
+    private long measureDistance(LocalDateTime timeStamp){
+        Duration duration = Duration.between(this.searchedTimeStamp, timeStamp);
+        if(this.inputTimeFrame == ChronoUnit.HOURS){
+            return duration.abs().toHours();
+        }
+        if(this.inputTimeFrame == ChronoUnit.MINUTES){
+            return duration.abs().toMinutes();
+        }
+        //default behavior
+        return duration.abs().toMinutes();
+    }
+
+    private void loadSearchedTimeStamp(DataPoint dataPoint){
+        if(this.searchedTimeStamp==null){
+            this.searchedTimeStamp=computeNearestExpectedTimeStamp(dataPoint.getLocalDateTime());
+        }
+    }
+
+    private LocalDateTime computeNearestExpectedTimeStamp(LocalDateTime dataPointTimestamp){
+        if(this.outputTimeFrame == ChronoUnit.DAYS){
+            return expected(dataPointTimestamp.withHour(0).withMinute(0).withSecond(0).withNano(0));
+        }
+        if(this.outputTimeFrame == ChronoUnit.HOURS){
+            return expected(dataPointTimestamp.withMinute(0).withSecond(0).withNano(0));
+        }
+        //default behavior
+        return expected(dataPointTimestamp.withMinute(0).withSecond(0).withNano(0));
+    }
+
+    private LocalDateTime expected(LocalDateTime dateTime){
+        return dateTime.plus(1, this.outputTimeFrame);
     }
 }

@@ -1,17 +1,11 @@
 package com.finance.preprocessor.utilities.currencyreaderextractor;
-
-import com.finance.domain.CurrencyPairDataPoint;
-import com.finance.preprocessor.CurrencyFile;
-import com.finance.preprocessor.utilities.DataPointPack;
 import com.finance.preprocessor.utilities.currencyreaderextractor.utilities.*;
-import com.finance.preprocessor.utilities.CurrencyPairDataPack;
 import com.finance.preprocessor.utilities.DataPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,9 +30,7 @@ public class CurrencyReaderExtractor {
         List<List<String>> output = csvReader.read(file);
         List<DataPoint> dataPoints = dataPointExtractor.extract(output);
 
-        List<DataPoint> dataPointsWithoutGaps = gapFiller.fill(dataPoints,inputTimeFrame);
-
-        return timeFrameExtractor.extract(dataPointsWithoutGaps, requiredOutputTimeFrame, inputTimeFrame);
+        return timeFrameExtractor.extract(dataPoints, requiredOutputTimeFrame, inputTimeFrame);
     }
 
 
