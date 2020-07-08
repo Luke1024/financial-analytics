@@ -51,66 +51,8 @@ public class TimeFrameExtractor {
 
     private void continueExtraction(DataPoint dataPoint){
         loadSearchedTimeStamp(dataPoint);
-        loadSubstituteDataPoint(dataPoint);
         loadDataPointIfExactMatch(dataPoint);
-        loadSubstituteIfNecessary(dataPoint);
-    }
-
-    private void loadSubstituteIfNecessary(DataPoint dataPoint){
-        long duration = getDuration(dataPoint.getLocalDateTime());
-        if(duration > this.searchedDistance){
-            this.extractedDataPoints.add(this.substituteDataPoint);
-            resetSearcher();
-        }
-    }
-
-    private long getDuration(LocalDateTime timeStamp){
-        Duration duration = Duration.between(this.searchedTimeStamp, timeStamp);
-        if(this.inputTimeFrame == ChronoUnit.HOURS){
-            return duration.toHours();
-        }
-        if(this.inputTimeFrame == ChronoUnit.MINUTES){
-            return duration.toMinutes();
-        }
-        //default behavior
-        return duration.toMinutes();
-    }
-
-    private void loadDataPointIfExactMatch(DataPoint dataPoint){
-        if(this.searchedTimeStamp == dataPoint.getLocalDateTime()){
-            this.extractedDataPoints.add(dataPoint);
-            resetSearcher();
-        }
-    }
-
-    private void resetSearcher(){
-
-        this.searchedTimeStamp = null;
-        this.substituteDataPoint = null;
-        this.substituteDataPointDistance = this.searchedDistance + 1;
-    }
-
-    private void loadSubstituteDataPoint(DataPoint dataPoint){
-        long distance;
-        if(this.searchedTimeStamp != null){
-             distance = measureDistance(dataPoint.getLocalDateTime());
-             if(distance < this.substituteDataPointDistance){
-                 this.substituteDataPointDistance = distance;
-                 this.substituteDataPoint = dataPoint;
-             }
-        }
-    }
-
-    private long measureDistance(LocalDateTime timeStamp){
-        Duration duration = Duration.between(this.searchedTimeStamp, timeStamp);
-        if(this.inputTimeFrame == ChronoUnit.HOURS){
-            return duration.abs().toHours();
-        }
-        if(this.inputTimeFrame == ChronoUnit.MINUTES){
-            return duration.abs().toMinutes();
-        }
-        //default behavior
-        return duration.abs().toMinutes();
+        loadSubstituteDataPoint(dataPoint);
     }
 
     private void loadSearchedTimeStamp(DataPoint dataPoint){
@@ -132,5 +74,47 @@ public class TimeFrameExtractor {
 
     private LocalDateTime expected(LocalDateTime dateTime){
         return dateTime.plus(1, this.outputTimeFrame);
+    }
+
+    private void loadDataPointIfExactMatch(DataPoint dataPoint){
+        if(this.searchedTimeStamp == dataPoint.getLocalDateTime()){
+            this.extractedDataPoints.add(dataPoint);
+            resetSearcher();
+        }
+    }
+
+    private void loadSubstituteDataPoint(DataPoint dataPoint){
+        long distance;
+        if(this.searchedTimeStamp != null){
+            distance = measureDistance(dataPoint.getLocalDateTime());
+            if(distance <= this.substituteDataPointDistance){
+                this.substituteDataPointDistance = distance;
+                this.substituteDataPoint = dataPoint;
+            } else {
+                if(this.substituteDataPoint != null) {
+                    this.extractedDataPoints.add(this.substituteDataPoint);
+                    resetSearcher();
+                }
+            }
+        }
+    }
+
+    private long measureDistance(LocalDateTime timeStamp){
+        Duration duration = Duration.between(this.searchedTimeStamp, timeStamp);
+        if(this.inputTimeFrame == ChronoUnit.HOURS){
+            return duration.abs().toHours();
+        }
+        if(this.inputTimeFrame == ChronoUnit.MINUTES){
+            return duration.abs().toMinutes();
+        }
+        //default behavior
+        return duration.abs().toMinutes();
+    }
+
+    private void resetSearcher(){
+
+        this.searchedTimeStamp = null;
+        this.substituteDataPoint = null;
+        this.substituteDataPointDistance = this.searchedDistance + 1;
     }
 }

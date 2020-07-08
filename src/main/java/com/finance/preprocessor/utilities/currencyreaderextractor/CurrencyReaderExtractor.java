@@ -21,17 +21,13 @@ public class CurrencyReaderExtractor {
     private DataPointExtractor dataPointExtractor;
     @Autowired
     private TimeFrameExtractor timeFrameExtractor;
-    @Autowired
-    private GapFiller gapFiller;
 
-    public List<DataPoint> readAndProcess(File file, ChronoUnit requiredOutputTimeFrame, ChronoUnit inputTimeFrame) {
+    public List<DataPoint> readAndProcess(File file, ChronoUnit requiredOutputTimeFrame, ChronoUnit inputTimeFrame, int substituteDataPointDistance) {
 
         logger.log(Level.INFO, "Reading file : " + file.getName());
         List<List<String>> output = csvReader.read(file);
         List<DataPoint> dataPoints = dataPointExtractor.extract(output);
 
-        return timeFrameExtractor.extract(dataPoints, requiredOutputTimeFrame, inputTimeFrame);
+        return timeFrameExtractor.extract(dataPoints, requiredOutputTimeFrame, inputTimeFrame, substituteDataPointDistance);
     }
-
-
 }

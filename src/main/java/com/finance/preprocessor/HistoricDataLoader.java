@@ -24,10 +24,12 @@ public class HistoricDataLoader {
     @Autowired
     private FilePathExtractor filePathExtractor;
 
+    private int substituteDataPointDistance = 20;
+
     public void loadDataIntoDatabase() {
         List<CurrencyFile> files = new ArrayList<>(Arrays.asList(
                 //new CurrencyFile("EUR/GBP", "data/eurgbp"),
-                new CurrencyFile("EUR/USD","data/eurusd")
+                new CurrencyFile("EUR/GBP","data/eurgbp")
         ));
 
         extractCurrencyPairs(files, ChronoUnit.HOURS, ChronoUnit.MINUTES);
@@ -48,7 +50,7 @@ public class HistoricDataLoader {
     }
 
     private void extractAndSaveFile(File file, CurrencyFile currencyFile, ChronoUnit requiredOutputTimeFrame, ChronoUnit inputTimeFrame){
-        List<DataPoint> dataPoints = currencyReaderExtractor.readAndProcess(file, requiredOutputTimeFrame, inputTimeFrame);
+        List<DataPoint> dataPoints = currencyReaderExtractor.readAndProcess(file, requiredOutputTimeFrame, inputTimeFrame, substituteDataPointDistance);
         CurrencyPairDataPack pairPack = new CurrencyPairDataPack(currencyFile.getPairName(), requiredOutputTimeFrame, dataPoints);
         dataBaseLoader.load(Collections.singletonList(pairPack));
     }
