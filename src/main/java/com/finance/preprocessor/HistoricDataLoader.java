@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Service
 public class HistoricDataLoader {
@@ -24,12 +26,14 @@ public class HistoricDataLoader {
     @Autowired
     private FilePathExtractor filePathExtractor;
 
-    private int substituteDataPointDistance = 20;
+    private Logger logger = Logger.getLogger(HistoricDataLoader.class.getName());
+
+    private int substituteDataPointDistance = 30;
 
     public void loadDataIntoDatabase() {
         List<CurrencyFile> files = new ArrayList<>(Arrays.asList(
                 //new CurrencyFile("EUR/GBP", "data/eurgbp"),
-                new CurrencyFile("EUR/GBP","data/eurgbp")
+                new CurrencyFile("EUR/USD","data/eurusd")
         ));
 
         extractCurrencyPairs(files, ChronoUnit.HOURS, ChronoUnit.MINUTES);
@@ -53,5 +57,6 @@ public class HistoricDataLoader {
         List<DataPoint> dataPoints = currencyReaderExtractor.readAndProcess(file, requiredOutputTimeFrame, inputTimeFrame, substituteDataPointDistance);
         CurrencyPairDataPack pairPack = new CurrencyPairDataPack(currencyFile.getPairName(), requiredOutputTimeFrame, dataPoints);
         dataBaseLoader.load(Collections.singletonList(pairPack));
+        logger.log(Level.INFO,"DataPoints from " + file.getName() + " loaded.");
     }
 }
