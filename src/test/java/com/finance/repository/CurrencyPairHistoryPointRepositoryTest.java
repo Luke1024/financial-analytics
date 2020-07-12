@@ -2,6 +2,7 @@ package com.finance.repository;
 
 import com.finance.domain.CurrencyPair;
 import com.finance.domain.CurrencyPairDataPoint;
+import jdk.vm.ci.meta.Local;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,8 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import java.time.LocalDateTime;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -27,10 +27,28 @@ public class CurrencyPairHistoryPointRepositoryTest {
     private CurrencyPairRepository currencyPairRepository;
 
     @Test
-    public void testLastDataPoint(){
+    public void retrieveByTimeRangeAndCurrencyName(){
         CurrencyPair currencyPair = new CurrencyPair(generateRandomString());
 
-        checkerDeleter(currencyPair);
+        List<CurrencyPairDataPoint> dataPointList = new ArrayList<>();
+
+        LocalDateTime now = LocalDateTime.now().withNano(0);
+        for(int i=0; i<10; i++){
+            dataPointList.add(new CurrencyPairDataPoint(now.plusDays(i),1.0 * i+1));
+        }
+
+        currencyPair.addDataPoint(dataPointList);
+        currencyPairRepository.save(currencyPair);
+
+        List<CurrencyPairDataPoint> expected = dataPointList.subList(1,10);
+
+        List<CurrencyPairDataPoint> retrieved = currencyPairHistoryPointRepository.retrieveByTimeRangeAndCurrencyName(currencyPair.getId(), now.plusDays(1), now.plusDays(9));
+
+        Assert.assertEquals(expected.toString(), retrieved.toString());
+    }
+    @Test
+    public void testLastDataPoint(){
+        CurrencyPair currencyPair = new CurrencyPair(generateRandomString());
 
         currencyPairRepository.save(currencyPair);
 
@@ -42,9 +60,7 @@ public class CurrencyPairHistoryPointRepositoryTest {
         CurrencyPairDataPoint currencyPairDataPoint2 = new CurrencyPairDataPoint(localDateTime2,1.5, currencyPair);
         CurrencyPairDataPoint currencyPairDataPoint3 = new CurrencyPairDataPoint(localDateTime3,2.0, currencyPair);
 
-        currencyPair.addDataPoint(currencyPairDataPoint1);
-        currencyPair.addDataPoint(currencyPairDataPoint2);
-        currencyPair.addDataPoint(currencyPairDataPoint3);
+        currencyPair.addDataPoint(Arrays.asList(currencyPairDataPoint1, currencyPairDataPoint2, currencyPairDataPoint3));
 
         currencyPairRepository.save(currencyPair);
 
@@ -65,8 +81,6 @@ public class CurrencyPairHistoryPointRepositoryTest {
 
         CurrencyPair currencyPair = new CurrencyPair(generateRandomString());
 
-        checkerDeleter(currencyPair);
-
         currencyPairRepository.save(currencyPair);
 
         LocalDateTime localDateTime1 = LocalDateTime.of(2020, 1, 1, 13,0);
@@ -77,9 +91,7 @@ public class CurrencyPairHistoryPointRepositoryTest {
         CurrencyPairDataPoint currencyPairDataPoint2 = new CurrencyPairDataPoint(localDateTime2,1.5, currencyPair);
         CurrencyPairDataPoint currencyPairDataPoint3 = new CurrencyPairDataPoint(localDateTime3,2.0, currencyPair);
 
-        currencyPair.addDataPoint(currencyPairDataPoint1);
-        currencyPair.addDataPoint(currencyPairDataPoint2);
-        currencyPair.addDataPoint(currencyPairDataPoint3);
+        currencyPair.addDataPoint(Arrays.asList(currencyPairDataPoint1, currencyPairDataPoint2, currencyPairDataPoint3));
 
         currencyPairRepository.save(currencyPair);
 
@@ -94,13 +106,6 @@ public class CurrencyPairHistoryPointRepositoryTest {
         currencyPairHistoryPointRepository.delete(currencyPairDataPoint3);
 
         currencyPairRepository.deleteById(currencyPair.getId());
-    }
-
-    public void checkerDeleter(CurrencyPair currencyPair){
-        Optional<CurrencyPair> pair = currencyPairRepository.findByCurrencyName(currencyPair.getCurrencyPairName());
-        if(pair.isPresent()){
-            currencyPairRepository.deleteById(pair.get().getId());
-        }
     }
 
     private String generateRandomString(){

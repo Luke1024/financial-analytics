@@ -112,7 +112,6 @@ public class TimeFrameExtractor {
     }
 
     private void resetSearcher(){
-
         this.searchedTimeStamp = null;
         this.substituteDataPoint = null;
         this.substituteDataPointDistance = this.searchedDistance + 1;

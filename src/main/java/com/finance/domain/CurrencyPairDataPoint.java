@@ -4,8 +4,6 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-
-
 @NamedNativeQuery(
                 name = "CurrencyPairDataPoint.findPointByDate",
                 query = "SELECT * FROM trading_data_microservice.currency_pair_data_point " +
@@ -17,7 +15,16 @@ import java.util.Objects;
         query = "SELECT * FROM trading_data_microservice.currency_pair_data_point " +
                 "WHERE currency_pair_id = :PAIR_ID" +
                 " ORDER BY time_stamp DESC LIMIT 1;",
-        resultClass = CurrencyPairDataPoint.class)
+        resultClass = CurrencyPairDataPoint.class
+)
+@NamedNativeQuery(
+        name = "CurrencyPairDataPoint.retrieveByTimeRangeAndCurrencyName",
+        query = "SELECT * FROM trading_data_microservice.currency_pair_data_point " +
+                "WHERE currency_pair_id = :PAIR_ID " +
+                "AND time_stamp >= :TIME_STAMP_START " +
+                "AND time_stamp <= :TIME_STAMP_STOP",
+        resultClass = CurrencyPairDataPoint.class
+)
 
 @Entity
 public class CurrencyPairDataPoint {

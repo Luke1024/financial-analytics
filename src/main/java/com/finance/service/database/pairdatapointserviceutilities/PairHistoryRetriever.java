@@ -4,7 +4,6 @@ import com.finance.domain.CurrencyPair;
 import com.finance.domain.CurrencyPairDataPoint;
 import com.finance.domain.dto.PairDataRequest;
 import com.finance.domain.dto.currencypair.PointTimeFrame;
-import com.finance.preprocessor.utilities.DataPoint;
 import com.finance.repository.CurrencyPairHistoryPointRepository;
 import com.finance.repository.CurrencyPairRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +22,8 @@ import java.util.logging.Logger;
 public class PairHistoryRetriever {
 
     private Logger logger = Logger.getLogger(PairHistoryRetriever.class.getName());
+
+    private NearestPointRetriever nearestPointRetriever = new NearestPointRetriever();
 
     @Autowired
     private CurrencyPairHistoryPointRepository repository;
@@ -99,15 +100,24 @@ public class PairHistoryRetriever {
         List<CurrencyPairDataPoint> points = new ArrayList<>();
 
         for (int i = 0; i < dates.size(); i++) {
-            Optional<CurrencyPairDataPoint> retrievedPoint = repository.findPointByDate(dates.get(i), currencyPairId);
-            if (retrievedPoint.isPresent()) {
-                points.add(retrievedPoint.get());
+            CurrencyPairDataPoint retrievedPoint = getDataPoint(dates.get(i), currencyPairId, timeFrame);
+            if (retrievedPoint != null) {
+                points.add(retrievedPoint);
             } else {
                 points.add(new CurrencyPairDataPoint(dates.get(i), 0.0));
             }
         }
         Collections.reverse(points);
         return points;
+    }
+
+    private CurrencyPairDataPoint getDataPoint(LocalDateTime timeStamp, long currencyPairId, PointTimeFrame timeFrame){
+        Optional<CurrencyPairDataPoint> retrievedPoint = repository.findPointByDate(timeStamp, currencyPairId);
+        if(retrievedPoint.isPresent()){
+            return retrievedPoint.get();
+        } else {
+            return nearestPointRetriever.findNearestPoint(timeStamp, currencyPairId, timeFrame);
+        }
     }
 
     private List<LocalDateTime> calculatePointDates(LocalDateTime lastDateTime, int dataPointSize,
