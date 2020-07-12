@@ -23,7 +23,8 @@ public class PairHistoryRetriever {
 
     private Logger logger = Logger.getLogger(PairHistoryRetriever.class.getName());
 
-    private NearestPointRetrieverH1 nearestPointRetrieverH1 = new NearestPointRetrieverH1();
+    @Autowired
+    private NearestPointRetrieverH1 nearestPointRetrieverH1;
 
     @Autowired
     private CurrencyPairHistoryPointRepository repository;

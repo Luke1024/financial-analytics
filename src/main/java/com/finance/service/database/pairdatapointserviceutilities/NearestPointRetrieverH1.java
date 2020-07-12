@@ -4,6 +4,7 @@ import com.finance.domain.CurrencyPairDataPoint;
 import com.finance.domain.dto.currencypair.PointTimeFrame;
 import com.finance.repository.CurrencyPairHistoryPointRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@Service
 public class NearestPointRetrieverH1 {
 
     @Autowired
