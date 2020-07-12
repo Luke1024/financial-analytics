@@ -23,7 +23,7 @@ public class PairHistoryRetriever {
 
     private Logger logger = Logger.getLogger(PairHistoryRetriever.class.getName());
 
-    private NearestPointRetriever nearestPointRetriever = new NearestPointRetriever();
+    private NearestPointRetrieverH1 nearestPointRetrieverH1 = new NearestPointRetrieverH1();
 
     @Autowired
     private CurrencyPairHistoryPointRepository repository;
@@ -116,7 +116,7 @@ public class PairHistoryRetriever {
         if(retrievedPoint.isPresent()){
             return retrievedPoint.get();
         } else {
-            return nearestPointRetriever.findNearestPoint(timeStamp, currencyPairId, timeFrame);
+            return nearestPointRetrieverH1.findNearestPoint(timeStamp, currencyPairId, timeFrame);
         }
     }
 
