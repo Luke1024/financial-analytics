@@ -2,15 +2,12 @@ package com.finance.repository;
 
 import com.finance.domain.CurrencyPair;
 import com.finance.domain.CurrencyPairDataPoint;
-import jdk.vm.ci.meta.Local;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
-
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -46,6 +43,28 @@ public class CurrencyPairHistoryPointRepositoryTest {
 
         Assert.assertEquals(expected.toString(), retrieved.toString());
     }
+
+    @Test
+    public void retrieveAllInOrder(){
+        CurrencyPair currencyPair = new CurrencyPair(generateRandomString());
+
+        List<CurrencyPairDataPoint> dataPointList = new ArrayList<>();
+
+        LocalDateTime now = LocalDateTime.now().withNano(0);
+        for(int i=0; i<10; i++){
+            dataPointList.add(new CurrencyPairDataPoint(now.plusDays(i),1.0 * i+1));
+        }
+        currencyPair.addDataPoint(dataPointList);
+        currencyPairRepository.save(currencyPair);
+
+        LocalDateTime start = dataPointList.get(0).getTimeStamp();
+        LocalDateTime stop = dataPointList.get(9).getTimeStamp();
+
+        List<CurrencyPairDataPoint> currencyPairDataPoints = currencyPairHistoryPointRepository.retrieveAllInOrder(currencyPair.getId());
+        Assert.assertEquals(start, currencyPairDataPoints.get(0).getTimeStamp());
+        Assert.assertEquals(stop, currencyPairDataPoints.get(9).getTimeStamp());
+    }
+
     @Test
     public void testLastDataPoint(){
         CurrencyPair currencyPair = new CurrencyPair(generateRandomString());

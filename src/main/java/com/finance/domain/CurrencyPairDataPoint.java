@@ -11,6 +11,13 @@ import java.util.Objects;
                 resultClass = CurrencyPairDataPoint.class
 )
 @NamedNativeQuery(
+        name = "CurrencyPairDataPoint.retrieveAllInOrder",
+        query = "SELECT * FROM trading_data_microservice.currency_pair_data_point " +
+                "WHERE currency_pair_id = :PAIR_ID " +
+                "ORDER BY time_stamp ASC",
+        resultClass = CurrencyPairDataPoint.class
+)
+@NamedNativeQuery(
         name = "CurrencyPairDataPoint.getLastDataPoint",
         query = "SELECT * FROM trading_data_microservice.currency_pair_data_point " +
                 "WHERE currency_pair_id = :PAIR_ID" +
