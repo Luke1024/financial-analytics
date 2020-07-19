@@ -54,8 +54,8 @@ public class NearestPointRetrieverH1 {
     private int loadSearchDistanceH1(PointTimeFrame timeFrame) {
         if (timeFrame == PointTimeFrame.H1) return 0;
         if (timeFrame == PointTimeFrame.H5) return 2;
-        if (timeFrame == PointTimeFrame.D1) return 8;
-        if (timeFrame == PointTimeFrame.M1) return 20;
+        if (timeFrame == PointTimeFrame.D1) return 5;
+        if (timeFrame == PointTimeFrame.M1) return 10;
         return 0;
     }
 }
