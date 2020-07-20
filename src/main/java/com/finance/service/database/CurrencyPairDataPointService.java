@@ -4,6 +4,7 @@ import com.finance.domain.CurrencyPairDataPoint;
 import com.finance.domain.dto.PairDataRequest;
 import com.finance.repository.CurrencyPairHistoryPointRepository;
 import com.finance.repository.CurrencyPairRepository;
+import com.finance.service.database.pairdatapointserviceutilities.CurrencyPairDataPointCache;
 import com.finance.service.database.pairdatapointserviceutilities.DataPointAdder;
 import com.finance.service.database.pairdatapointserviceutilities.PairHistoryRetriever;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +16,6 @@ import java.util.List;
 public class CurrencyPairDataPointService {
 
     @Autowired
-    private CurrencyPairHistoryPointRepository repository;
-
-    @Autowired
     private CurrencyPairRepository currencyPairRepository;
 
     @Autowired
@@ -25,6 +23,13 @@ public class CurrencyPairDataPointService {
 
     @Autowired
     private DataPointAdder dataPointAdder;
+
+    @Autowired
+    private CurrencyPairDataPointCache cache;
+
+    public CurrencyPairDataPointService() {
+        if( ! cache.isLoaded()) cache.load();
+    }
 
     public List<CurrencyPairDataPoint> getCurrencyPairHistory(PairDataRequest pairDataRequest){
         return pairHistoryRetriever.getCurrencyPairHistory(pairDataRequest);

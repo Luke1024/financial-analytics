@@ -32,6 +32,9 @@ public class PairHistoryRetriever {
     @Autowired
     private CurrencyPairRepository currencyPairRepository;
 
+    @Autowired
+    private CurrencyPairDataPointCache cache;
+
     public List<CurrencyPairDataPoint> getCurrencyPairHistory(PairDataRequest pairDataRequest){
         if( ! dtoCheck(pairDataRequest)){
             return Collections.emptyList();
