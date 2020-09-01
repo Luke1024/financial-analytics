@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 @Service
 public class CurrencyPairDataPointCache {
@@ -22,7 +23,7 @@ public class CurrencyPairDataPointCache {
 
     private Logger logger = Logger.getLogger(CurrencyPairDataPointCache.class.getName());
 
-    private List<CurrencyPair> currencyPairs;
+    private List<CurrencyPair> currencyPairs = null;
 
     private boolean loaded = false;
 
@@ -44,6 +45,30 @@ public class CurrencyPairDataPointCache {
             logger.log(Level.SEVERE, e.toString() + " Problem with currency data caching. Shutting down server.");
             System.exit(0);
         }
+    }
+
+    public void saveCurrencyPair(CurrencyPair currencyPair) {
+        if(currencyPair != null){
+            if(currencyPair.getCurrencyPairName() != null){
+                 if(currencyPairs != null){
+                     deleteCurrencyPair(currencyPair);
+                     saveUpdatedPair(currencyPair);
+                 }
+            }
+        }
+    }
+
+    private void deleteCurrencyPair(CurrencyPair pair){
+        List<CurrencyPair> pairsToDelete = currencyPairs.stream()
+                .filter(currencyPair -> currencyPair.getCurrencyPairName().equals(pair.getCurrencyPairName()))
+                .collect(Collectors.toList());
+        for(CurrencyPair currencyPair : pairsToDelete){
+            currencyPairs.remove(currencyPair);
+        }
+    }
+
+    private void saveUpdatedPair(CurrencyPair currencyPair){
+        currencyPairs.add(currencyPair);
     }
 
     public Optional<CurrencyPair> findByCurrencyName(String name){

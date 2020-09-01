@@ -2,7 +2,6 @@ package com.finance.service.database;
 
 import com.finance.domain.CurrencyPairDataPoint;
 import com.finance.domain.dto.PairDataRequest;
-import com.finance.repository.CurrencyPairHistoryPointRepository;
 import com.finance.repository.CurrencyPairRepository;
 import com.finance.service.database.pairdatapointserviceutilities.CurrencyPairDataPointCache;
 import com.finance.service.database.pairdatapointserviceutilities.DataPointAdder;
@@ -36,10 +35,10 @@ public class CurrencyPairDataPointService {
     }
 
     public void addDataPoints(List<CurrencyPairDataPoint> currencyPairDataPoints, String currencyPairName){
-        dataPointAdder.addPoint(currencyPairDataPoints, currencyPairName, false);
+        dataPointAdder.addPoints(currencyPairDataPoints, currencyPairName, false);
     }
 
     public void addDataPoints(List<CurrencyPairDataPoint> currencyPairDataPoints, String currencyPairName, boolean overwrite){
-        dataPointAdder.addPoint(currencyPairDataPoints, currencyPairName, overwrite);
+        dataPointAdder.addPoints(currencyPairDataPoints, currencyPairName, overwrite);
     }
 }

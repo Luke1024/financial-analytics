@@ -24,11 +24,14 @@ public class DataPointAdder {
     @Autowired
     private CurrencyPairRepository currencyPairRepository;
 
+    @Autowired
+    private CurrencyPairDataPointCache cache;
+
     private Logger logger = Logger.getLogger(DataPointAdder.class.getName());
 
     private boolean overwrite;
 
-    public void addPoint(List<CurrencyPairDataPoint> currencyPairDataPoints, String currencyPairName, boolean overwrite){
+    public void addPoints(List<CurrencyPairDataPoint> currencyPairDataPoints, String currencyPairName, boolean overwrite){
         if(currencyPairDataPoints == null) return;
         if(currencyPairName == null) return;
 
@@ -114,5 +117,6 @@ public class DataPointAdder {
             point.setCurrencyPair(currencyPair);
         }
         currencyPairRepository.save(currencyPair);
+        cache.saveCurrencyPair(currencyPair);
     }
 }
