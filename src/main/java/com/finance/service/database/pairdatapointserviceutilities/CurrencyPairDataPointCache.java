@@ -27,11 +27,7 @@ public class CurrencyPairDataPointCache {
 
     private boolean loaded = false;
 
-    public boolean isLoaded() {
-        return loaded;
-    }
-
-    public void load() {
+    public CurrencyPairDataPointCache() {
         logger.log(Level.INFO, "Started loading currency data to cache.");
         try {
             currencyPairs = pairRepository.findAll();

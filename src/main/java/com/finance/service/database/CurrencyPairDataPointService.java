@@ -26,19 +26,15 @@ public class CurrencyPairDataPointService {
     @Autowired
     private CurrencyPairDataPointCache cache;
 
-    public CurrencyPairDataPointService() {
-        if( ! cache.isLoaded()) cache.load();
-    }
-
-    public List<CurrencyPairDataPoint> getCurrencyPairHistory(PairDataRequest pairDataRequest){
+    public List<CurrencyPairDataPoint> getCurrencyPairHistory(PairDataRequest pairDataRequest) {
         return pairHistoryRetriever.getCurrencyPairHistory(pairDataRequest);
     }
 
-    public void addDataPoints(List<CurrencyPairDataPoint> currencyPairDataPoints, String currencyPairName){
+    public void addDataPoints(List<CurrencyPairDataPoint> currencyPairDataPoints, String currencyPairName) {
         dataPointAdder.addPoints(currencyPairDataPoints, currencyPairName, false);
     }
 
-    public void addDataPoints(List<CurrencyPairDataPoint> currencyPairDataPoints, String currencyPairName, boolean overwrite){
+    public void addDataPoints(List<CurrencyPairDataPoint> currencyPairDataPoints, String currencyPairName, boolean overwrite) {
         dataPointAdder.addPoints(currencyPairDataPoints, currencyPairName, overwrite);
     }
 }
