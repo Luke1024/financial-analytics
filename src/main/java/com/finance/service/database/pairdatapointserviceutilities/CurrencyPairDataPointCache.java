@@ -6,6 +6,7 @@ import com.finance.repository.CurrencyPairRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
@@ -23,24 +24,25 @@ public class CurrencyPairDataPointCache {
 
     private Logger logger = Logger.getLogger(CurrencyPairDataPointCache.class.getName());
 
-    private List<CurrencyPair> currencyPairs = null;
+    private List<CurrencyPair> currencyPairs = new ArrayList<>();
 
     private boolean loaded = false;
 
     public CurrencyPairDataPointCache() {
         logger.log(Level.INFO, "Started loading currency data to cache.");
-        try {
+        //try {
             currencyPairs = pairRepository.findAll();
+            System.out.println(currencyPairs.size());
             logger.log(Level.INFO, "Loaded " + currencyPairs.size() + " pairs.");
             for (CurrencyPair currencyPair : currencyPairs) {
                 logger.log(Level.INFO, currencyPair.getCurrencyPairName() + " with: "
                         + currencyPair.getCurrencyPairDataPoints().size() + " points.");
             }
             loaded = true;
-        } catch (Exception e){
-            logger.log(Level.SEVERE, e.toString() + " Problem with currency data caching. Shutting down server.");
-            System.exit(0);
-        }
+        //} catch (Exception e){
+          //  logger.log(Level.SEVERE, e.getCause() + " Problem with currency data caching. Shutting down server.");
+            //System.exit(0);
+        //}
     }
 
     public void saveCurrencyPair(CurrencyPair currencyPair) {
