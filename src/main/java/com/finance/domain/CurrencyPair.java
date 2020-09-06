@@ -19,10 +19,10 @@ public class CurrencyPair {
     private String currencyPairName;
     @OneToMany(targetEntity = CurrencyPairDataPoint.class,
             mappedBy = "currencyPair",
-            cascade = {CascadeType.ALL},//, CascadeType.REFRESH, CascadeType.REMOVE},
+            cascade = {CascadeType.ALL},
             fetch = FetchType.EAGER
     )
-    @OrderBy
+    @OrderBy("time_stamp ASC")
     private List<CurrencyPairDataPoint> currencyPairDataPoints;
 
     public CurrencyPair() {
@@ -68,8 +68,10 @@ public class CurrencyPair {
         this.currencyPairDataPoints = currencyPairDataPoints;
     }
 
-    public void addDataPoint(CurrencyPairDataPoint pairDataPoint){
-        pairDataPoint.setCurrencyPair(this);
+    public void addDataPoint(List<CurrencyPairDataPoint> pairDataPoints){
+        for(CurrencyPairDataPoint point : pairDataPoints) {
+            point.setCurrencyPair(this);
+        }
     }
 
     @Override

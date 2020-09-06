@@ -4,13 +4,8 @@ import com.finance.domain.CurrencyPair;
 import com.finance.domain.CurrencyPairDataPoint;
 import com.finance.domain.dto.PairDataRequest;
 import com.finance.domain.dto.currencypair.PointTimeFrame;
-import com.finance.repository.CurrencyPairHistoryPointRepository;
-import com.finance.repository.CurrencyPairRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -21,17 +16,10 @@ import java.util.logging.Logger;
 @Service
 public class PairHistoryRetriever {
 
-    private static final int maxPointsRetrieved = 1000;
-
     private Logger logger = Logger.getLogger(PairHistoryRetriever.class.getName());
 
     @Autowired
-    private CurrencyPairHistoryPointRepository repository;
-
-    @Autowired
-    private CurrencyPairRepository currencyPairRepository;
-
-    private int tryFindLastStartingPointCounter = 0;
+    private CurrencyPairDataPointCache cache;
 
     public List<CurrencyPairDataPoint> getCurrencyPairHistory(PairDataRequest pairDataRequest){
         if( ! dtoCheck(pairDataRequest)){
@@ -40,20 +28,20 @@ public class PairHistoryRetriever {
 
         CurrencyPair currencyPair = getCurrencyPair(pairDataRequest);
         if(currencyPair == null) {
-            logger.log(Level.WARNING, "CurrencyPair " + pairDataRequest.getCurrencyName() + "not found.");
+            logger.log(Level.WARNING, "CurrencyPair " + pairDataRequest.getCurrencyName() + " not found.");
+            return Collections.emptyList();
+        }
+        if(currencyPair.getCurrencyPairDataPoints() == null){
+            logger.log(Level.WARNING, "CurrencyPair " + pairDataRequest.getCurrencyName() + " does not have dataPoint list.");
             return Collections.emptyList();
         }
 
-        CurrencyPairDataPoint lastDataPoint = getLastDataPoint(currencyPair);
-        if(lastDataPoint == null) return Collections.emptyList();
-
-        CurrencyPairDataPoint lastStartingPoint = getLastStartingPoint(lastDataPoint.getTimeStamp(), pairDataRequest, currencyPair.getId());
-
-        int dataPointSize = limitTooLargeRequest(pairDataRequest.getNumberOfDataPoints());
+        int dataPointSize = pairDataRequest.getNumberOfDataPoints();
+        int dataPointsBeforeLast = pairDataRequest.getPointsBeforeLast();
         PointTimeFrame timeFrame = pairDataRequest.getPointTimeFrame();
         long currencyPairId = currencyPair.getId();
 
-        return getCurrencyPairDataPoints(lastStartingPoint, dataPointSize, timeFrame, currencyPairId);
+        return getCurrencyPairDataPoints(dataPointsBeforeLast, dataPointSize, timeFrame, currencyPair);
     }
 
     private boolean dtoCheck(PairDataRequest pairDataRequest){
@@ -72,7 +60,7 @@ public class PairHistoryRetriever {
 
     private CurrencyPair getCurrencyPair(PairDataRequest pairDataRequest){
         String currencyName = pairDataRequest.getCurrencyName();
-        Optional<CurrencyPair> currencyPair = currencyPairRepository.findByCurrencyName(currencyName);
+        Optional<CurrencyPair> currencyPair = cache.findByCurrencyName(currencyName);
         if(currencyPair.isPresent()){
             return currencyPair.get();
         } else {
@@ -80,62 +68,67 @@ public class PairHistoryRetriever {
         }
     }
 
-    private CurrencyPairDataPoint getLastDataPoint(CurrencyPair pair){
-        Optional<CurrencyPairDataPoint> currencyPairDataPoint = repository.getLastDataPoint(pair.getId());
-        if(currencyPairDataPoint.isPresent()){
-            return currencyPairDataPoint.get();
+    private List<CurrencyPairDataPoint> getCurrencyPairDataPoints(int pointsBeforeLast, int dataPointSize,
+                                                                  PointTimeFrame timeFrame, CurrencyPair currencyPair) {
+        int pointMultiplier = howMuchPointsGivenTimeFrameFromH1Dataset(timeFrame);
+        int dataPointSizeMultiplied = computeRequiredDataPointsWithMultiplier(pointMultiplier, dataPointSize);
+        int pointsBeforeLastMultiplied = computeRequiredPointsBeforeLastMultiplied(pointMultiplier, dataPointSize);
+
+        //skipping empty points is automatic
+        List<CurrencyPairDataPoint> dataPointList = currencyPair.getCurrencyPairDataPoints();
+
+        int leftIndex = computeLeftIndex(dataPointSizeMultiplied, pointsBeforeLastMultiplied, dataPointList.size());
+        int rightIndex = computeRightIndex(pointsBeforeLastMultiplied, dataPointList.size());
+
+        return getRequiredPoints(dataPointList, pointMultiplier, leftIndex, rightIndex);
+    }
+
+    private List<CurrencyPairDataPoint> getRequiredPoints(List<CurrencyPairDataPoint> dataPointList, int pointMultiplier,
+                                                          int leftIndex, int rightIndex) {
+        List<CurrencyPairDataPoint> listCrop = dataPointList.subList(leftIndex, rightIndex);
+        return dataPointsSkipper(listCrop, pointMultiplier);
+    }
+
+    private List<CurrencyPairDataPoint> dataPointsSkipper(List<CurrencyPairDataPoint> listCrop, int pointMultiplier) {
+        List<CurrencyPairDataPoint> listWithDataPointSkipped = new ArrayList<>();
+        for(int i=0; i<listCrop.size(); i += pointMultiplier) {
+            listWithDataPointSkipped.add(listCrop.get(i));
+        }
+        return listWithDataPointSkipped;
+    }
+
+    private int computeLeftIndex(int dataPointSizeMultiplied, int pointsBeforeLastMultiplied, int listSize) {
+        int leftIndex = listSize - dataPointSizeMultiplied - pointsBeforeLastMultiplied ;
+        if(leftIndex < 0){
+            return 0;
         } else {
-            logger.log(Level.WARNING, "Last datapoint in CurrencyPair " + pair.getCurrencyPairName() + " not found.");
-            return null;
+            return leftIndex;
         }
     }
 
-    private CurrencyPairDataPoint getLastStartingPoint(LocalDateTime lastPointInDataset,
-                                                       PairDataRequest pairDataRequest, long currencyPairId){
-        PointTimeFrame pointTimeFrame = pairDataRequest.getPointTimeFrame();
-        int pointCountBeforeLast = pairDataRequest.getPointsBeforeLast();
-
-        LocalDateTime lastStartingPointDateTime = calculateTimeBackward(pointTimeFrame, pointCountBeforeLast, lastPointInDataset);
-
-        Optional<CurrencyPairDataPoint> pairDataPoint = repository.findPointByDate(lastStartingPointDateTime, currencyPairId);
-
-        if(pairDataPoint.isPresent()){
-            return pairDataPoint.get();
+    private int computeRightIndex(int pointsBeforeLastMultiplied, int listSize) {
+        int rightIndex = listSize - pointsBeforeLastMultiplied;
+        if(rightIndex < 0){
+            return 0;
         } else {
-            return null;
+            return rightIndex;
         }
     }
 
-    private int limitTooLargeRequest(int numberOfDataPoints){
-        if(numberOfDataPoints > maxPointsRetrieved) return maxPointsRetrieved;
-        return numberOfDataPoints;
+    private int computeRequiredDataPointsWithMultiplier(int pointMultiplier, int dataPointSize){
+        return dataPointSize * pointMultiplier;
     }
 
-    private List<CurrencyPairDataPoint> getCurrencyPairDataPoints(CurrencyPairDataPoint lastStartingPoint, int dataPointSize,
-                                                                  PointTimeFrame timeFrame, long currencyPairId) {
-        List<CurrencyPairDataPoint> points = new ArrayList<>();
-
-        //add point backward
-        points.add(lastStartingPoint);
-        LocalDateTime lastTimeStamp = lastStartingPoint.getTimeStamp();
-        for (int i = 0; i < dataPointSize-1; i++) {
-            LocalDateTime searchedTime = calculateTimeBackward(timeFrame, i + 1, lastTimeStamp);
-            Optional<CurrencyPairDataPoint> retrievedPoint = repository.findPointByDate(searchedTime, currencyPairId);
-            if (retrievedPoint.isPresent()) {
-                points.add(retrievedPoint.get());
-            }
-        }
-        Collections.reverse(points);
-        return points;
+    private int computeRequiredPointsBeforeLastMultiplied(int pointMultiplier, int requiredPointsBeforeLast){
+        return requiredPointsBeforeLast * pointMultiplier;
     }
 
-    private LocalDateTime calculateTimeBackward(PointTimeFrame timeFrame, int stepBackward,
-                                                LocalDateTime lastTimeStamp){
-        if(timeFrame == PointTimeFrame.H1) return lastTimeStamp.minus(stepBackward, ChronoUnit.HOURS);
-        if(timeFrame == PointTimeFrame.H5) return lastTimeStamp.minus((long) stepBackward * 5, ChronoUnit.HOURS);
-        if(timeFrame == PointTimeFrame.D1) return lastTimeStamp.minus(stepBackward, ChronoUnit.DAYS);
-        if(timeFrame == PointTimeFrame.W1) return lastTimeStamp.minus(stepBackward, ChronoUnit.WEEKS);
-        if(timeFrame == PointTimeFrame.M1) return lastTimeStamp.minus(stepBackward, ChronoUnit.MONTHS);
-        return lastTimeStamp.minus(stepBackward, ChronoUnit.HOURS);
+    private int howMuchPointsGivenTimeFrameFromH1Dataset(PointTimeFrame timeFrame){
+        if(timeFrame == PointTimeFrame.H1) return 1;
+        if(timeFrame == PointTimeFrame.H5) return 5;
+        if(timeFrame == PointTimeFrame.D1) return 24;
+        if(timeFrame == PointTimeFrame.W1) return 168;
+        if(timeFrame == PointTimeFrame.M1) return 720;
+        return 1;
     }
 }

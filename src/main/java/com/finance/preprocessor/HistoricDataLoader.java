@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Service
 public class HistoricDataLoader {
@@ -23,6 +25,10 @@ public class HistoricDataLoader {
     private DataBaseLoader dataBaseLoader;
     @Autowired
     private FilePathExtractor filePathExtractor;
+
+    private Logger logger = Logger.getLogger(HistoricDataLoader.class.getName());
+
+    private int substituteDataPointDistance = 30;
 
     public void loadDataIntoDatabase() {
         List<CurrencyFile> files = new ArrayList<>(Arrays.asList(
@@ -48,8 +54,9 @@ public class HistoricDataLoader {
     }
 
     private void extractAndSaveFile(File file, CurrencyFile currencyFile, ChronoUnit requiredOutputTimeFrame, ChronoUnit inputTimeFrame){
-        List<DataPoint> dataPoints = currencyReaderExtractor.readAndProcess(file, requiredOutputTimeFrame, inputTimeFrame);
+        List<DataPoint> dataPoints = currencyReaderExtractor.readAndProcess(file, requiredOutputTimeFrame, inputTimeFrame, substituteDataPointDistance);
         CurrencyPairDataPack pairPack = new CurrencyPairDataPack(currencyFile.getPairName(), requiredOutputTimeFrame, dataPoints);
         dataBaseLoader.load(Collections.singletonList(pairPack));
+        logger.log(Level.INFO,"DataPoints from " + file.getName() + " loaded.");
     }
 }

@@ -2,8 +2,8 @@ package com.finance.service.database;
 
 import com.finance.domain.CurrencyPairDataPoint;
 import com.finance.domain.dto.PairDataRequest;
-import com.finance.repository.CurrencyPairHistoryPointRepository;
 import com.finance.repository.CurrencyPairRepository;
+import com.finance.service.database.pairdatapointserviceutilities.CurrencyPairDataPointCache;
 import com.finance.service.database.pairdatapointserviceutilities.DataPointAdder;
 import com.finance.service.database.pairdatapointserviceutilities.PairHistoryRetriever;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +15,6 @@ import java.util.List;
 public class CurrencyPairDataPointService {
 
     @Autowired
-    private CurrencyPairHistoryPointRepository repository;
-
-    @Autowired
     private CurrencyPairRepository currencyPairRepository;
 
     @Autowired
@@ -26,15 +23,18 @@ public class CurrencyPairDataPointService {
     @Autowired
     private DataPointAdder dataPointAdder;
 
-    public List<CurrencyPairDataPoint> getCurrencyPairHistory(PairDataRequest pairDataRequest){
+    @Autowired
+    private CurrencyPairDataPointCache cache;
+
+    public List<CurrencyPairDataPoint> getCurrencyPairHistory(PairDataRequest pairDataRequest) {
         return pairHistoryRetriever.getCurrencyPairHistory(pairDataRequest);
     }
 
-    public void addDataPoints(List<CurrencyPairDataPoint> currencyPairDataPoints, String currencyPairName){
-        dataPointAdder.addPoint(currencyPairDataPoints, currencyPairName, false);
+    public void addDataPoints(List<CurrencyPairDataPoint> currencyPairDataPoints, String currencyPairName) {
+        dataPointAdder.addPoints(currencyPairDataPoints, currencyPairName, false);
     }
 
-    public void addDataPoints(List<CurrencyPairDataPoint> currencyPairDataPoints, String currencyPairName, boolean overwrite){
-        dataPointAdder.addPoint(currencyPairDataPoints, currencyPairName, overwrite);
+    public void addDataPoints(List<CurrencyPairDataPoint> currencyPairDataPoints, String currencyPairName, boolean overwrite) {
+        dataPointAdder.addPoints(currencyPairDataPoints, currencyPairName, overwrite);
     }
 }

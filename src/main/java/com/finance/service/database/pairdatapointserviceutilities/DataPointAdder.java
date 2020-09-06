@@ -7,10 +7,13 @@ import com.finance.repository.CurrencyPairRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 @Service
 public class DataPointAdder {
@@ -21,67 +24,99 @@ public class DataPointAdder {
     @Autowired
     private CurrencyPairRepository currencyPairRepository;
 
+    @Autowired
+    private CurrencyPairDataPointCache cache;
+
     private Logger logger = Logger.getLogger(DataPointAdder.class.getName());
 
     private boolean overwrite;
 
-    public void addPoint(List<CurrencyPairDataPoint> currencyPairDataPoints, String currencyPairName, boolean overwrite){
+    public void addPoints(List<CurrencyPairDataPoint> currencyPairDataPoints, String currencyPairName, boolean overwrite){
         if(currencyPairDataPoints == null) return;
         if(currencyPairName == null) return;
 
         this.overwrite = overwrite;
+        saveDataPoints(currencyPairDataPoints, currencyPairName);
+    }
 
-        for(CurrencyPairDataPoint point : currencyPairDataPoints){
-            saveDataPoint(point, currencyPairName);
+    private void saveDataPoints(List<CurrencyPairDataPoint> points, String currencyPairName){
+        List<CurrencyPairDataPoint> filteredPoints = filterPoints(points);
+        List<LocalDateTime> alreadyUsedTimeStamps = getTimeStampsAlreadyUsedAndDeleteIfNecessary(filteredPoints, currencyPairName);
+        List<CurrencyPairDataPoint> pointsToSave = choosePointsToSave(filteredPoints, alreadyUsedTimeStamps);
+
+        Optional<CurrencyPair> optionalPair = getCurrencyPair(currencyPairName);
+        if (optionalPair.isPresent()) {
+            addDataPointsToCurrencyPair(pointsToSave, optionalPair.get());
+        } else {
+            logger.log(Level.WARNING, "CurrencyPair " + currencyPairName + " not found.");
         }
     }
 
-    private void saveDataPoint(CurrencyPairDataPoint point, String currencyPairName){
-        if(checkCurrencyPairDataPoint(point)) {
-            Optional<CurrencyPair> optionalPair = getCurrencyPair(currencyPairName);
-            if (optionalPair.isPresent()) {
-                addPointToAlreadyExistingCurrency(point, optionalPair.get());
-            } else {
-                logger.log(Level.WARNING, "CurrencyPair " + currencyPairName + " not found.");
+    private List<CurrencyPairDataPoint> filterPoints(List<CurrencyPairDataPoint> points){
+        List<CurrencyPairDataPoint> filteredPoints = new ArrayList<>();
+        for(CurrencyPairDataPoint point : points){
+            if(point != null){
+                if(point.getTimeStamp() != null){
+                    filteredPoints.add(point);
+                }
             }
         }
+        return filteredPoints;
     }
 
-    private boolean checkCurrencyPairDataPoint(CurrencyPairDataPoint point){
-        return point.getTimeStamp() != null;
+    private List<LocalDateTime> getTimeStampsAlreadyUsedAndDeleteIfNecessary(List<CurrencyPairDataPoint> points, String currencyPairName){
+        List<LocalDateTime> alreadyUsedTimeStamps = new ArrayList<>();
+        Optional<CurrencyPair> currencyPair = getCurrencyPair(currencyPairName);
+        if(currencyPair.isPresent()) {
+            for (CurrencyPairDataPoint point : points) {
+                Optional<CurrencyPairDataPoint> dataPoint = repository.findPointByDate(point.getTimeStamp(),
+                        currencyPair.get().getId());
+                if(dataPoint.isPresent()) {
+                    deleteDataPoint(dataPoint.get().getPointId());
+                    alreadyUsedTimeStamps.add(dataPoint.get().getTimeStamp());
+                }
+            }
+        } else {
+            logger.log(Level.WARNING, "CurrencyPair not found.");
+        }
+        return alreadyUsedTimeStamps;
+    }
+
+    private void deleteDataPoint(Long pointId) {
+        if(this.overwrite) {
+            repository.deleteById(pointId);
+        }
     }
 
     private Optional<CurrencyPair> getCurrencyPair(String currencyPairName) {
         return currencyPairRepository.findByCurrencyName(currencyPairName);
     }
 
-    private String addPointToAlreadyExistingCurrency(CurrencyPairDataPoint point, CurrencyPair currencyPair){
-        Optional<CurrencyPairDataPoint> currencyPairDataPoint = getDataPointByTimeStamp(point, currencyPair);
-        if(currencyPairDataPoint.isPresent()){
-            if(this.overwrite){
-                overwriteDataPoint(currencyPairDataPoint.get(), point);
-                return "";
-            } else {
-                return "CurrencyPairDataPoint with the same timestamp exist and there is problem with overwriting.";
-            }
+    private List<CurrencyPairDataPoint> choosePointsToSave(List<CurrencyPairDataPoint> points,
+                                                           List<LocalDateTime> alreadyUsedTimeStamps) {
+
+        List<CurrencyPairDataPoint> pointsToSave = new ArrayList<>();
+        if(this.overwrite){
+            return points;
         } else {
-            addDataPointToCurrencyPair(point, currencyPair);
-            return "";
+            for(CurrencyPairDataPoint point : points) {
+                List<LocalDateTime> theSameTimeStamps = alreadyUsedTimeStamps.stream()
+                        .filter(stamp -> point.getTimeStamp() == stamp).collect(Collectors.toList());
+                if(theSameTimeStamps.isEmpty()){
+                    pointsToSave.add(point);
+                }
+            }
         }
+        return pointsToSave;
     }
 
-    private Optional<CurrencyPairDataPoint> getDataPointByTimeStamp(CurrencyPairDataPoint point, CurrencyPair currencyPair){
-        return repository.findPointByDate(point.getTimeStamp(), currencyPair.getId());
-    }
 
-    private void overwriteDataPoint(CurrencyPairDataPoint oldPoint, CurrencyPairDataPoint newPoint){
-        oldPoint.setValue(newPoint.getValue());
-        repository.save(oldPoint);
-    }
-
-    private void addDataPointToCurrencyPair(CurrencyPairDataPoint point, CurrencyPair currencyPair){
-        currencyPair.addDataPoint(point);
-        point.setCurrencyPair(currencyPair);
+    private void addDataPointsToCurrencyPair(List<CurrencyPairDataPoint> points, CurrencyPair currencyPair){
+        currencyPair.addDataPoint(points);
+        for(CurrencyPairDataPoint point : points) {
+            point.setCurrencyPair(currencyPair);
+        }
         currencyPairRepository.save(currencyPair);
+        cache.saveCurrencyPair(currencyPair);
     }
 }

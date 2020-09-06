@@ -6,28 +6,28 @@ import java.util.Objects;
 
 /*
 @NamedNativeQuery(
-        name="CurrencyPairHistoryPoint.retrieveByTimeRangeAndCurrencyName",
-        query="SELECT * FROM currency_history_point" +
-                " WHERE time_stamp => :TIME_STAMP_START AND " +
-                "time_stamp <= :TIME_STAMP_STOP AND currency_pair_name = :CURRENCY_ID;",
-        resultClass = CurrencyPair.class
+        name = "CurrencyPairDataPoint.retrieveAllInOrder",
+        query = "SELECT * FROM trading_data_microservice.currency_pair_data_point " +
+                "WHERE currency_pair_id = :PAIR_ID " +
+                "ORDER BY time_stamp ASC",
+        resultClass = CurrencyPairDataPoint.class
 )
+@NamedNativeQuery(
+        name = "CurrencyPairDataPoint.getLastDataPoint",
+        query = "SELECT * FROM trading_data_microservice.currency_pair_data_point " +
+                "WHERE currency_pair_id = :PAIR_ID" +
+                " ORDER BY time_stamp DESC LIMIT 1;",
+        resultClass = CurrencyPairDataPoint.class
+)
+
  */
-
-@NamedNativeQueries({
-        @NamedNativeQuery(
-                name = "CurrencyPairDataPoint.getLastDataPoint",
-                query = "SELECT * FROM trading_data_microservice.currency_pair_data_point " +
-                        "WHERE currency_pair_id = :PAIR_ID" +
-                        " ORDER BY time_stamp DESC LIMIT 1;",
-                resultClass = CurrencyPairDataPoint.class),
-
-        @NamedNativeQuery(
-                name = "CurrencyPairDataPoint.findPointByDate",
-                query = "SELECT * FROM trading_data_microservice.currency_pair_data_point " +
-                        "WHERE time_stamp = :TIME_STAMP AND currency_pair_id = :PAIR_ID",
-                resultClass = CurrencyPairDataPoint.class)
-})
+@NamedNativeQuery(
+        name = "CurrencyPairDataPoint.findPointByDate",
+        query = "SELECT * FROM trading_data_microservice.currency_pair_data_point " +
+                "WHERE currency_pair_id = :PAIR_ID" +
+                " AND time_stamp = :TIME_STAMP;",
+        resultClass = CurrencyPairDataPoint.class
+)
 
 @Entity
 public class CurrencyPairDataPoint {
