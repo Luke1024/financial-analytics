@@ -72,9 +72,11 @@ public class CurrencyPairDataPointCache {
         currencyPairs.add(currencyPair);
     }
 
-    public Optional<CurrencyPair> findByCurrencyName(String name){
-        for(CurrencyPair pair : currencyPairs){
-            if(pair.getCurrencyPairName() == name) return Optional.of(pair);
+    public Optional<CurrencyPair> findByCurrencyName(String name) {
+        for (CurrencyPair pair : currencyPairs) {
+            if (pair.getCurrencyPairName().equals(name)) {
+                return Optional.of(pair);
+            }
         }
         return Optional.empty();
     }

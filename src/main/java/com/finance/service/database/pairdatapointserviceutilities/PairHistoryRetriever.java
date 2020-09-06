@@ -28,7 +28,7 @@ public class PairHistoryRetriever {
 
         CurrencyPair currencyPair = getCurrencyPair(pairDataRequest);
         if(currencyPair == null) {
-            logger.log(Level.WARNING, "CurrencyPair " + pairDataRequest.getCurrencyName() + "not found.");
+            logger.log(Level.WARNING, "CurrencyPair " + pairDataRequest.getCurrencyName() + " not found.");
             return Collections.emptyList();
         }
         if(currencyPair.getCurrencyPairDataPoints() == null){
@@ -98,7 +98,7 @@ public class PairHistoryRetriever {
     }
 
     private int computeLeftIndex(int dataPointSizeMultiplied, int pointsBeforeLastMultiplied, int listSize) {
-        int leftIndex = listSize - dataPointSizeMultiplied + pointsBeforeLastMultiplied ;
+        int leftIndex = listSize - dataPointSizeMultiplied - pointsBeforeLastMultiplied ;
         if(leftIndex < 0){
             return 0;
         } else {
