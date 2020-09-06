@@ -6,6 +6,7 @@ import com.finance.repository.CurrencyPairRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -28,9 +29,11 @@ public class CurrencyPairDataPointCache {
 
     private boolean loaded = false;
 
-    public CurrencyPairDataPointCache() {
+
+    @PostConstruct
+    public void init() {
         logger.log(Level.INFO, "Started loading currency data to cache.");
-        //try {
+        try {
             currencyPairs = pairRepository.findAll();
             System.out.println(currencyPairs.size());
             logger.log(Level.INFO, "Loaded " + currencyPairs.size() + " pairs.");
@@ -39,10 +42,10 @@ public class CurrencyPairDataPointCache {
                         + currencyPair.getCurrencyPairDataPoints().size() + " points.");
             }
             loaded = true;
-        //} catch (Exception e){
-          //  logger.log(Level.SEVERE, e.getCause() + " Problem with currency data caching. Shutting down server.");
-            //System.exit(0);
-        //}
+        } catch (Exception e){
+            logger.log(Level.SEVERE, e.getCause() + " Problem with currency data caching. Shutting down server.");
+            System.exit(0);
+        }
     }
 
     public void saveCurrencyPair(CurrencyPair currencyPair) {
