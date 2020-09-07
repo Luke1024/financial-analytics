@@ -26,22 +26,24 @@ public class PairHistoryRetriever {
             return Collections.emptyList();
         }
 
-        CurrencyPair currencyPair = getCurrencyPair(pairDataRequest);
-        if(currencyPair == null) {
+        Optional<CurrencyPair> currencyPair = getCurrencyPair(pairDataRequest);
+        if( ! currencyPair.isPresent()) {
             logger.log(Level.WARNING, "CurrencyPair " + pairDataRequest.getCurrencyName() + " not found.");
             return Collections.emptyList();
-        }
-        if(currencyPair.getCurrencyPairDataPoints() == null){
-            logger.log(Level.WARNING, "CurrencyPair " + pairDataRequest.getCurrencyName() + " does not have dataPoint list.");
-            return Collections.emptyList();
+        } else {
+            if(currencyPair.get().getCurrencyPairDataPoints() == null) {
+                logger.log(Level.WARNING, "CurrencyPair " +
+                        pairDataRequest.getCurrencyName() + " does not have dataPoint list.");
+                return Collections.emptyList();
+            }
         }
 
         int dataPointSize = pairDataRequest.getNumberOfDataPoints();
         int dataPointsBeforeLast = pairDataRequest.getPointsBeforeLast();
         PointTimeFrame timeFrame = pairDataRequest.getPointTimeFrame();
-        long currencyPairId = currencyPair.getId();
+        long currencyPairId = currencyPair.get().getId();
 
-        return getCurrencyPairDataPoints(dataPointsBeforeLast, dataPointSize, timeFrame, currencyPair);
+        return getCurrencyPairDataPoints(dataPointSize, timeFrame, currencyPair.get());
     }
 
     private boolean dtoCheck(PairDataRequest pairDataRequest){
@@ -58,17 +60,12 @@ public class PairHistoryRetriever {
         return true;
     }
 
-    private CurrencyPair getCurrencyPair(PairDataRequest pairDataRequest){
+    private Optional<CurrencyPair> getCurrencyPair(PairDataRequest pairDataRequest){
         String currencyName = pairDataRequest.getCurrencyName();
-        Optional<CurrencyPair> currencyPair = cache.findByCurrencyName(currencyName);
-        if(currencyPair.isPresent()){
-            return currencyPair.get();
-        } else {
-            return null;
-        }
+        return cache.findByCurrencyName(currencyName);
     }
 
-    private List<CurrencyPairDataPoint> getCurrencyPairDataPoints(int pointsBeforeLast, int dataPointSize,
+    private List<CurrencyPairDataPoint> getCurrencyPairDataPoints(int dataPointSize,
                                                                   PointTimeFrame timeFrame, CurrencyPair currencyPair) {
         int pointMultiplier = howMuchPointsGivenTimeFrameFromH1Dataset(timeFrame);
         int dataPointSizeMultiplied = computeRequiredDataPointsWithMultiplier(pointMultiplier, dataPointSize);
