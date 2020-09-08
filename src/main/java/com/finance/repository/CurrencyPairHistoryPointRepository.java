@@ -23,7 +23,7 @@ public interface CurrencyPairHistoryPointRepository extends CrudRepository<Curre
      */
 
     Optional<CurrencyPairDataPoint> findPointByDate(@Param("TIME_STAMP")LocalDateTime time_stamp,
-                                          @Param("PAIR_ID") long pair_id);
+                                                    @Param("PAIR_ID") long pair_id);
 
 
 

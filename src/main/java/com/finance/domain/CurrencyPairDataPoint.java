@@ -23,9 +23,9 @@ import java.util.Objects;
  */
 @NamedNativeQuery(
         name = "CurrencyPairDataPoint.findPointByDate",
-        query = "SELECT * FROM trading_data_microservice.currency_pair_data_point " +
-                "WHERE currency_pair_id = :PAIR_ID" +
-                " AND time_stamp = :TIME_STAMP;",
+        query = "SELECT * FROM currency_pair_data_point " +
+                "WHERE time_stamp = :TIME_STAMP" +
+                " AND currency_pair_id = :PAIR_ID",
         resultClass = CurrencyPairDataPoint.class
 )
 
